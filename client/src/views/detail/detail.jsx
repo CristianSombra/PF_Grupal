@@ -1,35 +1,41 @@
-import React, { useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { getProductDetailActions } from '../../redux/actions/index'; // Asegúrate de importar la acción correctamente
+import React from "react";
+import { Link } from "react-router-dom";
+import { useGetProductDetailHandler } from "../../components/handlers/handlersdetail";
+import styles from "./detail.module.css";
 
 const Detail = () => {
+  const productDetail = useGetProductDetailHandler();
 
-  const productDetails = useSelector((state) => state.productDetails);
-    const dispatch = useDispatch();
-    
-    useEffect(() => {
-      dispatch(getProductDetailActions());
-    }, [dispatch]);
-    
-    return (
-      <div>
-      <Link to="/home">Volver a Inicio</Link>
-      <ul>
-        {productDetails.map((product, index) => (
-          <li key={index}>
-            <p>Título: {product.titulo}</p>
-            <p>Precio: {product.price}</p>
-            <img src={product.image} alt={product.titulo} />
-          </li>
-        ))}
-      </ul>
+  if (!productDetail) {
+    return <p>No se encontró información para el producto seleccionado.</p>;
+  }
+
+  return (
+    <div>
+      <div className={styles.card}>
+        <h1>Detalle del producto</h1>
+        <img src={productDetail.image} alt={productDetail.titulo} className={styles.flagImage} />
+          <div className={styles.cardContent}>
+             <div className={styles.productInfo}>
+                <p>Nombre: {productDetail.titulo}</p>
+                <p>Precio: {productDetail.price}</p>
+                <p>En stock: {productDetail.disponibility}</p>
+                <p>Detalle:</p>
+                  <ul>
+                    <li>Ram: {productDetail.detail.ram}</li>
+                    <li>Pantalla: {productDetail.detail.pantalla}</li>
+                    <li>Procesador: {productDetail.detail.procesador}</li>
+                    <li>Almacenamiento: {productDetail.detail.almacenamiento}</li>
+                   </ul>
+              </div>
+           </div>
+         </div>
+
+      <div className={styles.goHome}>
+      <Link to="/Home">Volver a Inicio</Link>
     </div>
+  </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  productDetails: state.products.productDetails,
-});
-
-export default connect(mapStateToProps, { getProductDetailActions })(Detail);
+export default Detail;
