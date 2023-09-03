@@ -12,29 +12,33 @@ const Detail = () => {
 
   return (
     <div>
-      <div className={styles.card}>
-        <h1>Detalle del producto</h1>
-        <img src={productDetail.image} alt={productDetail.titulo} className={styles.flagImage} />
-          <div className={styles.cardContent}>
-             <div className={styles.productInfo}>
-                <p>Nombre: {productDetail.titulo}</p>
-                <p>Precio: {productDetail.price}</p>
-                <p>En stock: {productDetail.disponibility}</p>
-                <p>Detalle:</p>
-                  <ul>
-                    <li>Ram: {productDetail.detail.ram}</li>
-                    <li>Pantalla: {productDetail.detail.pantalla}</li>
-                    <li>Procesador: {productDetail.detail.procesador}</li>
-                    <li>Almacenamiento: {productDetail.detail.almacenamiento}</li>
-                   </ul>
-              </div>
-           </div>
-         </div>
+      <div className={styles.detailContainer}>
+        <div className={styles.card}>
+          <h1>Detalle del producto</h1>
+          <div className={styles.productInfo}>
+            <p>Nombre: {productDetail.titulo}</p>
+            <p>Precio: {productDetail.price}</p>
+            <p>En stock: {productDetail.disponibility}</p>
+            <p>Detalle:</p>
+            <ul>
+              <li>Ram: {productDetail.detail.ram}</li>
+              <li>Pantalla: {productDetail.detail.pantalla}</li>
+              <li>Procesador: {productDetail.detail.procesador}</li>
+              <li>Almacenamiento: {productDetail.detail.almacenamiento}</li>
+            </ul>
+          </div>
+        </div>
+        <img
+          src={productDetail.image}
+          alt={productDetail.titulo}
+          className={styles.flagImage}
+        />
+      </div>
 
       <div className={styles.goHome}>
-      <Link to="/Home">Volver a Inicio</Link>
+        <Link to="/Home" className={styles.linkButton} >Volver a Inicio</Link>
+      </div>
     </div>
-  </div>
   );
 };
 
