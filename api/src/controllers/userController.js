@@ -1,6 +1,7 @@
+const {User} = require("../db")
 module.exports = {
-    getAllUsers: (req, res) => {
-      res.status(200).json("Ruta Get All Users");
-    }
+  createUser: async (user_name, first_name, last_name, gender, email, delivery_address, country, CustomElementRegistry, mobile, role, user_status, purchase_history, user_password) => {
+    const newUser = await User.create({ user_name, first_name, last_name, gender, email, delivery_address, country, CustomElementRegistry, mobile, role, user_status, purchase_history, user_password });
+  }
   };
   
