@@ -1,7 +1,11 @@
 const cartController = require('../controllers/cartController');
 
 module.exports = {
-  getCart: (req, res) => {
-    cartController.getCart(req, res);
+  getCartByUserId: (req, res) => {
+    cartController.getCartByUserId(req, res);
+  },
+
+  addOrCreateCart: (req, res) => {
+    cartController.addOrCreateCart(req, res);
   }
 };

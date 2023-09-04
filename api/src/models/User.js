@@ -1,14 +1,11 @@
 const { DataTypes } = require("sequelize");
-// Exportamos una funcion que define el modelo
-// Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
-  // defino el modelo
   sequelize.define(
-    "user",
+    "User",
     {
       id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
       user_name: {
@@ -30,9 +27,9 @@ module.exports = (sequelize) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true, // para que valide que no haya correos repetidos
+        unique: true,
         validate: {
-          isEmail: true, // para que valide que sea formato correo
+          isEmail: true,
         },
       },
       delivery_address: {
