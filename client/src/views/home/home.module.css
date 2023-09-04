@@ -1,0 +1,35 @@
+.homeContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.banner {
+  width: 80%; 
+  max-width: 100%;
+  height: auto;
+  margin-top: 30px;
+}
+  
+
+.cardContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.linkButton {
+  margin: 30px;
+  text-decoration: none;
+  background-color: rgba(7, 46, 90, 0.854);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.linkButton:hover {
+  background-color: rgba(49, 74, 103, 0.854);
+  transform: scale(1.10);
+}
