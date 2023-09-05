@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import styles from "./navbar.module.css";
-
+import SearchBar from '../searchbar/searchbar'
 const Navbar = () => {
   const [isSticky, setIsSticky] = useState(false);
 
@@ -25,7 +25,9 @@ const Navbar = () => {
       <div>
         <Link to="/home">Inicio</Link>
         <Link to="/">Salir</Link>
+        
       </div>
+      <SearchBar />
     </div>
   );
 };

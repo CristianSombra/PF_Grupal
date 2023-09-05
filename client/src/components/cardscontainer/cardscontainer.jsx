@@ -1,22 +1,24 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllProducts } from "../../redux/actions/index";
-import styles from "./cardscontainer.module.css"
+import styles from "./cardscontainer.module.css";
 import Card from "../card/card";
 
 const CardsContainer = () => {
-  const products = useSelector((state) => state.products);
- 
+  const allProducts = useSelector((state) => state.products); // Estado para todos los productos
+  const filteredProducts = useSelector((state) => state.filteredProducts); // Estado para productos filtrados
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
 
+  const productsToDisplay = filteredProducts.length > 0 ? filteredProducts : allProducts;
+
   return (
     <div className={styles.cardContext}>
-      {products.length > 0 ? (
-        products.map((product) => (
+      {productsToDisplay.length > 0 ? (
+        productsToDisplay.map((product) => (
           <Card
             key={product.sku}
             sku={product.sku}

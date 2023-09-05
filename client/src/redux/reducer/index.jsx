@@ -1,9 +1,10 @@
-import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL } from "../actions/index";
+import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL, FILTER_PRODUCTS } from "../actions/index";
 
 const initialState = {
-  products: [],
+  products: [], // Mantén el estado original para todos los productos
   productDetails: {},
-  error: "", // Agrega un campo de error para manejar los errores.
+  error: "",
+  filteredProducts: [], // Nuevo estado para los productos filtrados
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -17,19 +18,26 @@ const rootReducer = (state = initialState, action) => {
     case GET_PODUCT_SUCCESS:
       return {
         ...state,
-        products: action.payload, 
+        products: action.payload,
         error: "",
       };
-      case GET_PRODUCT_DETAIL:
-        return {
-          ...state,
-          productDetails: {
-            ...state.productDetails,
-            [action.payload.sku]: action.payload, // Usamos el SKU como clave
-          },
-          error: "",
-        };
-        
+
+    case GET_PRODUCT_DETAIL:
+      return {
+        ...state,
+        productDetails: {
+          ...state.productDetails,
+          [action.payload.sku]: action.payload,
+        },
+        error: "",
+      };
+
+    case FILTER_PRODUCTS:
+      return {
+        ...state,
+        filteredProducts: action.payload, // Actualiza el estado con los productos filtrados
+      };
+
     default:
       return state;
   }
