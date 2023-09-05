@@ -1,8 +1,8 @@
-const { user } = require('../db');
+const { User } = require('../db');
 
 const createUser = async (user_name,first_name, last_name,gender,email,delivery_address,country,CustomElementRegistry,mobile,role,user_status, purchase_history,user_password) => {
   try {
-    const newUser = await user.create({
+    const newUser = await User.create({
       user_name,
       first_name, 
       last_name,
@@ -26,7 +26,7 @@ const createUser = async (user_name,first_name, last_name,gender,email,delivery_
 const getAllUsers = async (req, res) => {
   
  try {
-    const users = await user.findAll();
+    const users = await User.findAll();
     return users;
   } catch (error) {
     throw new Error('Server error, could not get the users');
@@ -35,7 +35,7 @@ const getAllUsers = async (req, res) => {
 };
 
 const getUserById = async (id) => {
-  const userId = await user.findByPk(id);
+  const userId = await User.findByPk(id);
   if (userId) {
     return userId;
   } else {
@@ -46,7 +46,7 @@ const getUserById = async (id) => {
 const updateUsers = async (userId, newPassword ) => {
 
 try {
-      const userUpdate = await user.update(
+      const userUpdate = await User.update(
         { user_password: newPassword },
         { where: {id: userId} }
         );
