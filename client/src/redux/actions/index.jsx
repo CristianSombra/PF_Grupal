@@ -75,6 +75,12 @@ export const getAllProducts = () => {
     }
   }
 
+
+  };
+
+
+  };
+
   export const filterByBrand = (brandId) => {
     return async function (dispatch) {
       try {
@@ -142,3 +148,20 @@ export const getAllProducts = () => {
       dispatch(getAllProducts());
     };
   };
+  };
+
+
+  }; 
+
+  export const createProduct = (payload) => {
+      return async (dispatch) => {
+        try {
+          await axios.post('http://localhost:3001/products', payload)
+          dispatch({type: CREATE_PRODUCT})
+        } catch (error) {
+          const errorMessage = 'Error al crear el producto'
+          dispatch({type: ERROR, payload: errorMessage})
+        }
+      }
+  }
+

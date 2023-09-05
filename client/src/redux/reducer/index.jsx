@@ -1,5 +1,7 @@
 import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL, FILTER_PRODUCTS, SORT_PRODUCTS_BY_PRICE, CREATE_PRODUCT } from "../actions/index";
 
+import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL, CREATE_PRODUCT } from "../actions/index";
+
 const initialState = {
   products: [], // Mantén el estado original para todos los productos
   productDetails: {},
@@ -51,6 +53,22 @@ const rootReducer = (state = initialState, action) => {
         creatinProductError: null,
        };
 
+      case GET_PRODUCT_DETAIL:
+        return {
+          ...state,
+          productDetails: {
+            ...state.productDetails,
+            [action.payload.sku]: action.payload,
+          },
+          error: "",
+        };
+      case CREATE_PRODUCT:
+        return {
+          ...state,
+          creatingProduct: false,
+          creatinProductError: null,
+        };
+        
     default:
       return state;
   }
