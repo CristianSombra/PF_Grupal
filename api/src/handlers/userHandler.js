@@ -1,6 +1,7 @@
 const userController = require('../controllers/userController');
 
 module.exports = {
+<<<<<<< HEAD
 
   createUser: async (req, res) => {
     console.log(req.body)
@@ -30,6 +31,20 @@ getUserById: async (req, res) => {
     res.status(200).json(userId);
   } catch (error) {
     res.status(500).json({ error: error.message });
+=======
+  createUserHandler: async (req, res) => {
+    const { user_name, first_name, last_name, gender, email, delivery_address, country, CustomElementRegistry, mobile, role, user_status, purchase_history, user_password} = req.body;
+    try {
+      await userController.createUser(user_name, first_name, last_name, gender, email, delivery_address, country, CustomElementRegistry, mobile, role, user_status, purchase_history, user_password);
+      res.status(201).json("Creado Correctamente");
+    } catch (error) {
+      if (error.message.includes('llave duplicada') && error.message.includes('Users_email_key')) {
+        res.status(400).json({ error: 'Correo ya registrado. Intente con otro correo.' });
+      } else {
+        res.status(400).json({ error: error.message });
+      }
+    }
+>>>>>>> a5a4a4b87233ff1c0d4cce2d47823aa80b79d5f7
   }
 },
 

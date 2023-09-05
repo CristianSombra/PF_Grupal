@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const { user } = require('../db');
 
 const createUser = async (user_name,first_name, last_name,gender,email,delivery_address,country,CustomElementRegistry,mobile,role,user_status, purchase_history,user_password) => {
@@ -58,3 +59,12 @@ catch (error) { throw new Error('Error updating users: ' + error.message);
 };
 
 module.exports = { getAllUsers, createUser, getUserById, updateUsers};
+=======
+const {User} = require("../db")
+module.exports = {
+  createUser: async (user_name, first_name, last_name, gender, email, delivery_address, country, CustomElementRegistry, mobile, role, user_status, purchase_history, user_password) => {
+    const newUser = await User.create({ user_name, first_name, last_name, gender, email, delivery_address, country, CustomElementRegistry, mobile, role, user_status, purchase_history, user_password });
+  }
+  };
+  
+>>>>>>> a5a4a4b87233ff1c0d4cce2d47823aa80b79d5f7

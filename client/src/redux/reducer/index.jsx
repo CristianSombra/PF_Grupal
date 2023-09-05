@@ -1,8 +1,8 @@
-import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL_SUCCESS, GET_PRODUCT_DETAIL_FAILURE } from "../actions/index";
+import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL } from "../actions/index";
 
 const initialState = {
   products: [],
-  productDetails:[],
+  productDetails: {},
   error: "", // Agrega un campo de error para manejar los errores.
 };
 
@@ -17,22 +17,19 @@ const rootReducer = (state = initialState, action) => {
     case GET_PODUCT_SUCCESS:
       return {
         ...state,
-        products: action.payload, // Actualiza solo la lista de productos.
-        error: "", // Reinicia el campo de error.
+        products: action.payload, 
+        error: "",
       };
-    case GET_PRODUCT_DETAIL_SUCCESS:
-      return {
-        ...state,
-        productDetails: action.payload,
-        error: null,
-      };
-    case GET_PRODUCT_DETAIL_FAILURE:
-      return {
-        ...state,
-        productDetails: [],
-        error: action.error,
-      };
-
+      case GET_PRODUCT_DETAIL:
+        return {
+          ...state,
+          productDetails: {
+            ...state.productDetails,
+            [action.payload.sku]: action.payload, // Usamos el SKU como clave
+          },
+          error: "",
+        };
+        
     default:
       return state;
   }
