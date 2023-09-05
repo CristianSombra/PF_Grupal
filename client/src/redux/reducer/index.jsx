@@ -1,9 +1,9 @@
-import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL } from "../actions/index";
+import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL, CREATE_PRODUCT } from "../actions/index";
 
 const initialState = {
   products: [],
   productDetails: {},
-  error: "", // Agrega un campo de error para manejar los errores.
+  error: "",
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -25,9 +25,15 @@ const rootReducer = (state = initialState, action) => {
           ...state,
           productDetails: {
             ...state.productDetails,
-            [action.payload.sku]: action.payload, // Usamos el SKU como clave
+            [action.payload.sku]: action.payload,
           },
           error: "",
+        };
+      case CREATE_PRODUCT:
+        return {
+          ...state,
+          creatingProduct: false,
+          creatinProductError: null,
         };
         
     default:
