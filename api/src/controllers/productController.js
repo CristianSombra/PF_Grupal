@@ -90,5 +90,39 @@ const createProduct = async (sku, number_part, titulo, id_brand, id_category, de
   }
 };
 
+const productsFilter = async (id_brand, id_category) => {
+  try {
+    let whereClause = {};
 
-module.exports = { getAllProducts, getBrands, getCategories, getProductBySKU, getProductsByBrand, getProductsByCategory, createProduct };
+    if (id_brand) {
+      const brand = await Brand.findByPk(id_brand);
+      if (!brand) {
+        throw new Error('Brand not found');
+      }
+      whereClause.id_brand = id_brand;
+    }
+
+    if (id_category) {
+      const category = await Category.findByPk(id_category);
+      if (!category) {
+        throw new Error('Category not found');
+      }
+      whereClause.id_category = id_category;
+    }
+
+    const products = await Product.findAll({ where: whereClause });
+
+    if (products.length > 0) {
+      return products;
+    } else {
+      throw new Error('No products found with the given criteria');
+    }
+  } catch (error) {
+    throw new Error(`${error.message}`);
+  }
+}
+
+
+
+
+module.exports = { getAllProducts, getBrands, getCategories, getProductBySKU, getProductsByBrand, getProductsByCategory, createProduct, productsFilter };

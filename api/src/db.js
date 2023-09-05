@@ -2,7 +2,7 @@ const { Sequelize, ForeignKeyConstraintError } = require("sequelize");
 const ProductModel = require("./models/Product"); 
 const CartModel = require("./models/Cart");
 const CategoryModel = require("./models/Category");
-const BrandModel = require("./models/Brand");
+const BrandModel = require("./models/Brand")
 const UserModel = require("./models/User")
 require("dotenv").config();
 
@@ -19,7 +19,6 @@ CartModel(sequelize);
 CategoryModel(sequelize);
 BrandModel(sequelize);
 UserModel(sequelize);
-
 
 const { Product,  Cart, Category, Brand, User} = sequelize.models;
 

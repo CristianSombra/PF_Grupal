@@ -33,7 +33,82 @@ export const getAllProducts = () => {
       }
       return errorMessage;
     };
+
   };
+
+
+  };
+
+  export const filterByBrand = (brandId) => {
+    return async function (dispatch) {
+      try {
+        const response = await axios.get(`http://localhost:3001/products/brands/${brandId}`);
+        dispatch({ type: GET_PODUCT_SUCCESS, payload: response.data });
+      } catch (error) {
+        dispatch({ type: ERROR, payload: 'Error al filtrar por marca' });
+      }
+    };
+  };
+  
+  export const filterByCategory = (categoryId) => {
+    return async function (dispatch) {
+      try {
+        const response = await axios.get(`http://localhost:3001/products/categories/${categoryId}`);
+        dispatch({ type: GET_PODUCT_SUCCESS, payload: response.data });
+      } catch (error) {
+        dispatch({ type: ERROR, payload: 'Error al filtrar por categoría' });
+      }
+    };
+  };
+  
+  export const getCategories = () =>{
+    return async function(dispatch){
+      try{
+        const response = await axios.get(`http://localhost:3001/products/categories/`);
+        console.log(response);
+        return response.data
+      } catch (error){
+        console.log(error);
+      }
+    }
+  }
+
+  export const getBrands = () =>{
+    return async function(dispatch){
+      try{
+        const response = await axios.get(`http://localhost:3001/products/brands/`);
+        console.log(response);
+        return response.data
+      } catch (error){
+        console.log(error);
+      }
+    }
+  }
+  export const getProductFilter = (id_brand, id_category) =>{
+    return async function(dispatch){
+      try{
+        const response = await axios.post(`http://localhost:3001/products/filter/`, {id_brand:id_brand, id_category:id_category});
+        console.log(response);
+
+        dispatch({type: GET_PODUCT_SUCCESS, payload: response.data});
+        return ('si');
+      } catch (error){
+        dispatch({ type: ERROR, payload: 'Error al filtrar' });
+      }
+    }
+  }
+
+  
+  
+  
+  export const resetFilters = () => {
+    return async function (dispatch) {
+      dispatch(getAllProducts());
+    };
+  };
+
+  }; 
+
 
   export const createProduct = (payload) => {
       return async (dispatch) => {
@@ -46,3 +121,4 @@ export const getAllProducts = () => {
         }
       }
   }
+
