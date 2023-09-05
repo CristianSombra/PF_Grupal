@@ -1,4 +1,4 @@
-import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL, FILTER_PRODUCTS, SORT_PRODUCTS_BY_PRICE } from "../actions/index";
+import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL, FILTER_PRODUCTS, SORT_PRODUCTS_BY_PRICE, CREATE_PRODUCT } from "../actions/index";
 
 const initialState = {
   products: [], // Mantén el estado original para todos los productos
@@ -43,6 +43,12 @@ const rootReducer = (state = initialState, action) => {
       return {
          ...state,
         orderByPrice: action.payload, // Actualiza el estado con el nuevo orden
+       };
+    case CREATE_PRODUCT:
+      return {
+        ...state,
+        creatingProduct: false,
+        creatinProductError: null,
        };
 
     default:

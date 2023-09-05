@@ -8,7 +8,7 @@ function Landing() {
   return (
     <div className={styles.background}>
       <div className={styles.text}>
-        <h1>Mejora tu oficina de trabajo</h1>
+        <h1>Mejora tu espacio de trabajo</h1>
         <h1>Las mejores PCs y notebooks del 2023 </h1>
       <Link to="/home">
       <button className={styles.button}>Compra Ahora</button>

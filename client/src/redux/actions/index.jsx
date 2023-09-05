@@ -5,6 +5,7 @@ export const GET_PODUCT_SUCCESS = 'GET_PODUCT_SUCCESS';
 export const GET_PRODUCT_DETAIL = 'GET_PRODUCT_DETAIL';
 export const FILTER_PRODUCTS = 'FILTER_PRODUCTS'; // Nueva acción para filtrar productos
 export const SORT_PRODUCTS_BY_PRICE = 'SORT_PRODUCTS_BY_PRICE';
+export const CREATE_PRODUCT = 'CREATE_PRODUCT'
 
 export const getAllProducts = () => {
   return async function(dispatch) {
@@ -63,3 +64,15 @@ export const sortProductsByPrice = (orderBy) => {
     payload: orderBy,
   };
 };
+
+export const createProduct = (payload) => {
+  return async (dispatch) => {
+    try {
+      await axios.post('http://localhost:3001/products', payload)
+      dispatch({type: CREATE_PRODUCT})
+    } catch (error) {
+      const errorMessage = 'Error al crear el producto'
+      dispatch({type: ERROR, payload: errorMessage})
+    }
+  }
+}

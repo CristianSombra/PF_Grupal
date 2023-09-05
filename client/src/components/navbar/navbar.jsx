@@ -25,9 +25,9 @@ const Navbar = () => {
   return (
     <div className={`${styles.navbar} ${isSticky ? styles.sticky : ""}`}>
       <div>
-        <Link to="/home" className={styles.navLink}>Inicio</Link>
-        <Link to="/" className={styles.navLink}>Salir</Link>
-     
+        <Link to="/home">Inicio</Link>
+        <Link to="/">Salir</Link>
+        <Link to="/createProduct">Crear producto</Link>
       </div>
       
       <SortByPrice className={styles.sortbyprice} /> {/* Agrega la clase de estilo al componente SortByPrice */}
