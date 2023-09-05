@@ -79,6 +79,22 @@ export const getAllProducts = () => {
       }
     }
   }
+  export const getProductFilter = (id_brand, id_category) =>{
+    return async function(dispatch){
+      try{
+        const response = await axios.post(`http://localhost:3001/products/filter/`, {id_brand:id_brand, id_category:id_category});
+        console.log(response);
+
+        dispatch({type: GET_PODUCT_SUCCESS, payload: response.data});
+        return ('si');
+      } catch (error){
+        dispatch({ type: ERROR, payload: 'Error al filtrar' });
+      }
+    }
+  }
+
+  
+  
   
   export const resetFilters = () => {
     return async function (dispatch) {

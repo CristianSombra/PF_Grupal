@@ -5,7 +5,9 @@ import {
   filterByBrand,
   filterByCategory,
   resetFilters,
+  getProductFilter,
 } from "../../redux/actions/index";
+import Swal from "sweetalert2";
 import styles from "../filter/filter.module.css";
 
 const Filter = ({ listCategories, listBrands }) => {
@@ -18,20 +20,23 @@ const Filter = ({ listCategories, listBrands }) => {
 
   const handleBrandChange = (event) => {
     setSelectedBrand(event.target.value);
-    setSelectedCategory('Todas las Categorías')
   };
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
-    setSelectedBrand('Todas las Marcas')
   };
 
-  const applyFilters = () => {
-    if (selectedBrand) {
-      dispatch(filterByBrand(selectedBrand));
-    }
-    if (selectedCategory) {
-      dispatch(filterByCategory(selectedCategory));
+  const applyFilters = async () => {
+    const productsFilter = await dispatch(
+      getProductFilter(selectedBrand, selectedCategory)
+    );
+    console.log(productsFilter);
+    if (!productsFilter) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No hay productos con ese filtro.",
+      });
     }
   };
 
@@ -43,13 +48,17 @@ const Filter = ({ listCategories, listBrands }) => {
   };
 
   return (
+    <div className={styles['filter-container']}>
     <div>
-      <div>
-        <label htmlFor="brandSelect">Filtrar por Marca:</label>
+    <label htmlFor="brandSelect">
+        Filtrar por Marca:
+      </label>
         <select
           id="brandSelect"
           value={selectedBrand}
           onChange={handleBrandChange}
+          className={styles['select-dropdown']}
+
         >
           <option value="">Todas las Marcas</option>
           {brands.map((brand) => (
@@ -65,6 +74,8 @@ const Filter = ({ listCategories, listBrands }) => {
           id="categorySelect"
           value={selectedCategory}
           onChange={handleCategoryChange}
+          className={styles['select-dropdown']}
+
         >
           <option value="">Todas las Categorías</option>
           {categories.map((category) => (
@@ -74,12 +85,16 @@ const Filter = ({ listCategories, listBrands }) => {
           ))}
         </select>
       </div>
-      <div>
-        <button onClick={applyFilters}>Aplicar Filtros</button>
-        <button onClick={reset}>Resetear Filtros</button>
-      </div>
+      <div className={styles['button-container']}>
+      <button className={styles.button} onClick={applyFilters}>
+        Aplicar Filtros
+      </button>
+      <button className={`${styles.button} ${styles['reset-button']}`} onClick={reset}>
+        Resetear Filtros
+      </button>
     </div>
-  );
+  </div>
+);
 };
 
 export default Filter;
