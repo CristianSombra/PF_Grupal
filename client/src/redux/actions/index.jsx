@@ -37,8 +37,6 @@ export const getAllProducts = () => {
   };
 
 
-  };
-
   export const filterByBrand = (brandId) => {
     return async function (dispatch) {
       try {
@@ -99,15 +97,11 @@ export const getAllProducts = () => {
   }
 
   
-  
-  
   export const resetFilters = () => {
     return async function (dispatch) {
       dispatch(getAllProducts());
     };
   };
-
-  }; 
 
 
   export const createProduct = (payload) => {
