@@ -36,6 +36,7 @@ export const getAllProducts = () => {
 
   };
 
+
   export const filterByBrand = (brandId) => {
     return async function (dispatch) {
       try {
@@ -104,6 +105,11 @@ export const getAllProducts = () => {
     };
   };
 
+<<<<<<< HEAD
+=======
+  }; 
+
+>>>>>>> 7ede3b0d902fc7a624be8ffb7fa059acf84396a5
 
   export const createProduct = (payload) => {
       return async (dispatch) => {
