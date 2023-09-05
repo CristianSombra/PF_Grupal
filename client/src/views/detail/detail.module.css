@@ -42,19 +42,20 @@
   }
 
   .goHome {
-    margin-top: 130px;
     text-align: center;
+    margin-top: 60px;
   }
   
   .linkButton {
-    margin-top: 200px;
     text-decoration: none;
     background-color: rgba(7, 46, 90, 0.854);
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
     font-size: 16px;
+    transform: scale(1);
     transition: background-color 0.3s, transform 0.2s;
+    cursor: pointer; /* Agregamos el cursor de apuntador */
   }
   
   .linkButton:hover {
