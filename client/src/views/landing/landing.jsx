@@ -8,10 +8,10 @@ function Landing() {
   return (
     <div className={styles.background}>
       <div className={styles.text}>
-        <h1>Upgrade your Home Office </h1>
-        <h1>With the best Laptops for Productivity in 2023 </h1>
+        <h1>Mejora tu oficina de trabajo</h1>
+        <h1>Las mejores PCs y notebooks del 2023 </h1>
       <Link to="/home">
-      <button className={styles.button2}>Shop now</button>
+      <button className={styles.button}>Compra Ahora</button>
       </Link>
       </div>
       <div className={styles.image}>
@@ -21,4 +21,4 @@ function Landing() {
   );
 }
 
-export default Landing;
+export default Landing;

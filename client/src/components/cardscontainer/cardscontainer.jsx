@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllProducts } from "../../redux/actions/index";
+import styles from "./cardscontainer.module.css"
 import Card from "../card/card";
 
 const CardsContainer = () => {
@@ -13,7 +14,7 @@ const CardsContainer = () => {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className={styles.cardContext}>
       {products.length > 0 ? (
         products.map((product) => (
           <Card
