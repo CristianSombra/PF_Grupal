@@ -1,10 +1,11 @@
-import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL, FILTER_PRODUCTS } from "../actions/index";
+import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL, FILTER_PRODUCTS, SORT_PRODUCTS_BY_PRICE } from "../actions/index";
 
 const initialState = {
   products: [], // Mantén el estado original para todos los productos
   productDetails: {},
   error: "",
   filteredProducts: [], // Nuevo estado para los productos filtrados
+  orderByPrice: 'asc', // Nuevo estado para el orden por precio
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -37,6 +38,12 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         filteredProducts: action.payload, // Actualiza el estado con los productos filtrados
       };
+
+    case SORT_PRODUCTS_BY_PRICE:
+      return {
+         ...state,
+        orderByPrice: action.payload, // Actualiza el estado con el nuevo orden
+       };
 
     default:
       return state;

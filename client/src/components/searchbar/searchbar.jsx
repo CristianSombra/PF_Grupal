@@ -5,7 +5,7 @@ import { getAllProducts } from '../../redux/actions/index';
 const SearchBar = () => {
   // Estados locales para el término de búsqueda, seguimiento de búsqueda realizada y estado de búsqueda activa
   const [searchTerm, setSearchTerm] = useState('');
-  const [hasSearched, setHasSearched] = useState(false);
+  
   const [isSearchActive, setIsSearchActive] = useState(false);
 
   // Acceder al estado global de productos y el despachador de acciones
@@ -28,7 +28,7 @@ const SearchBar = () => {
     }
 
     // Marcar que se ha realizado una búsqueda
-    setHasSearched(true);
+    
     setIsSearchActive(true);
 
     // Filtrar los productos según el término de búsqueda
@@ -102,9 +102,7 @@ const SearchBar = () => {
 
       <button onClick={isSearchActive ? handleClearSearch : handleSearch}>{buttonText}</button>
 
-      {hasSearched && !searchTerm && (
-        <p>No se ha ingresado un término de búsqueda. Mostrando todos los productos:</p>
-      )}
+     
     </div>
   );
 };
