@@ -48,6 +48,16 @@ export const getProductDetail = (sku) => {
     };
   };
 
+
+  export const filterByBrand = (brandId) => {
+    return async function (dispatch) {
+      try {
+        const response = await axios.get(`http://localhost:3001/products/brands/${brandId}`);
+        dispatch({ type: GET_PODUCT_SUCCESS, payload: response.data });
+      } catch (error) {
+        dispatch({ type: ERROR, payload: 'Error al filtrar por marca' });
+      }
+
   export const filterProducts = (searchTerm, allProducts) => {
     if (searchTerm === '') {
       // Si el término de búsqueda está vacío, muestra todos los productos.
@@ -71,6 +81,7 @@ export const getProductDetail = (sku) => {
     return {
       type: SORT_PRODUCTS_BY_PRICE,
       payload: orderBy,
+
     };
   };
   
@@ -85,7 +96,6 @@ export const getProductDetail = (sku) => {
       }
     }
   }
-
 
     try {
       const response = await axios.get(
@@ -112,6 +122,15 @@ export const filterByBrand = (brandId) => {
     }
   };
 };
+
+
+  
+  export const resetFilters = () => {
+    return async function (dispatch) {
+      dispatch(getAllProducts());
+    };
+  };
+
 
 export const filterByCategory = (categoryId) => {
   return async function (dispatch) {
@@ -164,7 +183,6 @@ export const getProductFilter = (id_brand, id_category) => {
       console.log(response);
 
   };
-
 
       dispatch({ type: GET_PODUCT_SUCCESS, payload: response.data });
       return "si";
