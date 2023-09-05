@@ -33,7 +33,7 @@ export const getAllProducts = () => {
       }
       return errorMessage;
     };
-  };  };
+  };
 
   export const createProduct = (payload) => {
       return async (dispatch) => {
