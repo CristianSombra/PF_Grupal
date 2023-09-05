@@ -1,6 +1,6 @@
 import React from 'react';
 import {Routes, Route, useLocation } from 'react-router-dom';
-import {Home, Landing, Detail} from '../src/views/index';
+import {Home, Landing, Detail, ProductForm} from '../src/views/index';
 import Navbar from './components/navbar/navbar';
 
 
@@ -18,6 +18,7 @@ React.useEffect(() => {
           <Route exact path="/" element={<Landing/>} />
           <Route path="/home" element={<Home/>} />
           <Route path="/detail/:sku" element={<Detail/>} />
+          <Route path="/createProduct" element={<ProductForm/>} />
       </Routes>
    </div>
   );
