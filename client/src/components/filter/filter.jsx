@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch,  } from "react-redux";
 import {
   getAllProducts,
-  filterByBrand,
-  filterByCategory,
+ 
   resetFilters,
   getProductFilter,
 } from "../../redux/actions/index";
