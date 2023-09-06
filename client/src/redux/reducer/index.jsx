@@ -17,7 +17,7 @@ const rootReducer = (state = initialState, action) => {
         error: action.payload,
       };
 
-    case GET_PODUCT:
+    case GET_PODUCT_SUCCESS:
       return {
         ...state,
         products: action.payload,
