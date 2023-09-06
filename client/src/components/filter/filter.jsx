@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useDispatch,  } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   getAllProducts,
- 
+
   resetFilters,
   getProductFilter,
 } from "../../redux/actions/index";
@@ -29,7 +29,6 @@ const Filter = ({ listCategories, listBrands }) => {
     const productsFilter = await dispatch(
       getProductFilter(selectedBrand, selectedCategory)
     );
-    console.log(productsFilter);
     if (!productsFilter) {
       Swal.fire({
         icon: "error",
