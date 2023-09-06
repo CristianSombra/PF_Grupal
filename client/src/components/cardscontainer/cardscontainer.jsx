@@ -11,11 +11,13 @@ const CardsContainer = () => {
   const orderByPrice = useSelector((state) => state.orderByPrice);
   let sortedProducts = [...allProducts]; // Clona todos los productos correctamente
 
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
+
 
   // Aplica la lógica de ordenamiento solo si uno de los campos de ordenamiento está configurado
   if (orderByPrice !==null) {

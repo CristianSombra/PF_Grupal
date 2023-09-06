@@ -22,13 +22,11 @@ const Navbar = () => {
 
   return (
     <div className={`${styles.navbar} ${isSticky ? styles.sticky : ""}`}>
-      <div className={styles.navLinks}>
         <Link to="/home">Inicio</Link>
-        <Link to="/createProduct">Crear producto</Link>
+        <Link to="/createProduct">Crear producto</Link> 
         <div className={styles.logoutButton}>
           <Link to="/">Salir</Link>
         </div>
-      </div>
     </div>
   );
 };

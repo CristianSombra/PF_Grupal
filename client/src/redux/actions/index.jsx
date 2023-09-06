@@ -1,30 +1,31 @@
 import axios from "axios";
 
 export const ERROR = "ERROR";
-export const GET_PODUCT_SUCCESS = 'GET_PODUCT_SUCCESS';
+export const GET_PODUCT = 'GET_PODUCT';
 export const GET_PRODUCT_DETAIL = 'GET_PRODUCT_DETAIL';
 export const SORT_PRODUCTS_BY_PRICE = 'SORT_PRODUCTS_BY_PRICE';
 export const CREATE_PRODUCT = 'CREATE_PRODUCT'
 
 
 export const getAllProducts = () => {
-  return async function(dispatch) {
-    let errorMessage = '';
+  return async function (dispatch) {
+    let errorMessage = "";
 
     try {
-      const response = await axios.get('http://localhost:3001/products');
-      dispatch({type: GET_PODUCT_SUCCESS, payload: response.data});
+      const response = await axios.get("http://localhost:3001/products");
+      dispatch({ type: GET_PODUCT, payload: response.data });
     } catch (error) {
-      errorMessage = 'Producto no encontrado';
-      dispatch({type: ERROR, payload: errorMessage})
+      errorMessage = "Producto no encontrado";
+      dispatch({ type: ERROR, payload: errorMessage });
     }
     return errorMessage;
   };
 };
 
-  export const getProductDetail = (sku) => {
-    return async function (dispatch) {
-      let errorMessage = '';
+
+export const getProductDetail = (sku) => {
+  return async function (dispatch) {
+    let errorMessage = "";
   
       try {
         const response = await axios.get(`http://localhost:3001/products/sku/${sku}`);
@@ -37,15 +38,7 @@ export const getAllProducts = () => {
     };
   };
 
-  
-  
-  export const sortProductsByPrice = (orderBy) => {
-    return {
-      type: SORT_PRODUCTS_BY_PRICE,
-      payload: orderBy,
-    };
-  };
-  
+
   export const createProduct = (payload) => {
     return async (dispatch) => {
       try {
@@ -60,6 +53,13 @@ export const getAllProducts = () => {
 
 
 
+  export const sortProductsByPrice = (orderBy) => {
+    return {
+      type: SORT_PRODUCTS_BY_PRICE,
+      payload: orderBy,
+    };
+  };
+  
 
   export const filterByBrand = (brandId) => {
     return async function (dispatch) {
@@ -120,9 +120,6 @@ export const getAllProducts = () => {
     }
   }
 
-  
-  
-  
   export const resetFilters = () => {
     return async function (dispatch) {
       dispatch(getAllProducts());
@@ -130,4 +127,3 @@ export const getAllProducts = () => {
   };
 
 
- 
