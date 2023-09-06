@@ -3,6 +3,7 @@ import axios from "axios";
 export const ERROR = "ERROR";
 export const GET_PODUCT = 'GET_PODUCT';
 export const GET_PRODUCT_DETAIL = 'GET_PRODUCT_DETAIL';
+export const SORT_PRODUCTS_BY_PRICE = 'SORT_PRODUCTS_BY_PRICE';
 export const CREATE_PRODUCT = 'CREATE_PRODUCT'
 
 
@@ -38,14 +39,91 @@ export const getProductDetail = (sku) => {
   };
 
 
-export const createProduct = (payload) => {
-  return async (dispatch) => {
-    try {
-      await axios.post("http://localhost:3001/products", payload);
-      dispatch({ type: CREATE_PRODUCT });
-    } catch (error) {
-      const errorMessage = "Error al crear el producto";
-      dispatch({ type: ERROR, payload: errorMessage });
+  export const createProduct = (payload) => {
+    return async (dispatch) => {
+      try {
+        await axios.post('http://localhost:3001/products', payload)
+        dispatch({type: CREATE_PRODUCT})
+      } catch (error) {
+        const errorMessage = 'Error al crear el producto'
+        dispatch({type: ERROR, payload: errorMessage})
+      }
     }
+  }
+
+
+
+  export const sortProductsByPrice = (orderBy) => {
+    return {
+      type: SORT_PRODUCTS_BY_PRICE,
+      payload: orderBy,
+    };
   };
-};
+  
+
+  export const filterByBrand = (brandId) => {
+    return async function (dispatch) {
+      try {
+        const response = await axios.get(`http://localhost:3001/products/brands/${brandId}`);
+        dispatch({ type: GET_PODUCT_SUCCESS, payload: response.data });
+      } catch (error) {
+        dispatch({ type: ERROR, payload: 'Error al filtrar por marca' });
+      }
+    };
+  };
+  
+  export const filterByCategory = (categoryId) => {
+    return async function (dispatch) {
+      try {
+        const response = await axios.get(`http://localhost:3001/products/categories/${categoryId}`);
+        dispatch({ type: GET_PODUCT_SUCCESS, payload: response.data });
+      } catch (error) {
+        dispatch({ type: ERROR, payload: 'Error al filtrar por categoría' });
+      }
+    };
+  };
+  
+  export const getCategories = () =>{
+    return async function(dispatch){
+      try{
+        const response = await axios.get(`http://localhost:3001/products/categories/`);
+        console.log(response);
+        return response.data
+      } catch (error){
+        console.log(error);
+      }
+    }
+  }
+
+  export const getBrands = () =>{
+    return async function(dispatch){
+      try{
+        const response = await axios.get(`http://localhost:3001/products/brands/`);
+        console.log(response);
+        return response.data
+      } catch (error){
+        console.log(error);
+      }
+    }
+  }
+  export const getProductFilter = (id_brand, id_category) =>{
+    return async function(dispatch){
+      try{
+        const response = await axios.post(`http://localhost:3001/products/filter/`, {id_brand:id_brand, id_category:id_category});
+        console.log(response);
+
+        dispatch({type: GET_PODUCT_SUCCESS, payload: response.data});
+        return ('si');
+      } catch (error){
+        dispatch({ type: ERROR, payload: 'Error al filtrar' });
+      }
+    }
+  }
+
+  export const resetFilters = () => {
+    return async function (dispatch) {
+      dispatch(getAllProducts());
+    };
+  };
+
+
