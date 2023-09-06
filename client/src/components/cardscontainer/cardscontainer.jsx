@@ -1,13 +1,15 @@
+// CardsContainer.js
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllProducts } from "../../redux/actions/index";
 import styles from "./cardscontainer.module.css";
 import Card from "../card/card";
+import { sortProductsByPrice } from '../sortingUtils/sortingUtils'; // Importa la función de ordenación por precio
+import { getAllProducts } from "../../redux/actions/index";
 
 const CardsContainer = () => {
   const allProducts = useSelector((state) => state.products);
-  const filteredProducts = useSelector((state) => state.filteredProducts);
-  const orderByPrice = useSelector((state) => state.orderByPrice); // Nuevo estado para el orden
+  const orderByPrice = useSelector((state) => state.orderByPrice);
+  let sortedProducts = [...allProducts]; // Clona todos los productos correctamente
 
   const dispatch = useDispatch();
 
@@ -15,27 +17,17 @@ const CardsContainer = () => {
     dispatch(getAllProducts());
   }, [dispatch]);
 
-  // Función para ordenar los productos según el estado de orden
-  const sortProducts = (products) => {
-    return products.sort((a, b) => {
-      if (orderByPrice === 'asc') {
-        return a.price - b.price;
-      } else {
-        return b.price - a.price;
-      }
-    });
-  };
-
-  const productsToDisplay = filteredProducts.length > 0 ? filteredProducts : allProducts;
+  // Aplica la lógica de ordenamiento solo si uno de los campos de ordenamiento está configurado
+  if (orderByPrice !==null) {
+    sortedProducts = orderByPrice === 'asc'
+      ? sortProductsByPrice(sortedProducts, 'asc')
+      : sortProductsByPrice(sortedProducts, 'desc');
+  } 
 
   return (
     <div className={styles.cardContext}>
-      <div className={styles.sortContainer}>
-        {/* ... Renderiza el componente SortByPrice aquí ... */}
-      </div>
-      {productsToDisplay.length > 0 ? (
-        // Ordena los productos antes de mapearlos
-        sortProducts(productsToDisplay).map((product) => (
+      {sortedProducts.length > 0 ? (
+        sortedProducts.map((product) => (
           <Card
             key={product.sku}
             sku={product.sku}

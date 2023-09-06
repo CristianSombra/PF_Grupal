@@ -1,13 +1,12 @@
-import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL, FILTER_PRODUCTS, SORT_PRODUCTS_BY_PRICE, CREATE_PRODUCT } from "../actions/index";
+import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL, SORT_PRODUCTS_BY_PRICE, CREATE_PRODUCT } from "../actions/index";
 
-import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL, CREATE_PRODUCT } from "../actions/index";
 
 const initialState = {
   products: [], // Mantén el estado original para todos los productos
   productDetails: {},
   error: "",
-  filteredProducts: [], // Nuevo estado para los productos filtrados
-  orderByPrice: 'asc', // Nuevo estado para el orden por precio
+  orderByPrice: null, // Usar null para indicar que no hay ordenamiento por defecto
+  
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -35,17 +34,7 @@ const rootReducer = (state = initialState, action) => {
         error: "",
       };
 
-    case FILTER_PRODUCTS:
-      return {
-        ...state,
-        filteredProducts: action.payload, // Actualiza el estado con los productos filtrados
-      };
-
-    case SORT_PRODUCTS_BY_PRICE:
-      return {
-         ...state,
-        orderByPrice: action.payload, // Actualiza el estado con el nuevo orden
-       };
+     
     case CREATE_PRODUCT:
       return {
         ...state,
@@ -53,22 +42,13 @@ const rootReducer = (state = initialState, action) => {
         creatinProductError: null,
        };
 
-      case GET_PRODUCT_DETAIL:
+    
+      case SORT_PRODUCTS_BY_PRICE:
         return {
-          ...state,
-          productDetails: {
-            ...state.productDetails,
-            [action.payload.sku]: action.payload,
-          },
-          error: "",
-        };
-      case CREATE_PRODUCT:
-        return {
-          ...state,
-          creatingProduct: false,
-          creatinProductError: null,
-        };
-        
+         ...state,
+          orderByPrice: action.payload, 
+       };
+       
     default:
       return state;
   }
