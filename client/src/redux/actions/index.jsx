@@ -10,7 +10,7 @@ export const CREATE_PRODUCT = 'CREATE_PRODUCT'
 export const getAllProducts = () => {
   return async function(dispatch) {
     let errorMessage = '';
-
+ 
     try {
       const response = await axios.get('http://localhost:3001/products');
       dispatch({type: GET_PODUCT_SUCCESS, payload: response.data});

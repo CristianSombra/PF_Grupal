@@ -18,7 +18,7 @@ export default function Home() {
         setListCategories(categories);
       }, 1000);
       const brands = await dispatch(getBrands());
-
+ 
       setTimeout(() => {
         setListBrands(brands);
       }, 1000);

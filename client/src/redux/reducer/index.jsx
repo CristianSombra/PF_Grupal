@@ -31,7 +31,7 @@ const rootReducer = (state = initialState, action) => {
           error: "",
         };
         
-
+ 
       case CREATE_PRODUCT:
         return {
           ...state,

@@ -8,7 +8,7 @@ import {
 } from "../../redux/actions/index";
 import Swal from "sweetalert2";
 import styles from "../filter/filter.module.css";
-
+ 
 const Filter = ({ listCategories, listBrands }) => {
   const dispatch = useDispatch();
   const brands = listBrands;
