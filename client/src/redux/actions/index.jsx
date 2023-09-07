@@ -1,5 +1,5 @@
 import axios from "axios";
-
+export const UPDATE_SEARCH_RESULTS = "UPDATE_SEARCH_RESULTS";
 export const ERROR = "ERROR";
 export const GET_PODUCT_SUCCESS = 'GET_PODUCT_SUCCESS';
 export const GET_PRODUCT_DETAIL = 'GET_PRODUCT_DETAIL';
@@ -121,11 +121,15 @@ export const getAllProducts = () => {
       }
     }
   }
-
   export const resetFilters = () => {
     return async function (dispatch) {
       dispatch(getAllProducts());
     };
   };
 
-
+  export const updateSearchResults = (results) => {
+    return {
+      type: UPDATE_SEARCH_RESULTS,
+      payload: results,
+    };
+  };
