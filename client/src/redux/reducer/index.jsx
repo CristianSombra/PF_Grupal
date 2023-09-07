@@ -1,4 +1,3 @@
-
 import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL, SORT_PRODUCTS_BY_PRICE, CREATE_PRODUCT ,UPDATE_SEARCH_RESULTS} from "../actions/index";
 
 const initialState = {
@@ -47,12 +46,12 @@ const rootReducer = (state = initialState, action) => {
           orderByPrice: action.payload, 
        };
        
+
      case UPDATE_SEARCH_RESULTS:
       return {
         ...state,
           searchResults: action.payload, // Actualiza los resultados de búsqueda
         };
-
     default:
       return state;
   }

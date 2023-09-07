@@ -18,10 +18,12 @@ const Filter = ({ listCategories, listBrands }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
 
   const handleBrandChange = (event) => {
+    console.log(event.target.value);
     setSelectedBrand(event.target.value);
   };
-
+  
   const handleCategoryChange = (event) => {
+    console.log(event.target.value);
     setSelectedCategory(event.target.value);
   };
 

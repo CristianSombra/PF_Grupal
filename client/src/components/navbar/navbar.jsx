@@ -27,9 +27,7 @@ const Navbar = () => {
         <Link to="/createProduct">Crear producto</Link> 
          <SearchBar/>
         <div className={styles.logoutButton}>
-
           <Link to="/">Salir</Link>
-  
         </div>
     </div>
   );
