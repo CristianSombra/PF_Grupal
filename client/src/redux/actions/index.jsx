@@ -121,7 +121,6 @@ export const getAllProducts = () => {
       }
     }
   }
-
   export const resetFilters = () => {
     return async function (dispatch) {
       dispatch(getAllProducts());

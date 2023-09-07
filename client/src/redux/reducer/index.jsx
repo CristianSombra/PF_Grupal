@@ -49,6 +49,7 @@ const rootReducer = (state = initialState, action) => {
           orderByPrice: action.payload, 
        };
        
+
      case UPDATE_SEARCH_RESULTS:
       return {
         ...state,
