@@ -1,6 +1,6 @@
 import React from 'react';
 import SortByPriceHandler from '../handlers/handlerSortByPrice';
-import SearchResultMessage from "../SearchResultMessage/SearchResultMessage"
+
 
 
 const SortDivs= () => {
@@ -8,8 +8,7 @@ const SortDivs= () => {
     <div>
       
      <SortByPriceHandler />
-     <SearchResultMessage />
-     
+         
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { resetFilters, getProductFilter } from "../../redux/actions/index";
 import Swal from "sweetalert2";
 import styles from "../filter/filter.module.css";
+import SortDivs from "../../components/SortDivs/SortDivs"
 
 const Filter = ({ listCategories, listBrands }) => {
   const dispatch = useDispatch();
@@ -76,6 +77,7 @@ const Filter = ({ listCategories, listBrands }) => {
           ))}
         </select>
       </div>
+      <SortDivs />
       <div className={styles['button-container']}>
         <button className={styles.button} onClick={applyFilters}>
           Aplicar Filtros
@@ -84,6 +86,7 @@ const Filter = ({ listCategories, listBrands }) => {
           Resetear Filtros
         </button>
       </div>
+     
     </div>
   );
 };
