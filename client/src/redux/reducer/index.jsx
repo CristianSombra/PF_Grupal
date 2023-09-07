@@ -1,5 +1,5 @@
 
-import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL, SORT_PRODUCTS_BY_PRICE, CREATE_PRODUCT ,UPDATE_SEARCH_RESULTS} from "../actions/index";
+import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL, SORT_PRODUCTS_BY_PRICE, CREATE_PRODUCT ,UPDATE_SEARCH_RESULTS,RESET_SELECTED_BRAND_CATEGORY} from "../actions/index";
 
 const initialState = {
   products: [], // Mantén el estado original para todos los productos
@@ -7,6 +7,8 @@ const initialState = {
   error: "",
   orderByPrice: null, // Usar null para indicar que no hay ordenamiento por defecto
   searchResults: [],
+  SelectedBrand: (""),
+  SelectedCategory: (""),
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -52,6 +54,13 @@ const rootReducer = (state = initialState, action) => {
         ...state,
           searchResults: action.payload, // Actualiza los resultados de búsqueda
         };
+
+        case RESET_SELECTED_BRAND_CATEGORY:
+          return {
+            ...state,
+            SelectedBrand: "",
+            SelectedCategory: "",
+          };
 
     default:
       return state;

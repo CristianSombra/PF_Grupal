@@ -5,7 +5,7 @@ export const GET_PODUCT_SUCCESS = 'GET_PODUCT_SUCCESS';
 export const GET_PRODUCT_DETAIL = 'GET_PRODUCT_DETAIL';
 export const SORT_PRODUCTS_BY_PRICE = 'SORT_PRODUCTS_BY_PRICE';
 export const CREATE_PRODUCT = 'CREATE_PRODUCT'
-
+export const RESET_SELECTED_BRAND_CATEGORY = "RESET_SELECTED_BRAND_CATEGORY"
 
 export const getAllProducts = () => {
   return async function(dispatch) {
@@ -125,8 +125,20 @@ export const getAllProducts = () => {
   export const resetFilters = () => {
     return async function (dispatch) {
       dispatch(getAllProducts());
+      dispatch({
+        type: UPDATE_SEARCH_RESULTS,
+        payload: [], // Reinicia los resultados de búsqueda a un array vacío
+      });
+      dispatch({
+        type: SORT_PRODUCTS_BY_PRICE,
+        payload: null, // Reinicia el ordenamiento de productos a null
+      });
+      dispatch({
+        type: RESET_SELECTED_BRAND_CATEGORY, // Define un nuevo tipo de acción para reiniciar las selecciones de marca y categoría
+      });
     };
   };
+  
 
   export const updateSearchResults = (results) => {
     return {

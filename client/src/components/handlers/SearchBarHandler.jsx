@@ -13,6 +13,9 @@ const SearchBarHandler = () => {
   const handleSearchSubmit = () => {
     // Dispatch la acción para buscar productos con la consulta ingresada
     dispatch(updateSearchResults(searchQuery));
+
+    // Limpia el campo de búsqueda estableciendo el estado a una cadena vacía
+    setSearchQuery("");
   };
 
   return (

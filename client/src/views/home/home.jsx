@@ -30,11 +30,13 @@ export default function Home() {
   return (
     <div className={styles.homeContainer}>
       <img src={banner} alt="Fondo" className={styles.banner} />
-      <SortDivs />
+      
       <div className={styles.filterContainer}>
         <Filter listCategories={listCategories} listBrands={listBrands} />
+        <SortDivs />
       </div>
-      <div className={styles.cardContainer}>  
+      <div className={styles.cardContainer}> 
+       
        <CardsContainer />
       </div>
     </div>
