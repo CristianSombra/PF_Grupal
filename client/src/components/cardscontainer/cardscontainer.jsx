@@ -16,18 +16,17 @@ const CardsContainer = () => {
     dispatch(getAllProducts());
   }, [dispatch]);
 
-  // Aplica la lógica de ordenamiento solo si uno de los campos de ordenamiento está configurado
   let sortedProducts = [...allProducts]; // Clona todos los productos correctamente
 
+  // Aplica la lógica de ordenamiento solo si uno de los campos de ordenamiento está configurado
   if (orderByPrice !== null) {
     sortedProducts = orderByPrice === 'asc'
       ? sortProductsByPrice(sortedProducts, 'asc')
       : sortProductsByPrice(sortedProducts, 'desc');
   }
 
-  // Combina los resultados de búsqueda con los productos ordenados por precio (si se ha aplicado un filtro de precio)
+  // Realiza una nueva búsqueda sobre los productos y muestra los resultados para aplicar nuevos filtros
   if (searchResults.length > 0) {
-    // Filtra los productos que coincidan con los resultados de búsqueda
     sortedProducts = sortedProducts.filter((product) =>
       product.titulo.toLowerCase().includes(searchResults.toLowerCase())
     );

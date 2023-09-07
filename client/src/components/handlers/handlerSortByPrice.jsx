@@ -17,7 +17,7 @@ const SortByPriceHandler = () => {
       <div>
         <label>Ordenar por precio:</label>
         <button onClick={handleSortChange}>
-          {orderByPrice === 'asc' ? 'Precio ascendente' : 'Precio descendente'}
+          {orderByPrice === 'asc' ? 'Mayor precio' : 'Menor precio'}
         </button>
       </div>
     );

@@ -1,11 +1,6 @@
 import React, { useState } from "react";
-import { useDispatch,  } from "react-redux";
-import {
-  getAllProducts,
- 
-  resetFilters,
-  getProductFilter,
-} from "../../redux/actions/index";
+import { useDispatch } from "react-redux";
+import { resetFilters, getProductFilter } from "../../redux/actions/index";
 import Swal from "sweetalert2";
 import styles from "../filter/filter.module.css";
 
@@ -40,24 +35,20 @@ const Filter = ({ listCategories, listBrands }) => {
   };
 
   const reset = () => {
-    setSelectedBrand("");
-    setSelectedCategory("");
-    dispatch(resetFilters());
-    dispatch(getAllProducts());
+    setSelectedBrand(""); // Restablece la selección de marca
+    setSelectedCategory(""); // Restablece la selección de categoría
+    dispatch(resetFilters()); // Llama a la acción para restablecer otros filtros
   };
 
   return (
     <div className={styles['filter-container']}>
-    <div>
-    <label htmlFor="brandSelect">
-        Filtrar por Marca:
-      </label>
+      <div>
+        <label htmlFor="brandSelect">Filtrar por Marca:</label>
         <select
           id="brandSelect"
           value={selectedBrand}
           onChange={handleBrandChange}
           className={styles['select-dropdown']}
-
         >
           <option value="">Todas las Marcas</option>
           {brands.map((brand) => (
@@ -74,7 +65,6 @@ const Filter = ({ listCategories, listBrands }) => {
           value={selectedCategory}
           onChange={handleCategoryChange}
           className={styles['select-dropdown']}
-
         >
           <option value="">Todas las Categorías</option>
           {categories.map((category) => (
@@ -85,15 +75,15 @@ const Filter = ({ listCategories, listBrands }) => {
         </select>
       </div>
       <div className={styles['button-container']}>
-      <button className={styles.button} onClick={applyFilters}>
-        Aplicar Filtros
-      </button>
-      <button className={`${styles.button} ${styles['reset-button']}`} onClick={reset}>
-        Resetear Filtros
-      </button>
+        <button className={styles.button} onClick={applyFilters}>
+          Aplicar Filtros
+        </button>
+        <button className={`${styles.button} ${styles['reset-button']}`} onClick={reset}>
+          Resetear Filtros
+        </button>
+      </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default Filter;
