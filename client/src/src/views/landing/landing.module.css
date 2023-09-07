@@ -1,0 +1,32 @@
+.background {
+  height: 96vh;
+  width: 99vw;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centra el contenido vertical y horizontalmente */
+  background: linear-gradient(#4ff7d2, #0b66d4);
+  overflow: hidden;
+}
+  
+  .text {
+    margin-right: 20px;
+  }
+  
+  .image img {
+    width: auto;
+    max-width: 600px;
+  }
+
+  .button{
+    background-color:  rgba(7, 46, 90, 0.854);
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .button:hover {
+    background-color: rgba(18, 54, 95, 0.854);
+    transform: scale(1.05);
+  }

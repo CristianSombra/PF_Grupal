@@ -9,7 +9,7 @@ import { getAllProducts } from "../../redux/actions/index";
 const CardsContainer = () => {
   const allProducts = useSelector((state) => state.products);
   const orderByPrice = useSelector((state) => state.orderByPrice);
-  let sortedProducts = [...allProducts]; // Clona todos los productos correctamente
+  let sortedProducts = [...allProducts];
   const searchResults = useSelector((state) => state.searchResults);
   const dispatch = useDispatch();
 
