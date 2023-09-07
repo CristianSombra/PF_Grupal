@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch,  } from "react-redux";
 import {
   getAllProducts,
-
+ 
   resetFilters,
   getProductFilter,
 } from "../../redux/actions/index";
 import Swal from "sweetalert2";
 import styles from "../filter/filter.module.css";
- 
+
 const Filter = ({ listCategories, listBrands }) => {
   const dispatch = useDispatch();
   const brands = listBrands;
@@ -18,10 +18,12 @@ const Filter = ({ listCategories, listBrands }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
 
   const handleBrandChange = (event) => {
+    console.log(event.target.value);
     setSelectedBrand(event.target.value);
   };
-
+  
   const handleCategoryChange = (event) => {
+    console.log(event.target.value);
     setSelectedCategory(event.target.value);
   };
 
@@ -29,6 +31,7 @@ const Filter = ({ listCategories, listBrands }) => {
     const productsFilter = await dispatch(
       getProductFilter(selectedBrand, selectedCategory)
     );
+    console.log(productsFilter);
     if (!productsFilter) {
       Swal.fire({
         icon: "error",

@@ -9,7 +9,7 @@ const getProductBySKU = async (sku) => {
   }
 };
 
-const getAllProducts = async () => {
+const getAllProducts = async (req, res) => {
   try {
     const products = await Product.findAll();
     return products;

@@ -1,9 +1,12 @@
-import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL, CREATE_PRODUCT } from "../actions/index";
+
+import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL, SORT_PRODUCTS_BY_PRICE, CREATE_PRODUCT } from "../actions/index";
 
 const initialState = {
   products: [], // Mantén el estado original para todos los productos
   productDetails: {},
   error: "",
+  orderByPrice: null, // Usar null para indicar que no hay ordenamiento por defecto
+
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -21,24 +24,29 @@ const rootReducer = (state = initialState, action) => {
         error: "",
       };
 
-      case GET_PRODUCT_DETAIL:
+    case GET_PRODUCT_DETAIL:
+      return {
+        ...state,
+        productDetails: {
+          ...state.productDetails,
+          [action.payload.sku]: action.payload,
+        },
+        error: "",
+      };
+
+    case CREATE_PRODUCT:
+      return {
+        ...state,
+        creatingProduct: false,
+        creatinProductError: null,
+       };
+
+      case SORT_PRODUCTS_BY_PRICE:
         return {
-          ...state,
-          productDetails: {
-            ...state.productDetails,
-            [action.payload.sku]: action.payload, // Usamos el SKU como clave
-          },
-          error: "",
-        };
-        
- 
-      case CREATE_PRODUCT:
-        return {
-          ...state,
-          creatingProduct: false,
-          creatinProductError: null,
-        };
-        
+         ...state,
+          orderByPrice: action.payload, 
+       };
+       
     default:
       return state;
   }
