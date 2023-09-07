@@ -17,9 +17,6 @@ const CardsContainer = () => {
     dispatch(getAllProducts());
   }, [dispatch]);
 
-  // Aplica la lógica de ordenamiento solo si uno de los campos de ordenamiento está configurado
-  let sortedProducts = [...allProducts]; // Clona todos los productos correctamente
-
   if (orderByPrice !== null) {
     sortedProducts = orderByPrice === 'asc'
       ? sortProductsByPrice(sortedProducts, 'asc')
