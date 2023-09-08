@@ -1,15 +1,12 @@
-// CardsContainer.js
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import styles from "./cardscontainer.module.css";
 import Card from "../card/card";
-import { sortProductsByPrice } from '../sortingUtils/sortingUtils'; // Importa la función de ordenación por precio
+import { sortProductsByPrice } from '../sortingUtils/sortingUtils';
 import { getAllProducts } from "../../redux/actions/index";
 
 const CardsContainer = () => {
   const allProducts = useSelector((state) => state.products);
   const orderByPrice = useSelector((state) => state.orderByPrice);
-  let sortedProducts = [...allProducts];
   const searchResults = useSelector((state) => state.searchResults);
   const dispatch = useDispatch();
 
@@ -17,35 +14,41 @@ const CardsContainer = () => {
     dispatch(getAllProducts());
   }, [dispatch]);
 
+  let sortedProducts = [...allProducts];
+
   if (orderByPrice !== null) {
     sortedProducts = orderByPrice === 'asc'
       ? sortProductsByPrice(sortedProducts, 'asc')
       : sortProductsByPrice(sortedProducts, 'desc');
   }
 
-  // Combina los resultados de búsqueda con los productos ordenados por precio (si se ha aplicado un filtro de precio)
   if (searchResults.length > 0) {
-    // Filtra los productos que coincidan con los resultados de búsqueda
     sortedProducts = sortedProducts.filter((product) =>
       product.titulo.toLowerCase().includes(searchResults.toLowerCase())
     );
   }
 
+  const columns = [];
+  for (let i = 0; i < sortedProducts.length; i += 3) {
+    columns.push(sortedProducts.slice(i, i + 3));
+  }
+
   return (
-    <div className={styles.cardContext}>
-      {sortedProducts.length > 0 ? (
-        sortedProducts.map((product) => (
-          <Card
-            key={product.sku}
-            sku={product.sku}
-            name={product.titulo}
-            price={product.price}
-            image={product.image}
-          />
-        ))
-      ) : (
-        <p>No hay productos disponibles.</p>
-      )}
+    <div className="container">
+      {columns.map((column, columnIndex) => (
+        <div key={columnIndex} className="row">
+          {column.map((product) => (
+            <div key={product.sku} className="col-md-4">
+              <Card
+                sku={product.sku}
+                name={product.titulo}
+                price={product.price}
+                image={product.image}
+              />
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
   );
 };
