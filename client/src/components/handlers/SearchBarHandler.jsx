@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateSearchResults } from "../../redux/actions/index";
+import { Form, Button, Row, Col } from 'react-bootstrap';
 
 const SearchBarHandler = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -11,22 +12,31 @@ const SearchBarHandler = () => {
   };
 
   const handleSearchSubmit = () => {
-    // Dispatch la acción para buscar productos con la consulta ingresada
     dispatch(updateSearchResults(searchQuery));
-
-    // Limpia el campo de búsqueda estableciendo el estado a una cadena vacía
     setSearchQuery("");
   };
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Buscar productos..."
-        value={searchQuery}
-        onChange={handleSearchChange}
-      />
-      <button onClick={handleSearchSubmit}>Buscar</button>
+      <Form>
+        <Row className="align-items-center">
+          <Col xs="auto">
+            <Form.Control 
+              size="sm"
+              type="text"
+              placeholder="Buscar productos..."
+              value={searchQuery}
+              onChange={handleSearchChange}
+              className="form-control-sm"
+            />
+          </Col>
+          <Col xs="auto">
+            <Button variant="dark" size="sm"  className="me-2" onClick={handleSearchSubmit}>
+              Buscar
+            </Button>
+          </Col>
+        </Row>
+      </Form>
     </div>
   );
 };
