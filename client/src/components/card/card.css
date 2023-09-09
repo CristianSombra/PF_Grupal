@@ -1,0 +1,25 @@
+.custom-card {
+    width: 19rem;
+    height: 26rem;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .custom-card img {
+    width: 200px;
+    height: 200px;
+    max-height: calc(100% - 2rem);
+    object-fit: contain;
+  }
+
+
+  .custom-card .mt-3 {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
