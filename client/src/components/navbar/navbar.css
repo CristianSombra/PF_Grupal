@@ -1,0 +1,9 @@
+.custom-navbar {
+    padding: 0;
+    height: 100px;
+  }
+
+  .custom-logo {
+    max-width: 170px;
+    max-height: 170px;
+  }
