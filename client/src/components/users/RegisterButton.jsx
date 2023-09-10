@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap';
 
 const RegisterButton = ({ user }) => {
   // Comprueba si el usuario está autenticado
   if (!user) {
     return (
-      <Link to="/registration">
-        <button className="btn btn-primary">Registrarse</button>
-      </Link>
+      
+        <Button as={Link} to="/registration" variant="dark" size="sm">Registrarse</Button>
+        
     );
   } else {
     return null; // Si el usuario está autenticado, no muestra nada

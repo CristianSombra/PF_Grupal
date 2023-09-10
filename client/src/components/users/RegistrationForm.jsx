@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { createUser } from '../../redux/actions/index';
 import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 const RegistrationForm = ({ createUser, user }) => {
   const [formData, setFormData] = useState({
@@ -72,155 +73,165 @@ const RegistrationForm = ({ createUser, user }) => {
 
   return (
     <div>
-      <div>
-        <h2>Registro de Usuario</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Nombre de Usuario:</label>
-            <input
-              type="text"
-              name="user_name"
-              value={user_name}
-              onChange={handleChange}
-              required
-              className="form-control"
-            />
-          </div>
-          <div className="form-group">
-            <label>Nombre:</label>
-            <input
-              type="text"
-              name="first_name"
-              value={first_name}
-              onChange={handleChange}
-              required
-              className="form-control"
-            />
-            {formErrors.first_name && <span className="text-danger">{formErrors.first_name}</span>}
-          </div>
-          <div className="form-group">
-            <label>Apellido:</label>
-            <input
-              type="text"
-              name="last_name"
-              value={last_name}
-              onChange={handleChange}
-              required
-              className="form-control"
-            />
-            {formErrors.last_name && <span className="text-danger">{formErrors.last_name}</span>}
-          </div>
-          <div className="form-group">
-            <label>Genero:</label>
-            <select
-              name="gender"
-              value={gender}
-              onChange={handleChange}
-              required
-              className="form-control"
-            >
-              <option value="">Seleccione su género</option>
-              <option value="M">M</option>
-              <option value="F">F</option>
-            </select>
-            {formErrors.gender && <span className="text-danger">{formErrors.gender}</span>}
-          </div>
-          <div className="form-group">
-            <label>Email:</label>
-            <input
-              type="text"
-              name="email"
-              value={email}
-              onChange={handleChange}
-              required
-              className="form-control"
-            />
-            {formErrors.email && <span className="text-danger">{formErrors.email}</span>}
-          </div>
-          <div className="form-group">
-            <label>Direccion de envio:</label>
-            <input
-              type="text"
-              name="delivery_address"
-              value={delivery_address}
-              onChange={handleChange}
-              required
-              className="form-control"
-            />
-          </div>
-          <div className="form-group">
-            <label>Pais:</label>
-            <input
-              type="text"
-              name="country"
-              value={country}
-              onChange={handleChange}
-              required
-              className="form-control"
-            />
-          </div>
-          <div className="form-group">
-            <label>Pasatiempo:</label>
-            <input
-              type="text"
-              name="CustomElementRegistry"
-              value={CustomElementRegistry}
-              onChange={handleChange}
-              required
-              className="form-control"
-            />
-          </div>
-          <div className="form-group">
-            <label>Numero de contacto:</label>
-            <input
-              type="text"
-              name="mobile"
-              value={mobile}
-              onChange={handleChange}
-              required
-              className="form-control"
-            />
-          </div>
-          <div className="form-group">
-            <label>Rol:</label>
-            <input
-              type="text"
-              name="role"
-              value={role}
-              readOnly // Esto evita que el usuario modifique el campo "Rol"
-              className="form-control"
-            />
-          </div>
-          <div className="form-group">
-            <label>Contraseña:</label>
-            <input
-              type="text"
-              name="user_password"
-              value={user_password}
-              onChange={handleChange}
-              required
-              className="form-control"
-            />
-          </div>
-          <button
-            type="submit"
-            className="btn btn-primary"
-            disabled={!formIsValid} // Deshabilita el botón si hay errores en el formulario
-          >
-            Registrarse
-          </button>
-        </form>
-      </div>
       {user ? (
         <div>
           <p>Registro exitoso.</p>
-          <Link to="/home">Ir a la página de inicio</Link>
+          <Button as={Link} to="/home" variant="dark" size="sm">
+            Volver a Home
+          </Button>
         </div>
-      ) : null}
+      ) : (
+        <div>
+          <h2>Registro de Usuario</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Nombre de Usuario:</label>
+              <input
+                type="text"
+                name="user_name"
+                value={user_name}
+                onChange={handleChange}
+                required
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label>Nombre:</label>
+              <input
+                type="text"
+                name="first_name"
+                value={first_name}
+                onChange={handleChange}
+                required
+                className="form-control"
+              />
+              {formErrors.first_name && (
+                <span className="text-danger">{formErrors.first_name}</span>
+              )}
+            </div>
+            <div className="form-group">
+              <label>Apellido:</label>
+              <input
+                type="text"
+                name="last_name"
+                value={last_name}
+                onChange={handleChange}
+                required
+                className="form-control"
+              />
+              {formErrors.last_name && (
+                <span className="text-danger">{formErrors.last_name}</span>
+              )}
+            </div>
+            <div className="form-group">
+              <label>Genero:</label>
+              <select
+                name="gender"
+                value={gender}
+                onChange={handleChange}
+                required
+                className="form-control"
+              >
+                <option value="">Seleccione su género</option>
+                <option value="M">M</option>
+                <option value="F">F</option>
+              </select>
+              {formErrors.gender && (
+                <span className="text-danger">{formErrors.gender}</span>
+              )}
+            </div>
+            <div className="form-group">
+              <label>Email:</label>
+              <input
+                type="text"
+                name="email"
+                value={email}
+                onChange={handleChange}
+                required
+                className="form-control"
+              />
+              {formErrors.email && (
+                <span className="text-danger">{formErrors.email}</span>
+              )}
+            </div>
+            <div className="form-group">
+              <label>Direccion de envio:</label>
+              <input
+                type="text"
+                name="delivery_address"
+                value={delivery_address}
+                onChange={handleChange}
+                required
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label>Pais:</label>
+              <input
+                type="text"
+                name="country"
+                value={country}
+                onChange={handleChange}
+                required
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label>Actividad laboral:</label>
+              <input
+                type="text"
+                name="CustomElementRegistry"
+                value={CustomElementRegistry}
+                onChange={handleChange}
+                required
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label>Numero de contacto:</label>
+              <input
+                type="text"
+                name="mobile"
+                value={mobile}
+                onChange={handleChange}
+                required
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label>Rol:</label>
+              <input
+                type="text"
+                name="role"
+                value={role}
+                readOnly // Esto evita que el usuario modifique el campo "Rol"
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label>Contraseña:</label>
+              <input
+                type="text"
+                name="user_password"
+                value={user_password}
+                onChange={handleChange}
+                required
+                className="form-control"
+              />
+            </div>
+            <Button
+              type="submit"
+              disabled={!formIsValid}
+              variant="dark"
+              size="sm"
+            >
+              Registrarse
+            </Button>
+          </form>
+        </div>
+      )}
     </div>
   );
-  
-  
   
 };
 

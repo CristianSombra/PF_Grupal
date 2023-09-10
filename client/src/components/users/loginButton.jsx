@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Importa Link de React Router
 import { connect } from 'react-redux'; // Importa connect para acceder al estado de autenticación
+import { Button } from 'react-bootstrap';
 
 const LoginButton = ({ user }) => {
   // Comprueba si el usuario está autenticado
@@ -8,10 +9,11 @@ const LoginButton = ({ user }) => {
     return null; // Si el usuario está autenticado, no muestra nada
   } else {
     return (
-      <Link to="/login">
-        <button className="btn btn-primary">Ingresar</button>
-      </Link>
+
+     <Button as={Link} to="/login" variant="dark" size="sm">Iniciar secion</Button>
+
     );
+
   }
 };
 

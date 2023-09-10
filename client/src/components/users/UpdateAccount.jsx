@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { updateUserInfo } from '../../redux/actions/index';
-
+  import { Button } from 'react-bootstrap';
+  
 const UpdateAccount = ({ userId, updateUserInfo }) => {
   const [newPassword, setNewPassword] = useState('');
   const [error, setError] = useState(null); // Estado para manejar errores
+
 
   const handleUpdate = async () => {
     try {
@@ -21,7 +23,7 @@ const UpdateAccount = ({ userId, updateUserInfo }) => {
 
   return (
     <div>
-      <h1>Actualizar Contraseña</h1>
+      <h3>Ingresa tu nueva contraseña</h3>
       {error && <div style={{ color: 'red' }}>{error}</div>} {/* Muestra el mensaje de error si hay uno */}
       <label>Nueva Contraseña:</label>
       <input
@@ -29,7 +31,8 @@ const UpdateAccount = ({ userId, updateUserInfo }) => {
         value={newPassword}
         onChange={(e) => setNewPassword(e.target.value)}
       />
-      <button onClick={handleUpdate}>Actualizar Contraseña</button>
+      <Button onClick={handleUpdate} variant="dark" size="sm">Actualizar</Button>
+      
     </div>
   );
 };

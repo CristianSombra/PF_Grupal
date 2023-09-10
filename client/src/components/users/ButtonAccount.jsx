@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap';
 
 const ButtonAccount = ({ user }) => {
   if (user) {
     // Si el usuario está autenticado, muestra el botón de la cuenta
     return (
-      <Link to="/account">
-        <button>Mi Cuenta</button>
-      </Link>
+
+      <Button as={Link} to="/account" variant="dark" size="sm">Mi Cuenta</Button>
+      
     );
   } else {
     // Si el usuario no está autenticado, no muestra nada
