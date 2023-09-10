@@ -264,7 +264,7 @@ const listProducts = [
     "category_name": "Computadores Portátiles",
     "brand_name": "HP",
     "father_category": "Computadores",
-    "image": "https://http2.mlstatic.com/D_NQ_NP_856118-MCO71128206693_082023-V.webp"
+    "image": "https://microcell.co/26522-medium_default/portatil-hp-probook-450-g7-core-i7-10510u-8gb-512gb-ssd-156-video-2gb-w10p.jpg"
   },
   {
     "sku": "4829873",
