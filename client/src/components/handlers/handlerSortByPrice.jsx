@@ -1,31 +1,32 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { sortProductsByPrice } from '../../redux/actions/index';
-import styles from "../filter/filter.module.css";
+import Form from 'react-bootstrap/Form';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const SortByPriceHandler = () => {
   const dispatch = useDispatch();
   const orderByPrice = useSelector((state) => state.orderByPrice);
 
-  const handleSortChange = (event) => {
-    const newOrderByPrice = event.target.value;
-    
-    // Disparar la acción para actualizar el estado global con la nueva dirección de orden por precio
+  const handleSortChange = (newOrderByPrice) => {
     dispatch(sortProductsByPrice(newOrderByPrice === orderByPrice ? null : newOrderByPrice));
   };
 
   return (
-    <div>
-      <label>Ordenar por precio:</label>
-      <select
-        className={styles.select}
-        value={orderByPrice || ''}
-        onChange={handleSortChange}
-      >
-        <option value="">Sin selección</option>
-        <option value="asc">Menor precio</option>
-        <option value="desc">Mayor precio</option>
-      </select>
+    <div >
+      <Form>
+        <Form.Group className="mb-3">
+          <Form.Label>Ordenar por precio:</Form.Label>
+          <DropdownButton variant = 'dark'
+            title={orderByPrice === 'asc' ? 'Menor precio' : orderByPrice === 'desc' ? 'Mayor precio' : 'Sin selección'}
+            onSelect={handleSortChange}
+          >
+            <Dropdown.Item eventKey="asc">Menor precio</Dropdown.Item>
+            <Dropdown.Item eventKey="desc">Mayor precio</Dropdown.Item>
+          </DropdownButton>
+        </Form.Group>
+      </Form>
     </div>
   );
 };
