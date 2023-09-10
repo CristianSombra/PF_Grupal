@@ -9,7 +9,6 @@ module.exports = {
       res.status(500).json({ error: error.message });
     }
   },
-
 getOrderById: async (req, res, next) => {
   const id = req.params.id;
   try {
@@ -19,5 +18,4 @@ getOrderById: async (req, res, next) => {
     res.status(404).json(error.message);
   }
 },
-
 };
