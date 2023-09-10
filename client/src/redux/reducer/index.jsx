@@ -1,9 +1,14 @@
-import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL_SUCCESS, GET_PRODUCT_DETAIL_FAILURE } from "../actions/index";
+
+import { ERROR, GET_PODUCT_SUCCESS, GET_PRODUCT_DETAIL, SORT_PRODUCTS_BY_PRICE, CREATE_PRODUCT ,UPDATE_SEARCH_RESULTS,RESET_SELECTED_BRAND_CATEGORY} from "../actions/index";
 
 const initialState = {
-  products: [],
-  productDetails:[],
-  error: "", // Agrega un campo de error para manejar los errores.
+  products: [], // Mantén el estado original para todos los productos
+  productDetails: {},
+  error: "",
+  orderByPrice: null, // Usar null para indicar que no hay ordenamiento por defecto
+  searchResults: [],
+  SelectedBrand: (""),
+  SelectedCategory: (""),
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -17,21 +22,46 @@ const rootReducer = (state = initialState, action) => {
     case GET_PODUCT_SUCCESS:
       return {
         ...state,
-        products: action.payload, // Actualiza solo la lista de productos.
-        error: "", // Reinicia el campo de error.
+        products: action.payload,
+        error: "",
       };
-    case GET_PRODUCT_DETAIL_SUCCESS:
+
+    case GET_PRODUCT_DETAIL:
       return {
         ...state,
-        productDetails: action.payload,
-        error: null,
+        productDetails: {
+          ...state.productDetails,
+          [action.payload.sku]: action.payload,
+        },
+        error: "",
       };
-    case GET_PRODUCT_DETAIL_FAILURE:
+
+    case CREATE_PRODUCT:
       return {
         ...state,
-        productDetails: [],
-        error: action.error,
-      };
+        creatingProduct: false,
+        creatinProductError: null,
+       };
+
+      case SORT_PRODUCTS_BY_PRICE:
+        return {
+         ...state,
+          orderByPrice: action.payload, 
+       };
+       
+
+     case UPDATE_SEARCH_RESULTS:
+      return {
+        ...state,
+          searchResults: action.payload, // Actualiza los resultados de búsqueda
+        };
+
+        case RESET_SELECTED_BRAND_CATEGORY:
+          return {
+            ...state,
+            SelectedBrand: "",
+            SelectedCategory: "",
+          };
 
     default:
       return state;

@@ -68,6 +68,16 @@ module.exports = {
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
+  },
+
+  productsFilter: async (req, res) => {
+    const {id_brand, id_category} = req.body;
+    try {
+      const newProducts = await productController.productsFilter(id_brand, id_category);
+      res.status(200).json(newProducts);
+    } catch (error){
+      res.status(500).json({error: error.message})
+    }
   }
 
 }

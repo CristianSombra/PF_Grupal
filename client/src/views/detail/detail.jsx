@@ -1,35 +1,48 @@
-import React, { useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { getProductDetailActions } from '../../redux/actions/index'; // Asegúrate de importar la acción correctamente
+import React from "react";
+import { Link } from "react-router-dom";
+import { useGetProductDetailHandler } from "../../components/handlers/handlersdetail";
+import Button from "react-bootstrap/esm/Button";
+import "../../components/css/index.css";
+
 
 const Detail = () => {
+  const productDetail = useGetProductDetailHandler();
 
-  const productDetails = useSelector((state) => state.productDetails);
-    const dispatch = useDispatch();
-    
-    useEffect(() => {
-      dispatch(getProductDetailActions());
-    }, [dispatch]);
-    
-    return (
+  if (!productDetail) {
+    return <p>No se encontró información para el producto seleccionado.</p>;
+  }
+
+  return (
+    <div className="container">
+      <div className="row">
+          <h1>Detalle del producto</h1>
+          <div className="col-md-4 custom-shadow">
+            <p>Nombre: {productDetail.titulo}</p>
+            <p>Precio: {productDetail.price}</p>
+            <p>En stock: {productDetail.disponibility}</p>
+            <p>Detalle:</p>
+            <ul>
+              <li>Ram: {productDetail.detail.ram}</li>
+              <li>Pantalla: {productDetail.detail.pantalla}</li>
+              <li>Procesador: {productDetail.detail.procesador}</li>
+              <li>Almacenamiento: {productDetail.detail.almacenamiento}</li>
+            </ul>
+     
+        </div>
+        <img
+          src={productDetail.image}
+          alt={productDetail.titulo}
+          class="col-sm-6"
+        />
+      </div>
+
       <div>
-      <Link to="/home">Volver a Inicio</Link>
-      <ul>
-        {productDetails.map((product, index) => (
-          <li key={index}>
-            <p>Título: {product.titulo}</p>
-            <p>Precio: {product.price}</p>
-            <img src={product.image} alt={product.titulo} />
-          </li>
-        ))}
-      </ul>
+        <div>
+        <Button variant="dark" as={Link} to="/Home">Volver a Inicio</Button>
+        </div>
+      </div>
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  productDetails: state.products.productDetails,
-});
-
-export default connect(mapStateToProps, { getProductDetailActions })(Detail);
+export default Detail;

@@ -1,8 +1,9 @@
 const { Router } = require("express");
-const { getCart } = require("../handlers/cartHandler");
+const { getCartByUserId, addOrCreateCart } = require("../handlers/cartHandler");
 
 const cartRouter = Router();
 
-cartRouter.get('/',  getCart);
+cartRouter.get('/:userId',  getCartByUserId);
+cartRouter.post('/',  addOrCreateCart);
 
 module.exports = cartRouter; 
