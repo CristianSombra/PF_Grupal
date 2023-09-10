@@ -1,0 +1,59 @@
+.card{
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  padding: 25px;
+  margin: 16px;
+  max-width: 234px;
+  height: 346px;
+  border-radius: 8px;
+  box-shadow: h-shadow v-shadow blur spread color;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.4);
+  background-color: #f9f9f9;
+  cursor: pointer;
+  -moz-osx-font-smoothing: grayscale;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  transition: transform 0.25s ease-out;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+
+.imageContainer{
+  width: 100%;
+  text-align: center;
+  }
+
+.flagImage{
+  max-width: 220px;
+  height: 180px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.textContainer{
+  margin-top: 9px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.textContainer p {
+  margin: 10px 0;
+}
+
+.cardLink{
+ text-decoration: none; 
+  color: inherit; 
+}
+
+.user-profile {
+  margin-top: 20px; /* Ajusta la cantidad de espacio entre el navbar y el perfil de usuario */
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
