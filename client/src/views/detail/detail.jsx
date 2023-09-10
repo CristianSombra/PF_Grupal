@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useGetProductDetailHandler } from "../../components/handlers/handlersdetail";
-import styles from "./detail.module.css";
+import Button from "react-bootstrap/esm/Button";
+import "../../components/css/index.css";
+
 
 const Detail = () => {
   const productDetail = useGetProductDetailHandler();
@@ -11,11 +13,10 @@ const Detail = () => {
   }
 
   return (
-    <div>
-      <div className={styles.detailContainer}>
-        <div className={styles.card}>
+    <div className="container">
+      <div className="row">
           <h1>Detalle del producto</h1>
-          <div className={styles.productInfo}>
+          <div className="col-md-4 custom-shadow">
             <p>Nombre: {productDetail.titulo}</p>
             <p>Precio: {productDetail.price}</p>
             <p>En stock: {productDetail.disponibility}</p>
@@ -26,17 +27,19 @@ const Detail = () => {
               <li>Procesador: {productDetail.detail.procesador}</li>
               <li>Almacenamiento: {productDetail.detail.almacenamiento}</li>
             </ul>
-          </div>
+     
         </div>
         <img
           src={productDetail.image}
           alt={productDetail.titulo}
-          className={styles.flagImage}
+          class="col-sm-6"
         />
       </div>
 
-      <div className={styles.goHome}>
-        <Link to="/Home" className={styles.linkButton} >Volver a Inicio</Link>
+      <div>
+        <div>
+        <Button variant="dark" as={Link} to="/Home">Volver a Inicio</Button>
+        </div>
       </div>
     </div>
   );
