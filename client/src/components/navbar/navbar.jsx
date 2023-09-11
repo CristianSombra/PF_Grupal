@@ -29,6 +29,7 @@ const Navbar1 = () => {
       <LoginButton/>
       <Button as={Link} to="/" variant="dark" size="sm" className="me-3 custom-button">
         <i className="bi bi-power" style={{ fontSize: '2.3rem' }}></i>
+      </Button>
       <ButtonAccount/>
       <LogoutButton/>
     </Navbar>

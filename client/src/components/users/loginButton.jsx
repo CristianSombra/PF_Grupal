@@ -10,7 +10,7 @@ const LoginButton = ({ user }) => {
   } else {
     return (
 
-     <Button as={Link} to="/login" variant="dark" size="sm">Iniciar secion</Button>
+     <Button as={Link} to="/login" variant="dark" size="sm">Iniciar sesion</Button>
 
     );
 
