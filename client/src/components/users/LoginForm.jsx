@@ -4,6 +4,22 @@ import { login } from '../../redux/actions/index';
 import { Link } from 'react-router-dom';
 import { Button, Card, Form } from 'react-bootstrap';
 import '../css/index.css';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
+
+  const signInWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+
+    const auth = getAuth();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        GoogleAuthProvider.credentialFromResult(result);
+        const user = result.user;
+        console.log(user)
+      }).catch((error) => {
+        console.log(error)
+      });
+  }
 
 const LoginForm = ({ login, user, error }) => {
   const [formData, setFormData] = useState({
@@ -68,9 +84,14 @@ const LoginForm = ({ login, user, error }) => {
                 </Form.Label>
               </Form.Group>
               <div className="text-center"> {/* Agrega esta div y la clase text-center */}
-                <Button type="submit" variant="dark" size="sm">
+                <Button type="submit" variant="dark" size="sm" >
                   Iniciar Sesión
                 </Button>
+                <br/>
+                <Button  className="mt-2" variant="dark" size="sm" onClick={signInWithGoogle}>
+                  Iniciar Sesión con Google
+                </Button>
+                <googleButton/>
               </div>
             </Form>
           </Card.Body>
