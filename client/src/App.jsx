@@ -6,8 +6,9 @@ import LoginForm from "./components/users/LoginForm"
 import RegistrationForm from "./components/users/RegistrationForm"
 import MiCuenta from "./components/users/MiCuenta"
 import UpdateAccount from "./components/users/UpdateAccount"
+import './components/css/index.css';
+import './App.css'
 
-import './App.css';
 
 function App() {
   const location = useLocation();
@@ -28,8 +29,7 @@ function App() {
         <Route path="/registration" element={<RegistrationForm />} />
         <Route path="/account" element={<MiCuenta />} />
         <Route path="/updateaccount" element={<UpdateAccount />} />
-
-            </Routes>
+      </Routes>
     </div>
   );
 }
