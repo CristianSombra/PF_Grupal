@@ -7,6 +7,7 @@ module.exports = {
     try {
       const newUser = await userController.createUser(user_name,first_name, last_name,gender,email,delivery_address,country,CustomElementRegistry,mobile,role,user_status, purchase_history,user_password);
       res.status(200).json(newUser);
+      
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -36,8 +37,8 @@ updateUsers: async (req, res) => {
   // console.log(req.body)
   const id = req.params.id;
   const { user_password } = req.body;
-console.log("iD= " + id);
-console.log("iD2= " + user_password);
+// console.log("iD= " + id);
+// console.log("iD2= " + user_password);
   try {
     const updateUser = await userController.updateUsers(id, user_password );
     res.status(200).json(updateUser);
@@ -46,4 +47,18 @@ console.log("iD2= " + user_password);
   }
 },
 
+loginUsers: async(req, res)=>{
+  
+  let {email, user_password} = req.body;
+  try {
+    const userToken = await userController.loginUsers(email, user_password);
+    // console.log(userToken);
+    res.status(200).json(userToken);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+},
+ 
 }
+
+
