@@ -2,7 +2,7 @@ const brandController = require('../controllers/brandController');
 
 module.exports = {
 
- createBrand: async (req, res) => {
+  createBrand: async (req, res) => {
   console.log(req.body)
   const { id_brand, brand_name } = req.body;
   try {

@@ -1,6 +1,6 @@
 const { Router } = require("express");
 
-const {getAllBrands, createBrand, getBrandById, updateBrand } = require("../handlers/brandHandler");
+const {createBrand, getAllBrands } = require("../handlers/brandHandler");
 
 const routerUsers = Router();
 
