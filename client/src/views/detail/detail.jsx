@@ -1,5 +1,5 @@
 import React from "react";
-import './detail.css';
+import '../../components/css/index.css';
 import { Link } from "react-router-dom";
 import { useGetProductDetailHandler } from "../../components/handlers/handlersdetail";
 import Button from "react-bootstrap/esm/Button";
@@ -13,10 +13,10 @@ const Detail = () => {
   }
 
   return (
-    <div className="container">
-      <h1 className="mt-5">Detalle del producto</h1>
+    <div className="container-detail">
+      <h1 className="mt-5 mx-auto text-center">Detalle del producto</h1>
       <div className="row mt-3">
-        <div className="col-md-6">
+        <div className="col-md-8 mx-auto" style={{ maxWidth: "600px" }}>
           <div className="card custom-shadow">
             <div className="card-body">
               <h5 className="card-title">Nombre: {productDetail.titulo}</h5>
@@ -36,7 +36,7 @@ const Detail = () => {
           <img
             src={productDetail.image}
             alt={productDetail.titulo}
-            className="img-custom-size"
+            className="img-detail"
           />
         </div>
       </div>
