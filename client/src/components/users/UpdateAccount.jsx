@@ -25,7 +25,7 @@ const UpdateAccount = ({ userId, updateUserInfo }) => {
     <div>
       <h3>Ingresa tu nueva contraseña</h3>
       {error && <div style={{ color: 'red' }}>{error}</div>} {/* Muestra el mensaje de error si hay uno */}
-      <label>Nueva Contraseña:</label>
+      <label>Nueva contraseña:</label>
       <input
         type="password"
         value={newPassword}

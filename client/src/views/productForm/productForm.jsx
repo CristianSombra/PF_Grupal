@@ -90,6 +90,7 @@ const ProductForm = () => {
       };
 
       return (
+        <div style={{ marginTop: "100px" }}>
         <div className={styles.formContainer}>
           <h2 className={styles.formTitle}>Crear Producto</h2>
           {isProductCreated ? (
@@ -267,6 +268,7 @@ const ProductForm = () => {
     Crear Producto
   </button>
         </div>
+                </div>
       );
 };
 
