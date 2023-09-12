@@ -1,7 +1,15 @@
 const ratingController = require('../controllers/ratingController');
 
 module.exports = {
-  getRating: (req, res) => {
-    ratingController.getRating(req, res);
-  }
+
+  getProductRatingshandler: async (req, res) => {
+
+  },
+
+
+  createRatinghandler: async (req, res) => {
+  
+
+    },
+
 };

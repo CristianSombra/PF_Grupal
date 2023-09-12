@@ -1,8 +1,25 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { login } from '../../redux/actions/index';
-import { Link , } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Button, Card, Form } from 'react-bootstrap';
+import '../css/index.css';
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
+
+  const signInWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+
+    const auth = getAuth();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        GoogleAuthProvider.credentialFromResult(result);
+        const user = result.user;
+        console.log(user)
+      }).catch((error) => {
+        console.log(error)
+      });
+  }
 
 const LoginForm = ({ login, user, error }) => {
   const [formData, setFormData] = useState({
@@ -16,77 +33,72 @@ const LoginForm = ({ login, user, error }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Llamar a la acción de inicio de sesión
     await login(formData);
-    
   };
 
   return (
-    <div>
-    {user ? (
-      <div>
-        <p>Inicio de sesión exitoso.</p>
-        <Button as={Link} to="/home" variant="dark" size="sm">Volver a Home</Button>
-        </div>
-    ) : (
-      <>
-        <h2>Iniciar Sesión</h2>
-        {error && <div className="alert alert-danger">{error}</div>}
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="exampleInputEmail1" className="form-label">
-              Email address
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={handleChange}
-              required
-              className="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-            />
-            <div id="emailHelp" className="form-text">
-              We'll never share your email with anyone else.
-            </div>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="exampleInputPassword1" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              name="user_password"
-              value={user_password}
-              onChange={handleChange}
-              required
-              className="form-control"
-              id="exampleInputPassword1"
-            />
-          </div>
-          <div className="mb-3 form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id="exampleCheck1"
-            />
-            <label className="form-check-label" htmlFor="exampleCheck1">
-              Check me out
-            </label>
-          </div>
-          <Button type="submit" variant="dark" size="sm">
-            Iniciar Sesión
+    <div className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 100px)', marginTop: '70px', marginBottom: '30px' }}>
+      {user ? (
+        <div>
+          <p>Inicio de sesión exitoso.</p>
+          <Button as={Link} to="/home" variant="dark" size="sm">
+            Volver a Home
           </Button>
-        </form>
-      </>
-    )}
-  </div>
-);
+        </div>
+      ) : (
+        <Card style={{ width: '30rem' }} className="custom-shadow">
+          <Card.Body>
+            <h2>Iniciar Sesión</h2>
+            {error && <div className="alert alert-danger">{error}</div>}
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control
+                  type="email"
+                  name="email"
+                  value={email}
+                  onChange={handleChange}
+                  required
+                />
+                <Form.Text id="emailHelp" className="form-text">
+                  We'll never share your email with anyone else.
+                </Form.Text>
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="user_password"
+                  value={user_password}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3 form-check">
+                <Form.Check type="checkbox" id="exampleCheck1" />
+                <Form.Label className="form-check-label" htmlFor="exampleCheck1">
+                  Check me out
+                </Form.Label>
+              </Form.Group>
+              <div className="text-center"> {/* Agrega esta div y la clase text-center */}
+                <Button type="submit" variant="dark" size="sm" >
+                  Iniciar Sesión
+                </Button>
+                <br/>
+                <Button  className="mt-2" variant="dark" size="sm" onClick={signInWithGoogle}>
+                  Iniciar Sesión con Google
+                </Button>
+                <googleButton/>
+              </div>
+            </Form>
+          </Card.Body>
+        </Card>
+      )}
+    </div>
+  );
 };
 
 const mapStateToProps = (state) => ({

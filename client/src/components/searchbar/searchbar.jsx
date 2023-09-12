@@ -1,11 +1,10 @@
-// SearchBar.js
 import React from "react";
-import SearchBarHandler from "../handlers/SearchBarHandler"; // Importa el componente handler
+import SearchBarHandler from "../handlers/SearchBarHandler";
 
 const SearchBar = () => {
   return (
     <div>
-            <SearchBarHandler /> {/* Renderiza el componente handler */}
+            <SearchBarHandler />
     </div>
   );
 };
