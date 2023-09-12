@@ -14,7 +14,10 @@ const Cards = (props) => {
       </div>
       <Card.Body className="text-center d-flex flex-column">
         <Card.Text className="titleCard">{props.name}</Card.Text>
-        <Card.Title className="mb-4">$ {props.price}</Card.Title>
+        <Card.Title className="mb-4">$ {new Intl.NumberFormat("de-DE", {
+          style: "currency",
+          currency: "COP",
+        }).format(props.price)}</Card.Title>
         <div className="mt-3 text-center">
           <Button variant="dark" as={Link} to={`/detail/${sku}`}>
             Ver detalles

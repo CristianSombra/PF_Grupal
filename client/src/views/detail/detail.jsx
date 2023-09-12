@@ -19,6 +19,7 @@ const Detail = () => {
         <div className="col-md-8 mx-auto" style={{ maxWidth: "600px" }}>
           <div className="card custom-shadow">
             <div className="card-body">
+            <p className="card-text">N/P: {productDetail.number_part}</p>
               <h5 className="card-title">Nombre: {productDetail.titulo}</h5>
               <p className="card-text">Precio: {productDetail.price}</p>
               <p className="card-text">En stock: {productDetail.disponibility}</p>

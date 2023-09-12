@@ -1,27 +1,36 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { login } from '../../redux/actions/index';
+import { connect, useDispatch } from 'react-redux';
+import { createUser, login } from '../../redux/actions/index';
 import { Link } from 'react-router-dom';
 import { Button, Card, Form } from 'react-bootstrap';
 import '../css/index.css';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
-
-  const signInWithGoogle = () => {
+const LoginForm = ({ login, user, error }) => {
+  const dispatch = useDispatch();
+  const SignInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
-
+   
     const auth = getAuth();
     signInWithPopup(auth, provider)
       .then((result) => {
         GoogleAuthProvider.credentialFromResult(result);
         const user = result.user;
-        console.log(user)
+        // console.log(user)
+        const spliceName=user.displayName.split(' ')        
+        const newUser={
+          user_name: user.displayName,
+          first_name: spliceName[0],
+          last_name: spliceName[1],
+          email: user.email
+        }
+        console.log(newUser);        
+        dispatch(createUser(newUser));
       }).catch((error) => {
         console.log(error)
       });
   }
 
-const LoginForm = ({ login, user, error }) => {
   const [formData, setFormData] = useState({
     email: '',
     user_password: '',
@@ -88,10 +97,10 @@ const LoginForm = ({ login, user, error }) => {
                   Iniciar Sesión
                 </Button>
                 <br/>
-                <Button  className="mt-2" variant="dark" size="sm" onClick={signInWithGoogle}>
+                <Button  className="mt-2" variant="dark" size="sm" onClick={SignInWithGoogle}>
                   Iniciar Sesión con Google
                 </Button>
-                <googleButton/>
+
               </div>
             </Form>
           </Card.Body>
