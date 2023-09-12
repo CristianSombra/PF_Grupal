@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { createUser } from '../../redux/actions/index';
@@ -7,28 +8,40 @@ import '../css/index.css';
 
 const RegistrationForm = ({ createUser, user }) => {
   const [formData, setFormData] = useState({
-    user_name: '',
-    first_name: '',
-    last_name: '',
-    gender: '',
-    email: '',
-    delivery_address: '',
-    country: '',
-    CustomElementRegistry: '',
-    mobile: '',
-    role: 'Cliente',
-    user_password: '',
+    user_name: "",
+    first_name: "",
+    last_name: "",
+    gender: "",
+    email: "",
+    delivery_address: "",
+    country: "",
+    CustomElementRegistry: "",
+    mobile: "",
+    role: "Cliente",
+    user_password: "",
   });
 
   // Estados para los errores y mensajes de error
   const [formErrors, setFormErrors] = useState({
-    user_name: '',
-    first_name: '',
-    last_name: '',
-    email: '',
+    user_name: "",
+    first_name: "",
+    last_name: "",
+    email: "",
   });
 
-  const { user_name, first_name, last_name, gender, email, delivery_address, country, CustomElementRegistry, mobile, role, user_password } = formData;
+  const {
+    user_name,
+    first_name,
+    last_name,
+    gender,
+    email,
+    delivery_address,
+    country,
+    CustomElementRegistry,
+    mobile,
+    role,
+    user_password,
+  } = formData;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -39,27 +52,33 @@ const RegistrationForm = ({ createUser, user }) => {
 
   const validateField = (fieldName, value) => {
     switch (fieldName) {
-      case 'first_name':
-      case 'last_name':
+      case "first_name":
+      case "last_name":
         // Validar solo letras
         if (!/^[A-Za-z]+$/.test(value)) {
-          setFormErrors({ ...formErrors, [fieldName]: 'Solo se permiten letras.' });
+          setFormErrors({
+            ...formErrors,
+            [fieldName]: "Solo se permiten letras.",
+          });
         } else {
-          setFormErrors({ ...formErrors, [fieldName]: '' });
+          setFormErrors({ ...formErrors, [fieldName]: "" });
         }
         break;
 
-      case 'email':
+      case "email":
         // Validar formato de email
         if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(value)) {
-          setFormErrors({ ...formErrors, email: 'Formato de email incorrecto.' });
+          setFormErrors({
+            ...formErrors,
+            email: "Formato de email incorrecto.",
+          });
         } else {
-          setFormErrors({ ...formErrors, email: '' });
+          setFormErrors({ ...formErrors, email: "" });
         }
         break;
 
       default:
-        setFormErrors({ ...formErrors, [fieldName]: '' });
+        setFormErrors({ ...formErrors, [fieldName]: "" });
         break;
     }
   };
@@ -73,6 +92,7 @@ const RegistrationForm = ({ createUser, user }) => {
   const formIsValid = !Object.values(formErrors).some((error) => error);
 
   return (
+
     <div className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 100px)', marginTop: '130px', marginBottom: '50px'}}>
       {user ? (
         <div>

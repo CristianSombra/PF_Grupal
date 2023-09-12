@@ -23,6 +23,7 @@ const MyAccount = ({ user, loadedUser, error, loadUserById }) => {
   // Renderizar el perfil del usuario si está cargado
   if (loadedUser) {
     return (
+      <div style={{ marginTop: "100px" }}>
       <Container>
         <Row>
           <Col>
@@ -45,6 +46,7 @@ const MyAccount = ({ user, loadedUser, error, loadUserById }) => {
           </Col>
         </Row>
       </Container>
+            </div>
     );
   }
 

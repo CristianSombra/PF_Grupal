@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { createUser, login } from '../../redux/actions/index';
@@ -32,8 +33,8 @@ const LoginForm = ({ login, user, error }) => {
   }
 
   const [formData, setFormData] = useState({
-    email: '',
-    user_password: '',
+    email: "",
+    user_password: "",
   });
 
   const { email, user_password } = formData;
@@ -49,6 +50,7 @@ const LoginForm = ({ login, user, error }) => {
   };
 
   return (
+
     <div className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 100px)', marginTop: '70px', marginBottom: '30px' }}>
       {user ? (
         <div>
@@ -71,6 +73,7 @@ const LoginForm = ({ login, user, error }) => {
                   value={email}
                   onChange={handleChange}
                   required
+
                 />
                 <Form.Text id="emailHelp" className="form-text">
                   We'll never share your email with anyone else.
@@ -84,6 +87,7 @@ const LoginForm = ({ login, user, error }) => {
                   value={user_password}
                   onChange={handleChange}
                   required
+
                 />
               </Form.Group>
               <Form.Group className="mb-3 form-check">

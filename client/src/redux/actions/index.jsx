@@ -18,6 +18,23 @@ export const UPDATE_USER_FAIL = 'UPDATE_USER_FAIL';
 export const UPDATE_USER_INFO_SUCCESS = 'UPDATE_USER_INFO_SUCCESS';
 export const UPDATE_USER_INFO_FAIL = 'UPDATE_USER_INFO_FAIL';
 
+export const ADD_TO_CART = "ADD_TO_CART";
+export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+
+export const addToCart = (product) => {
+  return {
+    type: ADD_TO_CART,
+    payload: product,
+  };
+};
+
+export const removeFromCart = (product) => {
+  return {
+    type: REMOVE_FROM_CART,
+    payload: product,
+  };
+};
+
 export const getAllProducts = () => {
   return async function(dispatch) {
     let errorMessage = '';
@@ -49,7 +66,6 @@ export const getAllProducts = () => {
   };
 
   
-  
   export const createProduct = (payload) => {
     return async (dispatch) => {
       try {
@@ -62,8 +78,6 @@ export const getAllProducts = () => {
     }
   }
 
-
-
   export const sortProductsByPrice = (orderBy) => {
     return {
       type: SORT_PRODUCTS_BY_PRICE,
@@ -71,7 +85,6 @@ export const getAllProducts = () => {
     };
   };
   
-
   export const filterByBrand = (brandId) => {
     return async function (dispatch) {
       try {
@@ -183,15 +196,13 @@ export const createUser = (formData) => async (dispatch) => {
   }
 };
 
-
-
   export const loadUserById = (userId) => async (dispatch) => {
     try {
       const res = await axios.get(`http://localhost:3001/user/id/${userId}`);
       dispatch({ type: LOAD_USER_SUCCESS, payload: res.data });
     } catch (error) {
       dispatch({ type: LOAD_USER_FAIL, payload: error.message });
-    }
+    };
   };
 
  export const updateUserInfo = ( newPassword) => async (dispatch, getState) => {
@@ -213,12 +224,10 @@ export const createUser = (formData) => async (dispatch) => {
   } catch (error) {
     // Maneja los errores y dispatch una acción de error si es necesario
     dispatch({ type: UPDATE_USER_INFO_FAIL, payload: error.response.data });
-  }
+  };
 };
 
-
-
-export const logout = () => ({
-  type: LOGOUT,
-});
+    export const logout = () => ({
+      type: LOGOUT,
+    });
 
