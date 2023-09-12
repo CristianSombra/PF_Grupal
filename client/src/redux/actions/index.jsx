@@ -202,7 +202,7 @@ export const createUser = (formData) => async (dispatch) => {
       dispatch({ type: LOAD_USER_SUCCESS, payload: res.data });
     } catch (error) {
       dispatch({ type: LOAD_USER_FAIL, payload: error.message });
-    }
+    };
   };
 
  export const updateUserInfo = ( newPassword) => async (dispatch, getState) => {
@@ -224,7 +224,7 @@ export const createUser = (formData) => async (dispatch) => {
   } catch (error) {
     // Maneja los errores y dispatch una acción de error si es necesario
     dispatch({ type: UPDATE_USER_INFO_FAIL, payload: error.response.data });
-  }
+  };
 };
 
     export const logout = () => ({

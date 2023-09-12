@@ -41,7 +41,7 @@ const BuyPage = () => {
             <button type="submit" class="waybox-button">Pagar</button>
       </form>
     </div>
-  );
+  )
 };
 
 export default BuyPage;
