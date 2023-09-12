@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createProduct } from "../../redux/actions/index";
-import styles from "./productForm.module.css";
+import '../../components/css/index.css';
+import Button from 'react-bootstrap/Button';
 
 const ProductForm = () => {
   const dispatch = useDispatch();
@@ -90,184 +91,203 @@ const ProductForm = () => {
       };
 
       return (
-        <div className={styles.formContainer}>
-          <h2 className={styles.formTitle}>Crear Producto</h2>
+        <div style={{ minHeight: 'calc(100vh - 100px)', marginTop: '140px', marginBottom: '30px' }}>
+           <h2 className="text-center">Crear Producto</h2>
           {isProductCreated ? (
-            <div className={styles.successMessage}>Producto creado con éxito</div>
+            <div className="alert alert-success">Producto creado con éxito</div>
           ) : (
-            <form className={styles.form} onSubmit={handleSubmit}>
-              <div className={styles.formLeft}>
-                <div>
-                  <label htmlFor="sku">
-                    <span>SKU:</span>
-                    <input
-                      type="number"
-                      id="sku"
-                      value={sku}
-                      onChange={(e) => {
-                        const newValue = e.target.value.replace(/\D/g, ""); // Elimina caracteres que no sean números
-                        setSku(newValue); // Actualiza el estado con el valor validado
-                      }}
-                      required
-                    />
-                  </label>
-                </div>
-                <div>
-                  <label htmlFor="numberPart">
-                    <span>Number Part:</span>
-                    <input
-                      type="text"
-                      id="numberPart"
-                      value={numberPart}
-                      onChange={(e) => setNumberPart(e.target.value)}
-                      required
-                    />
-                  </label>
-                </div>
-                <div>
-                  <label htmlFor="titulo">
-                    <span>Título:</span>
-                    <input
-                      type="text"
-                      id="titulo"
-                      value={titulo}
-                      onChange={(e) => setTitulo(e.target.value)}
-                      required
-                    />
-                  </label>
-                </div>
-                <div>
-                  <label htmlFor="idBrand">
-                    <span>Marca:</span>
-                    <select
-                      id="idBrand"
-                      value={idBrand}
-                      onChange={(e) => setIdBrand(e.target.value)}
-                      required
-                    >
-                      <option value="1">Apple</option>
-                      <option value="12">HP</option>
-                      <option value="20">Samsung Electronics</option>
-                      <option value="27">Viewsonic</option>
-                      <option value="30">Lenovo</option>
-                    </select>
-                  </label>
-                </div>
-                <div>
-                  <label htmlFor="idCategory">
-                    <span>Categoría:</span>
-                    <select
-                      id="idCategory"
-                      value={idCategory}
-                      onChange={(e) => setIdCategory(e.target.value)}
-                      required
-                    >
-                      <option value="84">Portátiles</option>
-                      <option value="32">Monitores</option>
-                      <option value="82">CPU</option>
-                    </select>
-                  </label>
-                </div>
-                <div>
-                  <label htmlFor="price">
-                    <span>Precio:</span>
-                    <input
-                      type="text"
-                      id="price"
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
-                      required
-                    />
-                  </label>
-                </div>
-                <div>
-                  <label htmlFor="stock">
-                    <span>Stock:</span>
-                    <input
-                      type="number"
-                      id="stock"
-                      value={disponibility}
-                      onChange={(e) =>
-                        setDisponibility(Math.max(1, parseInt(e.target.value)))
-                      }
-                      required
-                    />
-                  </label>
-                </div>
-                <div>
-                  <label htmlFor="ram">
-                    <span>Ram:</span>
-                    <input
-                      type="text"
-                      id="ram"
-                      value={ram}
-                      onChange={(e) => setRam(e.target.value)}
-                    />
-                  </label>
-                </div>
-                <div>
-                  <label htmlFor="pantalla">
-                    <span>Pantalla:</span>
-                    <input
-                      type="text"
-                      id="pantalla"
-                      value={pantalla}
-                      onChange={(e) => setPantalla(e.target.value)}
-                      required
-                    />
-                  </label>
-                </div>
-                <div>
-                  <label htmlFor="procesador">
-                    <span>Procesador:</span>
-                    <input
-                      type="text"
-                      id="procesador"
-                      value={procesador}
-                      onChange={(e) => setProcesador(e.target.value)}
-                    />
-                  </label>
-                </div>
-                <div>
-                  <label htmlFor="almacenamiento">
-                    <span>Almacenamiento:</span>
-                    <input
-                      type="text"
-                      id="almacenamiento"
-                      value={almacenamiento}
-                      onChange={(e) => setAlmacenamiento(e.target.value)}
-                    />
-                  </label>
-                </div>
-              </div>
-              <div className={styles.formRight}>
-                  <div>
-                    <label htmlFor="image">
-                      <div>
-                        <span className={styles.imageText}>Tu Imagen</span>
+            <div className="card mx-auto col-12 col-md-8 col-lg-6 custom-shadow">
+              <div className="card-body">
+                <form onSubmit={handleSubmit}>
+                  <div className="row">
+                    <div className="col-md-8">
+                      <div className="mb-3">
+                        <label htmlFor="sku" className="form-label">
+                          <span>SKU:</span>
+                          <input
+                            type="number"
+                            id="sku"
+                            value={sku}
+                            onChange={(e) => {
+                              const newValue = e.target.value.replace(/\D/g, "");
+                              setSku(newValue);
+                            }}
+                            required
+                            className="form-control"
+                          />
+                        </label>
                       </div>
-                      <input
-                        type="file"
-                        id="image"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        required
-                      />
+                      <div className="mb-3">
+                        <label htmlFor="numberPart" className="form-label">
+                          <span>Number Part:</span>
+                          <input
+                            type="text"
+                            id="numberPart"
+                            value={numberPart}
+                            onChange={(e) => setNumberPart(e.target.value)}
+                            required
+                            className="form-control"
+                          />
+                        </label>
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="titulo" className="form-label">
+                          <span>Título:</span>
+                          <input
+                            type="text"
+                            id="titulo"
+                            value={titulo}
+                            onChange={(e) => setTitulo(e.target.value)}
+                            required
+                            className="form-control"
+                          />
+                        </label>
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="idBrand" className="form-label">
+                          <span>Marca:</span>
+                          <select
+                            id="idBrand"
+                            value={idBrand}
+                            onChange={(e) => setIdBrand(e.target.value)}
+                            required
+                            className="form-select"
+                          >
+                            <option value="1">Apple</option>
+                            <option value="12">HP</option>
+                            <option value="20">Samsung Electronics</option>
+                            <option value="27">Viewsonic</option>
+                            <option value="30">Lenovo</option>
+                          </select>
+                        </label>
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="idCategory" className="form-label">
+                          <span>Categoría:</span>
+                          <select
+                            id="idCategory"
+                            value={idCategory}
+                            onChange={(e) => setIdCategory(e.target.value)}
+                            required
+                            className="form-select"
+                          >
+                            <option value="84">Portátiles</option>
+                            <option value="32">Monitores</option>
+                            <option value="82">CPU</option>
+                          </select>
+                        </label>
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="price" className="form-label">
+                          <span>Precio:</span>
+                          <input
+                            type="text"
+                            id="price"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                            required
+                            className="form-control"
+                          />
+                        </label>
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="stock" className="form-label">
+                          <span>Stock:</span>
+                          <input
+                            type="number"
+                            id="stock"
+                            value={disponibility}
+                            onChange={(e) =>
+                              setDisponibility(Math.max(1, parseInt(e.target.value)))
+                            }
+                            required
+                            className="form-control"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="mb-3">
+                        <label htmlFor="ram" className="form-label">
+                          <span>Ram:</span>
+                          <input
+                            type="text"
+                            id="ram"
+                            value={ram}
+                            onChange={(e) => setRam(e.target.value)}
+                            className="form-control"
+                          />
+                        </label>
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="pantalla" className="form-label">
+                          <span>Pantalla:</span>
+                          <input
+                            type="text"
+                            id="pantalla"
+                            value={pantalla}
+                            onChange={(e) => setPantalla(e.target.value)}
+                            required
+                            className="form-control"
+                          />
+                        </label>
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="procesador" className="form-label">
+                          <span>Procesador:</span>
+                          <input
+                            type="text"
+                            id="procesador"
+                            value={procesador}
+                            onChange={(e) => setProcesador(e.target.value)}
+                            className="form-control"
+                          />
+                        </label>
+                      </div>
+                      <div className="mb-3">
+                        <label htmlFor="almacenamiento" className="form-label">
+                          <span>Almacenamiento:</span>
+                          <input
+                            type="text"
+                            id="almacenamiento"
+                            value={almacenamiento}
+                            onChange={(e) => setAlmacenamiento(e.target.value)}
+                            className="form-control"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="image" className="form-label">
+                      Tu Imagen:
                     </label>
+                    <input
+                      type="file"
+                      id="image"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      required
+                      className="form-control"
+                    />
                     {imageUrl && (
-                      <div className={styles.imageContainer}>
-                        <img src={imageUrl} alt="Preview" />
+                      <div className="mt-2">
+                        <img src={imageUrl} alt="Preview" className="img-fluid" />
                       </div>
                     )}
                   </div>
-                </div>
-            </form>
+                  <div className="text-center mt-4">
+                    <Button type="submit" variant="dark">
+                      Crear Producto
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            </div>
           )}
-              <button className={styles.createButton} type="submit" onClick={handleSubmit}>
-    Crear Producto
-  </button>
         </div>
       );
+      
 };
 
 export default ProductForm;

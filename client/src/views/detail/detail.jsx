@@ -1,8 +1,8 @@
 import React from "react";
+import '../../components/css/index.css';
 import { Link } from "react-router-dom";
 import { useGetProductDetailHandler } from "../../components/handlers/handlersdetail";
 import Button from "react-bootstrap/esm/Button";
-import "../../components/css/index.css";
 
 
 const Detail = () => {
@@ -13,33 +13,38 @@ const Detail = () => {
   }
 
   return (
-    <div className="container">
-      <div className="row">
-          <h1>Detalle del producto</h1>
-          <div className="col-md-4 custom-shadow">
-            <p>Nombre: {productDetail.titulo}</p>
-            <p>Precio: {productDetail.price}</p>
-            <p>En stock: {productDetail.disponibility}</p>
-            <p>Detalle:</p>
-            <ul>
-              <li>Ram: {productDetail.detail.ram}</li>
-              <li>Pantalla: {productDetail.detail.pantalla}</li>
-              <li>Procesador: {productDetail.detail.procesador}</li>
-              <li>Almacenamiento: {productDetail.detail.almacenamiento}</li>
-            </ul>
-     
+    <div className="container-detail">
+      <h1 className="mt-5 mx-auto text-center">Detalle del producto</h1>
+      <div className="row mt-3">
+        <div className="col-md-8 mx-auto" style={{ maxWidth: "600px" }}>
+          <div className="card custom-shadow">
+            <div className="card-body">
+              <h5 className="card-title">Nombre: {productDetail.titulo}</h5>
+              <p className="card-text">Precio: {productDetail.price}</p>
+              <p className="card-text">En stock: {productDetail.disponibility}</p>
+              <p className="card-text">Detalle:</p>
+              <ul>
+                <li>Ram: {productDetail.detail.ram}</li>
+                <li>Pantalla: {productDetail.detail.pantalla}</li>
+                <li>Procesador: {productDetail.detail.procesador}</li>
+                <li>Almacenamiento: {productDetail.detail.almacenamiento}</li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <img
-          src={productDetail.image}
-          alt={productDetail.titulo}
-          class="col-sm-6"
-        />
+        <div className="col-md-6">
+          <img
+            src={productDetail.image}
+            alt={productDetail.titulo}
+            className="img-detail"
+          />
+        </div>
       </div>
 
-      <div>
-        <div>
-        <Button variant="dark" as={Link} to="/Home">Volver a Inicio</Button>
-        </div>
+      <div className="text-center mt-4">
+        <Button variant="dark" as={Link} to="/Home">
+              Volver a inicio
+            </Button>
       </div>
     </div>
   );
