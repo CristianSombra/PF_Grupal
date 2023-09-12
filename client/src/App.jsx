@@ -8,7 +8,7 @@ import MiCuenta from "./components/users/MiCuenta"
 import UpdateAccount from "./components/users/UpdateAccount"
 import './components/css/index.css';
 import './App.css'
-
+import PrivateRoute from './PrivateRoute';
 
 function App() {
   const location = useLocation();
@@ -24,11 +24,13 @@ function App() {
         <Route exact path="/" element={<Landing />} />
         <Route path="/home" element={<Home />} />
         <Route path="/detail/:sku" element={<Detail />} />
-        <Route path="/createProduct" element={<ProductForm />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/registration" element={<RegistrationForm />} />
+        <Route element={<PrivateRoute />}>
+        <Route path="/createProduct" element={<ProductForm />} />
         <Route path="/account" element={<MiCuenta />} />
         <Route path="/updateaccount" element={<UpdateAccount />} />
+        </Route>
       </Routes>
     </div>
   );
