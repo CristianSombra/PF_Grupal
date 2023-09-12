@@ -1,12 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import '../../components/css/index.css';
 import { Link } from "react-router-dom";
 import { useGetProductDetailHandler } from "../../components/handlers/handlersdetail";
 import Button from "react-bootstrap/esm/Button";
-
+import AddRating from "../../components/rating/AddRating";
+import ProductRating from "../../components/rating/ProductRating";
+import { getRatings } from "../../redux/actions"; // Importa la acción para obtener calificaciones
 
 const Detail = () => {
+  const dispatch = useDispatch();
   const productDetail = useGetProductDetailHandler();
+  const product_id = productDetail ? productDetail.sku : null; // Asegúrate de tener un SKU válido
+
+  // Dispara la acción para obtener calificaciones cuando el componente se monta
+  useEffect(() => {
+    if (product_id) {
+      dispatch(getRatings());
+    }
+  }, [dispatch, product_id]);
 
   if (!productDetail) {
     return <p>No se encontró información para el producto seleccionado.</p>;
@@ -28,7 +40,9 @@ const Detail = () => {
                 <li>Pantalla: {productDetail.detail.pantalla}</li>
                 <li>Procesador: {productDetail.detail.procesador}</li>
                 <li>Almacenamiento: {productDetail.detail.almacenamiento}</li>
+                <li>Almacenamiento: {product_id}</li>
               </ul>
+              <ProductRating sku={product_id} />
             </div>
           </div>
         </div>
@@ -40,11 +54,14 @@ const Detail = () => {
           />
         </div>
       </div>
+      <div>
+        <AddRating product_id={product_id} />
+      </div>
 
       <div className="text-center mt-4">
         <Button variant="dark" as={Link} to="/Home">
-              Volver a inicio
-            </Button>
+          Volver a inicio
+        </Button>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-
 import { 
   ERROR, 
   GET_PODUCT_SUCCESS, 
@@ -16,6 +15,9 @@ import {
   UPDATE_USER_INFO_SUCCESS,
   UPDATE_USER_INFO_FAIL,
   LOGOUT,
+  CREATE_RATING, 
+  GET_RATINGS, 
+
    
 
     
@@ -36,6 +38,7 @@ const initialState = {
   loadedUser: null,
   updateUserInfoSuccess: false, // Para rastrear el éxito de la actualización
   updateUserInfoError: null, // Para rastrear errores de actualización
+  ratings: [],
  };
 
 const rootReducer = (state = initialState, action) => {
@@ -145,7 +148,18 @@ const rootReducer = (state = initialState, action) => {
                       ...state,
                       user: null, // Establece 'user' en null al cerrar sesión
                     };
-                 
+                    case CREATE_RATING:
+                      return {
+                        ...state,
+                      
+                      };
+                    case GET_RATINGS:
+                      console.log("Recibida la acción GET_RATINGS con payload:", action.payload);
+                      return {
+                        ...state,
+                        ratings: action.payload,
+                      };
+   
             default:
               return state;
           }

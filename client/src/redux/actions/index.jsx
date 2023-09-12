@@ -1,10 +1,10 @@
 import axios from "axios";
-export const UPDATE_SEARCH_RESULTS = "UPDATE_SEARCH_RESULTS";
 export const ERROR = "ERROR";
 export const GET_PODUCT_SUCCESS = 'GET_PODUCT_SUCCESS';
 export const GET_PRODUCT_DETAIL = 'GET_PRODUCT_DETAIL';
 export const SORT_PRODUCTS_BY_PRICE = 'SORT_PRODUCTS_BY_PRICE';
 export const CREATE_PRODUCT = 'CREATE_PRODUCT'
+export const UPDATE_SEARCH_RESULTS = "UPDATE_SEARCH_RESULTS";
 export const RESET_SELECTED_BRAND_CATEGORY = "RESET_SELECTED_BRAND_CATEGORY"
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
@@ -12,11 +12,13 @@ export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
 export const CREATE_USER_FAIL = 'CREATE_USER_FAIL';
 export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
 export const LOAD_USER_FAIL = 'LOAD_USER_FAIL';
-export const LOGOUT  = 'LOGOUT ';
-export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
-export const UPDATE_USER_FAIL = 'UPDATE_USER_FAIL';
 export const UPDATE_USER_INFO_SUCCESS = 'UPDATE_USER_INFO_SUCCESS';
 export const UPDATE_USER_INFO_FAIL = 'UPDATE_USER_INFO_FAIL';
+export const LOGOUT  = 'LOGOUT ';
+export const CREATE_RATING = "CREATE_RATING";
+export const GET_RATINGS = "GET_RATINGS";
+
+
 
 export const getAllProducts = () => {
   return async function(dispatch) {
@@ -230,4 +232,36 @@ export const createUser = (formData) => async (dispatch) => {
 export const logout = () => ({
   type: LOGOUT,
 });
+
+export const createRating = (product_id,rate, review) => async (dispatch) => {
+  try {
+
+
+    const response = await axios.post('http://localhost:3001/rating', {
+      product_id,
+      rate,
+      review,
+    });
+
+    dispatch({
+      type: CREATE_RATING,
+      payload: response.data,
+    });
+  } catch (error) {
+    console.error("Error al crear la calificación:", error);
+  }
+};
+
+// Acción para obtener todas las calificaciones
+export const getRatings = () => async (dispatch) => {
+  try {
+    const response = await axios.get("http://localhost:3001/rating");
+    dispatch({
+      type: GET_RATINGS,
+      payload: response.data,
+    });
+  } catch (error) {
+    console.error("Error al obtener las calificaciones:", error);
+  }
+};
 

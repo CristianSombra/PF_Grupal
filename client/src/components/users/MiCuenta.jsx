@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { loadUserById } from '../../redux/actions/index';
 import UpdateButton from './UpdateButton';
+import WelcomeMessage from "../../components/users/WelcomeMessage"
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
 
 const MyAccount = ({ user, loadedUser, error, loadUserById }) => {
   useEffect(() => {
@@ -23,33 +23,30 @@ const MyAccount = ({ user, loadedUser, error, loadUserById }) => {
   // Renderizar el perfil del usuario si está cargado
   if (loadedUser) {
     return (
-      <Container>
+      <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 100px)', marginTop: '70px', marginBottom: '30px' }} >
         <Row>
           <Col>
-            <div>
-              <h1>Perfil de Usuario</h1>
-              <p>Nombre: {loadedUser.first_name} {loadedUser.last_name}</p>
-              <p>Correo electrónico: {loadedUser.email}</p>
-              <p>Dirección de envíos: {loadedUser.delivery_address}</p>
-              <p>País: {loadedUser.country}</p>
-              <p>Teléfono de contacto: {loadedUser.mobile}</p>
-              <p>Actividad laboral: {loadedUser.CustomElementRegistry}</p>
-              <p>Tipo de cuenta: {loadedUser.role}</p>
-              <p>Historial de compras: {loadedUser.purchase_history}</p>
+            <div >
+              <WelcomeMessage/>
+              <p></p>
+              <p><strong>Nombre:</strong> {loadedUser.first_name} {loadedUser.last_name}</p>
+              <p><strong>Correo electrónico:</strong> {loadedUser.email}</p>
+              <p><strong>Dirección de envíos:</strong> {loadedUser.delivery_address}</p>
+              <p><strong>País:</strong> {loadedUser.country}</p>
+              <p><strong>Teléfono de contacto:</strong> {loadedUser.mobile}</p>
+              <p><strong>Actividad laboral:</strong> {loadedUser.CustomElementRegistry}</p>
+              <p><strong>Tipo de cuenta:</strong> {loadedUser.role}</p>
             </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
             <UpdateButton />
           </Col>
         </Row>
+       
       </Container>
     );
   }
 
   // El usuario todavía se está cargando, puedes mostrar un indicador de carga
-  return <div>Cargando...</div>;
+  return <div className="mt-4">Cargando...</div>;
 };
 
 const mapStateToProps = (state) => ({
