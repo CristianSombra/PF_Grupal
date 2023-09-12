@@ -50,6 +50,8 @@ updateUsers: async (req, res) => {
 loginUsers: async(req, res)=>{
   
   let {email, user_password} = req.body;
+  console.log(email);
+  console.log(user_password);
   try {
     const userToken = await userController.loginUsers(email, user_password);
     // console.log(userToken);

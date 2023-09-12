@@ -3,14 +3,20 @@ import '../../components/css/index.css';
 import { Link } from "react-router-dom";
 import { useGetProductDetailHandler } from "../../components/handlers/handlersdetail";
 import Button from "react-bootstrap/esm/Button";
-
-
-const Detail = () => {
+import { addToCart } from "../../redux/actions";
+import { useDispatch } from "react-redux";
+const Detail = (props) => {
   const productDetail = useGetProductDetailHandler();
+  const dispatch = useDispatch();
 
   if (!productDetail) {
     return <p>No se encontró información para el producto seleccionado.</p>;
   }
+
+
+  const handleAddToCart = (product) =>{
+    dispatch(addToCart(product));
+  };
 
   return (
     <div className="container-detail">
@@ -19,6 +25,7 @@ const Detail = () => {
         <div className="col-md-8 mx-auto" style={{ maxWidth: "600px" }}>
           <div className="card custom-shadow">
             <div className="card-body">
+            <p className="card-text">N/P: {productDetail.number_part}</p>
               <h5 className="card-title">Nombre: {productDetail.titulo}</h5>
               <p className="card-text">Precio: {productDetail.price}</p>
               <p className="card-text">En stock: {productDetail.disponibility}</p>
@@ -29,6 +36,12 @@ const Detail = () => {
                 <li>Procesador: {productDetail.detail.procesador}</li>
                 <li>Almacenamiento: {productDetail.detail.almacenamiento}</li>
               </ul>
+              <Button
+          variant="dark"
+          onClick={()=>handleAddToCart(props)}
+          >
+            Agregar al carrito
+          </Button>
             </div>
           </div>
         </div>

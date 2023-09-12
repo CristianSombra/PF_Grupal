@@ -11,7 +11,7 @@ module.exports = (sequelize) => {
       user_name: {
         type: DataTypes.STRING,
         allowNull: false,
-      },
+       },
       first_name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -23,6 +23,7 @@ module.exports = (sequelize) => {
       gender: {
         type: DataTypes.ENUM("F", "M", "X"),
         allowNull: false,
+        defaultValue: 'X'
       },
       email: {
         type: DataTypes.STRING,
@@ -35,14 +36,17 @@ module.exports = (sequelize) => {
       delivery_address: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: 'DIRECCION INDEFENIDA'
       },
       country: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: 'PAIS INDEFENIDA'
       },
       CustomElementRegistry: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: 'INDEFENIDA'
       },
       mobile: {
         type: DataTypes.STRING,
@@ -50,6 +54,7 @@ module.exports = (sequelize) => {
       role: {
         type: DataTypes.ENUM("Administrador", "Cliente"),
         allowNull: false,
+        defaultValue: 'Cliente'
       },
       user_status: {
         type: DataTypes.BOOLEAN,
@@ -62,6 +67,7 @@ module.exports = (sequelize) => {
       user_password: {
         type: DataTypes.STRING,
         allowNull: true,
+        defaultValue: 'Contraseña'
       },
     },
     {

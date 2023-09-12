@@ -18,6 +18,24 @@ export const UPDATE_USER_FAIL = 'UPDATE_USER_FAIL';
 export const UPDATE_USER_INFO_SUCCESS = 'UPDATE_USER_INFO_SUCCESS';
 export const UPDATE_USER_INFO_FAIL = 'UPDATE_USER_INFO_FAIL';
 
+export const ADD_TO_CART = "ADD_TO_CART";
+export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+
+export const addToCart = (product) => {
+  return {
+    type: ADD_TO_CART,
+    payload: product,
+  };
+};
+
+export const removeFromCart = (product) => {
+  return {
+    type: REMOVE_FROM_CART,
+    payload: product,
+  };
+};
+
+
 export const getAllProducts = () => {
   return async function(dispatch) {
     let errorMessage = '';
@@ -160,22 +178,13 @@ export const getAllProducts = () => {
 
 export const login = (formData) => async (dispatch) => {
   try {
-    // Realiza una solicitud GET para obtener la lista de usuarios registrados desde el servidor
-    const res = await axios.get('http://localhost:3001/user');
-
-    // Busca si hay un usuario registrado con el correo y contraseña proporcionados en la respuesta del servidor
-    const user = res.data.find(
-      (u) => u.email === formData.email && u.user_password === formData.user_password
-    );
-
-    if (user) {
-      // Si el usuario existe, dispara una acción de éxito con los datos del usuario
-      dispatch({ type: LOGIN_SUCCESS, payload: user });
-    } else {
-      // Si el usuario no existe, dispara una acción de error
-      dispatch({ type: LOGIN_FAIL, payload: 'Credenciales incorrectas' });
-    }
+   
+    const res = await axios.post('http://localhost:3001/user/login', formData);
+    dispatch({ type: LOGIN_SUCCESS, payload: res.data });
+    console.log(res);
+    
   } catch (error) {
+    console.log(error);
     // Disparar una acción de error en caso de fallo
     dispatch({ type: LOGIN_FAIL, payload: 'Error en el inicio de sesión' });
   }
