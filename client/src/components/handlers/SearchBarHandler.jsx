@@ -17,34 +17,45 @@ const SearchBarHandler = () => {
     setSearchQuery("");
   };
 
-  return (
-    <div>
-      <Form>
-        <Row className="align-items-center">
-          <Col xs="auto">
-            <Form.Control 
-              size="sm"
-              type="text"
-              placeholder="Buscar productos..."
-              value={searchQuery}
-              onChange={handleSearchChange}
-              className="form-control-sm"
-              style={{fontSize: '1.2rem'}}
-            />
-          </Col>
-          <Col xs="auto">
+  async function handleEnterKeyPress(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault(); 
+      dispatch(updateSearchResults(searchQuery));
+      setSearchQuery("");
+    } else {
+    }
+  }
+
+
+return (
+  <div>
+    <Form>
+      <Row className="align-items-center">
+        <Col xs="auto">
+          <Form.Control
+            size="sm"
+            type="text"
+            placeholder="Buscar productos..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="form-control-sm"
+            style={{ fontSize: '1.2rem' }}
+            onKeyPress={handleEnterKeyPress}
+          />
+        </Col>
+        <Col xs="auto">
           <Button variant="dark" size="sm" className="me-1" onClick={handleSearchSubmit}>
-              <img 
-                  src={searchIcon} 
-                  alt="Buscar" 
-                  style={{ filter: 'invert(1)', fill: 'white', width: '1.6rem' }} 
-                  />
-          </Button> 
-          </Col>
-        </Row>
-      </Form>
-    </div>
-  );
+            <img
+              src={searchIcon}
+              alt="Buscar"
+              style={{ filter: 'invert(1)', fill: 'white', width: '1.6rem' }}
+            />
+          </Button>
+        </Col>
+      </Row>
+    </Form>
+  </div>
+);
 };
 
 export default SearchBarHandler;
