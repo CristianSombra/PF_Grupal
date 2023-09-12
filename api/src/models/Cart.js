@@ -10,14 +10,11 @@ module.exports = (sequelize) => {
         autoIncrement: true,
         primaryKey: true,
       },
-      id_user: {
-        type: DataTypes.INTEGER,
-       
-        primaryKey: true,
-      },
-      review: {
-        type: DataTypes.TEXT,
-      },
+      products: {
+        type: DataTypes.JSONB,
+        allowNull: false,
+        defaultValue: [],
+      }
     },
     {
       timestamps: false,

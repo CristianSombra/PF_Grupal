@@ -1,35 +1,68 @@
-import React, { useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { getProductDetailActions } from '../../redux/actions/index'; // Asegúrate de importar la acción correctamente
+import React from "react";
+import '../../components/css/index.css';
+import { Link } from "react-router-dom";
+import { useGetProductDetailHandler } from "../../components/handlers/handlersdetail";
+import Button from "react-bootstrap/esm/Button";
+import { useDispatch } from "react-redux";
+import Cards from "../../components/card/card"; 
+import { addToCart } from "../../redux/actions";
 
 const Detail = () => {
+  const productDetail = useGetProductDetailHandler();
+  const dispatch = useDispatch();
 
-  const productDetails = useSelector((state) => state.productDetails);
-    const dispatch = useDispatch();
-    
-    useEffect(() => {
-      dispatch(getProductDetailActions());
-    }, [dispatch]);
-    
-    return (
-      <div>
-      <Link to="/home">Volver a Inicio</Link>
-      <ul>
-        {productDetails.map((product, index) => (
-          <li key={index}>
-            <p>Título: {product.titulo}</p>
-            <p>Precio: {product.price}</p>
-            <img src={product.image} alt={product.titulo} />
-          </li>
-        ))}
-      </ul>
+  if (!productDetail) {
+    return <p>No se encontró información para el producto seleccionado.</p>;
+  }
+
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
+
+  return (
+    <div className="container-detail">
+      <h1 className="mt-5 mx-auto text-center">Detalle del producto</h1>
+      <div className="row mt-3">
+        <div className="col-md-8 mx-auto" style={{ maxWidth: "600px" }}>
+          <div className="card custom-shadow">
+            <div className="card-body">
+              <p className="card-text">N/P: {productDetail.number_part}</p>
+              <h5 className="card-title">Nombre: {productDetail.titulo}</h5>
+              <p className="card-text">Precio: {productDetail.price}</p>
+              <p className="card-text">En stock: {productDetail.disponibility}</p>
+              <p className="card-text">Detalle:</p>
+              <ul>
+                <li>Ram: {productDetail.detail.ram}</li>
+                <li>Pantalla: {productDetail.detail.pantalla}</li>
+                <li>Procesador: {productDetail.detail.procesador}</li>
+                <li>Almacenamiento: {productDetail.detail.almacenamiento}</li>
+              </ul>
+              
+              <Button
+                variant="dark"
+                onClick={() => handleAddToCart(productDetail)}
+              >
+                Agregar al carrito
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-6">
+          <img
+            src={productDetail.image}
+            alt={productDetail.titulo}
+            className="img-detail"
+          />
+        </div>
+      </div>
+
+      <div className="text-center mt-4">
+        <Button variant="dark" as={Link} to="/Home">
+          Volver a inicio
+        </Button>
+      </div>
     </div>
   );
 };
 
-const mapStateToProps = (state) => ({
-  productDetails: state.products.productDetails,
-});
-
-export default connect(mapStateToProps, { getProductDetailActions })(Detail);
+export default Detail;
