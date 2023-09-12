@@ -23,12 +23,12 @@ const MyAccount = ({ user, loadedUser, error, loadUserById }) => {
   // Renderizar el perfil del usuario si está cargado
   if (loadedUser) {
     return (
-      <div style={{ marginTop: "100px" }}>
+      <div className="mx-auto" style={{ width: "40%", margin: "130px",borderRadius: "10px", padding:"30px",  boxShadow: "0px 0px 5px 2px rgba(0, 0, 0, 0.5)"}}>
       <Container>
         <Row>
           <Col>
             <div>
-              <h1>Perfil de Usuario</h1>
+              <h1 style={{fontWeight:700}}>Perfil de Usuario</h1>
               <p>Nombre: {loadedUser.first_name} {loadedUser.last_name}</p>
               <p>Correo electrónico: {loadedUser.email}</p>
               <p>Dirección de envíos: {loadedUser.delivery_address}</p>
