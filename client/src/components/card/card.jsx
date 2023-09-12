@@ -1,24 +1,33 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styles from "./card.module.css";
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import './card.css';
 
-
-const Card = (props) => {
+const Cards = (props) => {
   const { sku } = props;
 
+
   return (
-    <Link to={`/detail/${sku}`} className={styles.cardLink}>
-    <div className={styles.card}>
-      <div className={styles.imageContainer}>
-        <img src={props.image} alt={props.titulo} className={styles.flagImage} />
+    <Card className="custom-shadow custom-card">
+      <div className="imgContainer">
+        <Card.Img variant="top" src={props.image} alt={props.titulo} />
       </div>
-      <div className={styles.textContainer}>
-            <p>Nombre: {props.name}</p>
-            <p>Precio: {props.price}</p>
-      </div>
-    </div>
-    </Link>
+      <Card.Body className="text-center d-flex flex-column">
+        <Card.Text className="titleCard">{props.name}</Card.Text>
+        <Card.Title className="mb-4">$ {new Intl.NumberFormat("de-DE", {
+          style: "currency",
+          currency: "COP",
+        }).format(props.price)}</Card.Title>
+        <div className="mt-3 text-center">
+          <Button variant="dark" as={Link} to={`/detail/${sku}`}>
+            Ver detalles
+          </Button>
+
+        </div>
+      </Card.Body>
+    </Card>
   );
 };
 
-export default Card;
+export default Cards;

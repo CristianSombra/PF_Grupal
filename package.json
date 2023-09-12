@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@chec/commerce.js": "^2.8.0",
+    "bootstrap-icons": "^1.10.5",
+    "jsonwebtoken": "^9.0.2",
+    "react-bootstrap": "^2.8.0"
+  }
+}

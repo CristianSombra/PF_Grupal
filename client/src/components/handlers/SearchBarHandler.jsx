@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { updateSearchResults } from "../../redux/actions/index";
+import { Form, Button, Row, Col } from 'react-bootstrap';
+import searchIcon from '../../../node_modules/bootstrap-icons/icons/search.svg';
 
 const SearchBarHandler = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -11,22 +13,36 @@ const SearchBarHandler = () => {
   };
 
   const handleSearchSubmit = () => {
-    // Dispatch la acción para buscar productos con la consulta ingresada
     dispatch(updateSearchResults(searchQuery));
-
-    // Limpia el campo de búsqueda estableciendo el estado a una cadena vacía
     setSearchQuery("");
   };
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Buscar productos..."
-        value={searchQuery}
-        onChange={handleSearchChange}
-      />
-      <button onClick={handleSearchSubmit}>Buscar</button>
+      <Form>
+        <Row className="align-items-center">
+          <Col xs="auto">
+            <Form.Control 
+              size="sm"
+              type="text"
+              placeholder="Buscar productos..."
+              value={searchQuery}
+              onChange={handleSearchChange}
+              className="form-control-sm"
+              style={{fontSize: '1.2rem'}}
+            />
+          </Col>
+          <Col xs="auto">
+          <Button variant="dark" size="sm" className="me-1" onClick={handleSearchSubmit}>
+              <img 
+                  src={searchIcon} 
+                  alt="Buscar" 
+                  style={{ filter: 'invert(1)', fill: 'white', width: '1.6rem' }} 
+                  />
+          </Button> 
+          </Col>
+        </Row>
+      </Form>
     </div>
   );
 };

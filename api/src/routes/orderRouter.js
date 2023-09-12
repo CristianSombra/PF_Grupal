@@ -3,6 +3,6 @@ const { getAllOrders } = require("../handlers/orderHandler");
 
 const orderRouter = Router();
 
-orderRouter.get('/',  getAllOrders);
+orderRouter.get('/', getAllOrders);
 
 module.exports = orderRouter; 
