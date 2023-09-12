@@ -13,7 +13,7 @@ const Cart = () => {
   };
 
   return (
-    <div  style={{ margin: "100px" }}>      <h2>Carrito de Compras</h2>
+    <div  style={{ margin: "150px", border: "gray solid 1px", borderRadius: "10px", padding:"20px",  boxShadow: "0px 0px 5px 2px rgba(0, 0, 0, 0.5)"}}>      <h2>Carrito de Compras</h2>
       {cartItems.length === 0 ? (
         <p>El carrito está vacío.</p>
       ) : (
@@ -32,7 +32,7 @@ const Cart = () => {
           </div>
         </div>
       )}
-      <Button variant="dark" as={Link} to="/buyPage">
+      <Button className="mt-3" variant="dark" as={Link} to="/buyPage">
         Terminar compra
       </Button>
     </div>
