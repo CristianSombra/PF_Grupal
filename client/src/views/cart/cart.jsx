@@ -22,7 +22,8 @@ const Cart = () => {
             {cartItems.map((item) => (
               <div key={item.id} className="card">
                 <div className="card-body">
-                  <h5 className="card-title">{item.name}</h5>
+                <h5 className="card-title">Nombre: {item.titulo}</h5>
+                  <img src={item.image} alt={item.title} />
                   <p className="card-text">Precio: ${item.price}</p>
                   <button className="btn btn-danger" onClick={() => handleRemoveFromCart(item.sku)}>Eliminar</button>
                 </div>

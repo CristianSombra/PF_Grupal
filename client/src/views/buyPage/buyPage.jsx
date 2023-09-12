@@ -8,7 +8,7 @@ const BuyPage = () => {
   const products = useSelector((state) => state.products);
 
   const calculateTotal = () => {
-    return cartItems.reduce((total, item) => total + item.price, 0);
+    return cartItems.reduce((total, item) => Number(total) + Number(item.price), 0);
   };
 
   return (
