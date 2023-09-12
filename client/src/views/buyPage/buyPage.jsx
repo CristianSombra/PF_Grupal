@@ -1,15 +1,16 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
 
 const BuyPage = () => {
   const cartItems = useSelector((state) => state.cartItems);
   const products = useSelector((state) => state.products);
 
   const calculateTotal = () => {
-    return cartItems.reduce((total, item) => total + item.price, 0);
+    return cartItems.reduce((total, item) => Number(total) + Number(item.price), 0);
   };
+  
+  const referenceUUID = uuidv4();
 
   return (
     <div style={{ margin: "100px" }}>
@@ -31,9 +32,14 @@ const BuyPage = () => {
         </div>
       </div>
       <p>Total: ${calculateTotal()}</p>
-      <Button variant="dark" as={Link} to="/checkout">
-        Finalizar Compra
-      </Button>
+      <form action="https://checkout.wompi.co/p/" method="GET">
+            <input type="hidden" name="public-key" value="pub_test_GZlevgVBlUIA4Aq8jcYjNPJBJEnbitYV" />
+            <input type="hidden" name="currency" value="COP" />
+            <input type="hidden" name="amount-in-cents" value={calculateTotal() * 100} />
+            <input type="hidden" name="reference" value={referenceUUID} />
+            <input type="hidden" name="redirect-url" value="http://localhost:3000/order/result" />
+            <button type="submit" class="waybox-button">Pagar</button>
+      </form>
     </div>
   );
 };
