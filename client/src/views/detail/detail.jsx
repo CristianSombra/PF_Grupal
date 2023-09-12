@@ -42,7 +42,7 @@ const Detail = () => {
                 variant="dark"
                 onClick={() => handleAddToCart(productDetail)}
               >
-                Agregar al carrito
+                Agregar al carrito.
               </Button>
             </div>
           </div>
