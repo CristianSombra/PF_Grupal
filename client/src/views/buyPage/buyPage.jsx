@@ -10,6 +10,7 @@ const BuyPage = () => {
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => Number(total) + Number(item.price), 0);
   };
+  
 
   return (
     <div style={{ margin: "100px" }}>
@@ -39,3 +40,6 @@ const BuyPage = () => {
 };
 
 export default BuyPage;
+
+
+

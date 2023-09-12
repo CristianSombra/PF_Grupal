@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart } from "../../redux/actions/index";
+import { removeFromCart, addToCart } from "../../redux/actions/index";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -12,17 +12,22 @@ const Cart = () => {
     dispatch(removeFromCart(product));
   };
 
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
+
   return (
-    <div  style={{ margin: "100px" }}>      <h2>Carrito de Compras</h2>
+    <div style={{ margin: "100px" }}>
+      <h2>Carrito de Compras</h2>
       {cartItems.length === 0 ? (
         <p>El carrito está vacío.</p>
       ) : (
         <div className="card">
           <div className="card-body">
             {cartItems.map((item) => (
-              <div key={item.id} className="card">
+              <div key={item.sku} className="card">
                 <div className="card-body">
-                <h5 className="card-title">Nombre: {item.titulo}</h5>
+                  <h5 className="card-title">Nombre: {item.titulo}</h5>
                   <img src={item.image} alt={item.title} />
                   <p className="card-text">Precio: ${item.price}</p>
                   <button className="btn btn-danger" onClick={() => handleRemoveFromCart(item.sku)}>Eliminar</button>
@@ -37,6 +42,5 @@ const Cart = () => {
       </Button>
     </div>
   );
-};
-
+            }  
 export default Cart;
