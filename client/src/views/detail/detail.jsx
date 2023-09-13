@@ -1,24 +1,18 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import '../../components/css/index.css';
 import { Link } from "react-router-dom";
 import { useGetProductDetailHandler } from "../../components/handlers/handlersdetail";
 import Button from "react-bootstrap/esm/Button";
 import AddRating from "../../components/rating/AddRating";
 import ProductRating from "../../components/rating/ProductRating";
-import { getRatings } from "../../redux/actions"; // Importa la acción para obtener calificaciones
+import ProductComment from "../../components/rating/ProductComment";
+
 
 const Detail = () => {
-  const dispatch = useDispatch();
   const productDetail = useGetProductDetailHandler();
   const product_id = productDetail ? productDetail.sku : null; // Asegúrate de tener un SKU válido
 
-  // Dispara la acción para obtener calificaciones cuando el componente se monta
-  useEffect(() => {
-    if (product_id) {
-      dispatch(getRatings());
-    }
-  }, [dispatch, product_id]);
+  
 
   if (!productDetail) {
     return <p>No se encontró información para el producto seleccionado.</p>;
@@ -43,6 +37,7 @@ const Detail = () => {
                 <li>Almacenamiento: {product_id}</li>
               </ul>
               <ProductRating sku={product_id} />
+              <AddRating product_id={product_id} />
             </div>
           </div>
         </div>
@@ -52,10 +47,12 @@ const Detail = () => {
             alt={productDetail.titulo}
             className="img-detail"
           />
+              
         </div>
+   
       </div>
       <div>
-        <AddRating product_id={product_id} />
+         <ProductComment sku={product_id}/>
       </div>
 
       <div className="text-center mt-4">

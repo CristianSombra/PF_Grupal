@@ -17,6 +17,7 @@ export const UPDATE_USER_INFO_FAIL = 'UPDATE_USER_INFO_FAIL';
 export const LOGOUT  = 'LOGOUT ';
 export const CREATE_RATING = "CREATE_RATING";
 export const GET_RATINGS = "GET_RATINGS";
+export const SET_SHOW_RESULTS = "SET_SHOW_RESULTS";
 
 
 
@@ -264,4 +265,9 @@ export const getRatings = () => async (dispatch) => {
     console.error("Error al obtener las calificaciones:", error);
   }
 };
+
+export const setShowResults = (showResults) => ({
+  type: 'SET_SHOW_RESULTS',
+  showResults,
+});
 

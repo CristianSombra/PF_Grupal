@@ -1,39 +1,46 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { updateUserInfo } from '../../redux/actions/index';
-  import { Button } from 'react-bootstrap';
-  
+import { Button, Container, Row, Col, Form } from 'react-bootstrap';
+
 const UpdateAccount = ({ userId, updateUserInfo }) => {
   const [newPassword, setNewPassword] = useState('');
-  const [error, setError] = useState(null); // Estado para manejar errores
-
+  const [error, setError] = useState(null);
 
   const handleUpdate = async () => {
     try {
-      // Llama a la acción para actualizar la contraseña del usuario
       await updateUserInfo(userId, newPassword);
-
-      // Si la actualización es exitosa, muestra un mensaje y redirige
       alert('Contraseña actualizada correctamente.');
       // Aquí puedes redirigir al usuario a donde desees, por ejemplo, la página de su cuenta.
     } catch (err) {
-      setError(err.response?.data?.error || 'Error al actualizar la contraseña.'); // Maneja el error
+      setError(err.response?.data?.error || 'Error al actualizar la contraseña.');
     }
   };
 
   return (
-    <div>
-      <h3>Ingresa tu nueva contraseña</h3>
-      {error && <div style={{ color: 'red' }}>{error}</div>} {/* Muestra el mensaje de error si hay uno */}
-      <label>Nueva Contraseña:</label>
-      <input
-        type="password"
-        value={newPassword}
-        onChange={(e) => setNewPassword(e.target.value)}
-      />
-      <Button onClick={handleUpdate} variant="dark" size="sm">Actualizar</Button>
-      
-    </div>
+    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 100px)', marginTop: '70px', marginBottom: '30px' }} >
+    <Row>
+      <Col>
+          <h3 className="text-center">Ingresa tu nueva contraseña</h3>
+          {error && <div className="text-danger text-center mb-3">{error}</div>}
+          <Form>
+            <Form.Group>
+              <Form.Label>Nueva Contraseña:</Form.Label>
+              <Form.Control
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+            </Form.Group>
+            <div className="text-center">
+              <Button onClick={handleUpdate} variant="dark" size="sm">
+                Actualizar
+              </Button>
+            </div>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

@@ -1,14 +1,10 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { getRatings } from '../../redux/actions';
+import React from 'react';
+import { useSelector } from 'react-redux';
+
 
 const ProductRating = ({ sku }) => {
-  const dispatch = useDispatch();
+ 
   const ratings = useSelector((state) => state.ratings);
-
-  useEffect(() => {
-    dispatch(getRatings());
-  }, [dispatch]);
 
   // Función para calcular la mediana de calificaciones considerando un límite de 5
   const calculateMedianRating = (products) => {
@@ -39,8 +35,7 @@ const ProductRating = ({ sku }) => {
 
   const medianRating = calculateMedianRating(filteredProducts);
 
-  // Redondear la mediana a una cifra decimal
-  const roundedRating = medianRating.toFixed(1);
+ 
 
   // Función para renderizar las estrellas
   const renderStars = (rating) => {
@@ -56,9 +51,10 @@ const ProductRating = ({ sku }) => {
 
     return stars;
   };
+  
 
   // Mostrar un mensaje si la calificación es menor a 0.5
-  const ratingMessage = medianRating < 0.5 ? 'No registra Calificaciones' : '';
+  const ratingMessage = medianRating < 0.1 ? 'No registra Calificaciones' : '';
 
   return (
     <div>
