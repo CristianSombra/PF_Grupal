@@ -1,7 +1,7 @@
 const { Rating , Product} = require("../db");
 
 
-const getProductsWithRatings = async (req, res) => {
+const getProductsWithRatings = async () => {
   try {
     // Realiza una consulta para obtener solo los productos que tienen calificaciones
     const productsWithRatings = await Product.findAll({
