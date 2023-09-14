@@ -144,22 +144,7 @@ const rootReducer = (state = initialState, action) => {
           updateUserInfoSuccess: false,
           updateUserInfoError: action.payload, // Almacena el error si la actualización falla
         };
-                  case LOGOUT:
-                    return {
-                      ...state,
-                      user: null, // Establece 'user' en null al cerrar sesión
-                    };
-                 
-                    case ADD_TO_CART:
-                      return {
-                        ...state,
-                        cartItems: [...state.cartItems, action.payload],
-                      };
-                
-                    case REMOVE_FROM_CART:
-                      return {
-                        ...state, cartItems: state.cartItems.filter(product => product.sku !== action.payload)
-                      };
+                      
       case LOGOUT:
         return {
           ...state,
@@ -177,8 +162,17 @@ const rootReducer = (state = initialState, action) => {
           ratings: action.payload,
            };
       case SET_SHOW_RESULTS:
-      return { ...state, showResults: action.showResults };
-    
+           return { ...state, showResults: action.showResults };
+
+      case ADD_TO_CART:
+         return {
+          ...state,
+          cartItems: [...state.cartItems, action.payload],
+        };
+      case REMOVE_FROM_CART:
+          return {
+            ...state, cartItems: state.cartItems.filter(product => product.sku !== action.payload)
+          };
    
             default:
               return state;

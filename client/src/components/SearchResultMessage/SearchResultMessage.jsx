@@ -23,11 +23,13 @@
        
         
       );
-    } else {
+    }
+    
+    else {
       return (
         
             <div>
-              Resultado de búsqueda para: <strong>{searchQuery}</strong>
+            <strong>{searchQuery}</strong>
             </div>
        
       );

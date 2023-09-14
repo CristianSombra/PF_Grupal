@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useGetProductDetailHandler } from "../../components/handlers/handlersdetail";
 import Button from "react-bootstrap/esm/Button";
 import { useDispatch } from "react-redux";
-import Cards from "../../components/card/card"; 
 import { addToCart } from "../../redux/actions";
 import AddRating from "../../components/rating/AddRating";
 import ProductRating from "../../components/rating/ProductRating";
