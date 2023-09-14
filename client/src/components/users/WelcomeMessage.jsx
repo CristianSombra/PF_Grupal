@@ -16,7 +16,7 @@ const WelcomeMessage = ({ user }) => {
   } else {
     // Si el usuario no está autenticado, no muestra nada
     return null;
-  }
+  };
 };
 
 const mapStateToProps = (state) => ({

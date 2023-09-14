@@ -12,8 +12,8 @@ import RegisterButton from "../users/RegisterButton"
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import logo from '../../assets/logo.png'
-import './navbar.css'
+import logo from '../../assets/logo.png';
+import './navbar.css';
 
 
 const Navbar1 = ({user}) => {
@@ -79,5 +79,6 @@ const Navbar1 = ({user}) => {
 const mapStateToProps = (state) => ({
   user: state.user,
 });
+
 
 export default connect(mapStateToProps)(Navbar1);
