@@ -14,24 +14,21 @@ const getProductsWithRatings = async (req, res) => {
       ],
     });
 
-    return res.status(200).json(productsWithRatings); // Devuelve los productos con calificaciones
+    return productsWithRatings; // Devuelve los productos con calificaciones
   } catch (error) {
     console.error("Error al obtener productos con calificaciones:", error);
-    return res.status(500).json({ message: "Error interno del servidor" });
+    throw error;
   }
 };
 
   
  
-const createRating = async (req, res) => {
+const createRating = async (product_id, rate, review) => {
   try {
-    const { product_id, rate, review } = req.body;
-
-    // Busca el producto por su SKU
     const product = await Product.findOne({ where: { sku: product_id } });
 
     if (!product) {
-      return res.status(404).json({ message: "Producto no encontrado" });
+      throw new Error("Producto no encontrado");
     }
 
     // Crea un nuevo rating
@@ -41,11 +38,10 @@ const createRating = async (req, res) => {
       review,
     });
 
- 
-    return res.status(201).json(newRating);
+    return newRating; // Devuelve el rating creado
   } catch (error) {
     console.error("Error al crear un rating:", error);
-    return res.status(500).json({ message: "Error interno del servidor" });
+    throw error; // Lanza el error para que sea manejado en el controlador
   }
 };
 

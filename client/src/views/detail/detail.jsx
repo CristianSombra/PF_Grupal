@@ -3,6 +3,9 @@ import '../../components/css/index.css';
 import { Link } from "react-router-dom";
 import { useGetProductDetailHandler } from "../../components/handlers/handlersdetail";
 import Button from "react-bootstrap/esm/Button";
+import { useDispatch } from "react-redux";
+import Cards from "../../components/card/card"; 
+import { addToCart } from "../../redux/actions";
 import AddRating from "../../components/rating/AddRating";
 import ProductRating from "../../components/rating/ProductRating";
 import ProductComment from "../../components/rating/ProductComment";
@@ -10,6 +13,7 @@ import ProductComment from "../../components/rating/ProductComment";
 
 const Detail = () => {
   const productDetail = useGetProductDetailHandler();
+  const dispatch = useDispatch();
   const product_id = productDetail ? productDetail.sku : null; // Asegúrate de tener un SKU válido
 
   
@@ -18,6 +22,10 @@ const Detail = () => {
     return <p>No se encontró información para el producto seleccionado.</p>;
   }
 
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
+
   return (
     <div className="container-detail">
       <h1 className="mt-5 mx-auto text-center">Detalle del producto</h1>
@@ -25,6 +33,7 @@ const Detail = () => {
         <div className="col-md-8 mx-auto" style={{ maxWidth: "600px" }}>
           <div className="card custom-shadow">
             <div className="card-body">
+              <p className="card-text">N/P: {productDetail.number_part}</p>
               <h5 className="card-title">Nombre: {productDetail.titulo}</h5>
               <p className="card-text">Precio: {productDetail.price}</p>
               <p className="card-text">En stock: {productDetail.disponibility}</p>
@@ -36,7 +45,14 @@ const Detail = () => {
                 <li>Almacenamiento: {productDetail.detail.almacenamiento}</li>
                 <li>Almacenamiento: {product_id}</li>
               </ul>
-              <ProductRating sku={product_id} />
+                    <ProductRating sku={product_id} />
+              <Button
+                variant="dark"
+                onClick={() => handleAddToCart(productDetail)}
+              >
+                Agregar al carrito
+              </Button>
+        
               <AddRating product_id={product_id} />
             </div>
           </div>
@@ -47,13 +63,15 @@ const Detail = () => {
             alt={productDetail.titulo}
             className="img-detail"
           />
-              
+
+        <div>
+         <ProductComment sku={product_id} className="col-md-6" />
+      </div> 
+
         </div>
    
       </div>
-      <div>
-         <ProductComment sku={product_id}/>
-      </div>
+      
 
       <div className="text-center mt-4">
         <Button variant="dark" as={Link} to="/Home">

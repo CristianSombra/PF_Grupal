@@ -15,6 +15,8 @@ import {
   UPDATE_USER_INFO_SUCCESS,
   UPDATE_USER_INFO_FAIL,
   LOGOUT,
+  ADD_TO_CART, 
+  REMOVE_FROM_CART,
   CREATE_RATING, 
   GET_RATINGS, 
   SET_SHOW_RESULTS,
@@ -35,6 +37,7 @@ const initialState = {
   loadedUser: null,
   updateUserInfoSuccess: false, // Para rastrear el éxito de la actualización
   updateUserInfoError: null, // Para rastrear errores de actualización
+  cartItems: [],
   ratings: [],
   showResults : false, 
  };
@@ -141,6 +144,22 @@ const rootReducer = (state = initialState, action) => {
           updateUserInfoSuccess: false,
           updateUserInfoError: action.payload, // Almacena el error si la actualización falla
         };
+                  case LOGOUT:
+                    return {
+                      ...state,
+                      user: null, // Establece 'user' en null al cerrar sesión
+                    };
+                 
+                    case ADD_TO_CART:
+                      return {
+                        ...state,
+                        cartItems: [...state.cartItems, action.payload],
+                      };
+                
+                    case REMOVE_FROM_CART:
+                      return {
+                        ...state, cartItems: state.cartItems.filter(product => product.sku !== action.payload)
+                      };
       case LOGOUT:
         return {
           ...state,
@@ -167,5 +186,4 @@ const rootReducer = (state = initialState, action) => {
         };
         
         
-
 export default rootReducer;

@@ -23,25 +23,27 @@ const MyAccount = ({ user, loadedUser, error, loadUserById }) => {
   // Renderizar el perfil del usuario si está cargado
   if (loadedUser) {
     return (
-      <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 100px)', marginTop: '70px', marginBottom: '30px' }} >
+      <div className="mx-auto" style={{ width: "40%", margin: "130px",borderRadius: "10px", padding:"30px",  boxShadow: "0px 0px 5px 2px rgba(0, 0, 0, 0.5)"}}>
+      <Container>
         <Row>
           <Col>
-            <div >
-              <WelcomeMessage/>
-              <p></p>
-              <p><strong>Nombre:</strong> {loadedUser.first_name} {loadedUser.last_name}</p>
-              <p><strong>Correo electrónico:</strong> {loadedUser.email}</p>
-              <p><strong>Dirección de envíos:</strong> {loadedUser.delivery_address}</p>
-              <p><strong>País:</strong> {loadedUser.country}</p>
-              <p><strong>Teléfono de contacto:</strong> {loadedUser.mobile}</p>
-              <p><strong>Actividad laboral:</strong> {loadedUser.CustomElementRegistry}</p>
-              <p><strong>Tipo de cuenta:</strong> {loadedUser.role}</p>
+            <div>
+              <h1 style={{fontWeight:700}}>Perfil de Usuario</h1>
+              <p>Nombre: {loadedUser.first_name} {loadedUser.last_name}</p>
+              <p>Correo electrónico: {loadedUser.email}</p>
+              <p>Dirección de envíos: {loadedUser.delivery_address}</p>
+              <p>País: {loadedUser.country}</p>
+              <p>Teléfono de contacto: {loadedUser.mobile}</p>
+              <p>Actividad laboral: {loadedUser.CustomElementRegistry}</p>
+              <p>Tipo de cuenta: {loadedUser.role}</p>
+              <p>Historial de compras: {loadedUser.purchase_history}</p>
             </div>
             <UpdateButton />
           </Col>
         </Row>
        
       </Container>
+            </div>
     );
   }
 

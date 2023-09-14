@@ -9,11 +9,8 @@ const LoginButton = ({ user }) => {
     return null; // Si el usuario está autenticado, no muestra nada
   } else {
     return (
-
-     <Button as={Link} to="/login" variant="dark" size="sm">Iniciar sesion</Button>
-
+     <Button as={Link} to="/login" variant="dark" size="sm">Iniciar sesión</Button>
     );
-
   }
 };
 

@@ -21,6 +21,23 @@ export const SET_SHOW_RESULTS = "SET_SHOW_RESULTS";
 
 
 
+export const ADD_TO_CART = "ADD_TO_CART";
+export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+
+export const addToCart = (product) => {
+  return {
+    type: ADD_TO_CART,
+    payload: product,
+  };
+};
+
+export const removeFromCart = (product) => {
+  return {
+    type: REMOVE_FROM_CART,
+    payload: product,
+  };
+};
+
 export const getAllProducts = () => {
   return async function(dispatch) {
     let errorMessage = '';
@@ -52,7 +69,6 @@ export const getAllProducts = () => {
   };
 
   
-  
   export const createProduct = (payload) => {
     return async (dispatch) => {
       try {
@@ -65,8 +81,6 @@ export const getAllProducts = () => {
     }
   }
 
-
-
   export const sortProductsByPrice = (orderBy) => {
     return {
       type: SORT_PRODUCTS_BY_PRICE,
@@ -74,7 +88,6 @@ export const getAllProducts = () => {
     };
   };
   
-
   export const filterByBrand = (brandId) => {
     return async function (dispatch) {
       try {
@@ -163,22 +176,13 @@ export const getAllProducts = () => {
 
 export const login = (formData) => async (dispatch) => {
   try {
-    // Realiza una solicitud GET para obtener la lista de usuarios registrados desde el servidor
-    const res = await axios.get('http://localhost:3001/user');
-
-    // Busca si hay un usuario registrado con el correo y contraseña proporcionados en la respuesta del servidor
-    const user = res.data.find(
-      (u) => u.email === formData.email && u.user_password === formData.user_password
-    );
-
-    if (user) {
-      // Si el usuario existe, dispara una acción de éxito con los datos del usuario
-      dispatch({ type: LOGIN_SUCCESS, payload: user });
-    } else {
-      // Si el usuario no existe, dispara una acción de error
-      dispatch({ type: LOGIN_FAIL, payload: 'Credenciales incorrectas' });
-    }
+   
+    const res = await axios.post('http://localhost:3001/user/login', formData);
+    dispatch({ type: LOGIN_SUCCESS, payload: res.data });
+    console.log(res);
+    
   } catch (error) {
+    console.log(error);
     // Disparar una acción de error en caso de fallo
     dispatch({ type: LOGIN_FAIL, payload: 'Error en el inicio de sesión' });
   }
@@ -195,44 +199,40 @@ export const createUser = (formData) => async (dispatch) => {
   }
 };
 
-
-
   export const loadUserById = (userId) => async (dispatch) => {
     try {
       const res = await axios.get(`http://localhost:3001/user/id/${userId}`);
       dispatch({ type: LOAD_USER_SUCCESS, payload: res.data });
     } catch (error) {
       dispatch({ type: LOAD_USER_FAIL, payload: error.message });
+    };
+  };
+
+  export const updateUserInfo = (user_password) => async (dispatch, getState) => {
+    const id = getState().user.id;
+  
+    // Realiza una solicitud para actualizar la información del usuario en el servidor
+    try {
+      const res = await axios.put(`http://localhost:3001/user/id/${id}`, {
+        user_password: user_password, // Asegúrate de que la estructura coincida con lo esperado por tu backend
+      });
+  
+      // Si la actualización fue exitosa, puedes despachar una acción de éxito o manejarla según tus necesidades
+      dispatch({ type: UPDATE_USER_INFO_SUCCESS, payload: res.data });
+  
+      // Muestra un mensaje de éxito o redirige al usuario a su cuenta
+      alert('Datos actualizados correctamente');
+      // Puedes redirigir al usuario a su cuenta aquí, por ejemplo:
+      // history.push('/mi-cuenta');
+    } catch (error) {
+      // Maneja los errores y dispatch una acción de error si es necesario
+      dispatch({ type: UPDATE_USER_INFO_FAIL, payload: error.response.data });
     }
   };
 
- export const updateUserInfo = ( newPassword) => async (dispatch, getState) => {
-  const userId = getState().user.id;
-  
-  // Realiza una solicitud para actualizar la información del usuario en el servidor
-  try {
-    const res = await axios.put(`http://localhost:3001/user/id/${userId}`, {
-      user_password: newPassword,
+    export const logout = () => ({
+      type: LOGOUT,
     });
-
-    // Si la actualización fue exitosa, puedes despachar una acción de éxito o manejarla según tus necesidades
-    dispatch({ type: UPDATE_USER_INFO_SUCCESS, payload: res.data });
-
-    // Muestra un mensaje de éxito o redirige al usuario a su cuenta
-    alert('Datos actualizados correctamente');
-    // Puedes redirigir al usuario a su cuenta aquí, por ejemplo:
-    // history.push('/mi-cuenta');
-  } catch (error) {
-    // Maneja los errores y dispatch una acción de error si es necesario
-    dispatch({ type: UPDATE_USER_INFO_FAIL, payload: error.response.data });
-  }
-};
-
-
-
-export const logout = () => ({
-  type: LOGOUT,
-});
 
 export const createRating = (product_id,rate, review) => async (dispatch) => {
   try {

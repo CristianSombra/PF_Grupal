@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 const ProductComment = ({ sku }) => {
   const dispatch = useDispatch();
   const ratings = useSelector((state) => state.ratings);
-
+  
   useEffect(() => {
     dispatch(getRatings());
   }, [dispatch]);
@@ -14,12 +14,35 @@ const ProductComment = ({ sku }) => {
   const filteredProducts = ratings.filter((product) => product.sku === sku);
 
   const allComments = filteredProducts.reduce((allComment, product) => {
-    return allComment.concat(product.Ratings.map((rating) => rating.review));
+    return allComment.concat(
+      product.Ratings.map((rating) => ({
+        review: rating.review,
+        rate: rating.rate 
+      }))
+    );
   }, []);
+
+
+  const renderStars = (rate) => {
+    const stars = [];
+    const starCount = Math.ceil(rate); // Redondear hacia arriba para mostrar la cantidad de estrellas
+
+    if (starCount > 0) {
+      for (let i = 1; i <= starCount; i++) {
+        const starClass = 'star-colored';
+        stars.push(<span key={i} className={`bi bi-star ${starClass}`}></span>);
+      }
+    }
+
+    return stars;
+  };
+  
+ 
 
   if (allComments.length === 0) {
     return null;
   }
+
 
   return (
     <div>
@@ -30,7 +53,12 @@ const ProductComment = ({ sku }) => {
             <ul className="list-group">
               {allComments.map((comment, index) => (
                 <li key={index} className="list-group-item list-group-item-action">
-                  {comment}
+                  
+                   <span className="ml-2"> 
+                  {renderStars(comment.rate)} : 
+                  </span>
+                  ! {comment.review} ! 
+                 
                 </li>
               ))}
             </ul>
@@ -40,5 +68,6 @@ const ProductComment = ({ sku }) => {
     </div>
   );
 };
+
 
 export default ProductComment;

@@ -102,10 +102,10 @@ const loginUsers = async (email, user_password) => {
       }
 
     }
-    else return { error: "Invalid password or username" }
+    else throw new Error('Server Error, email o password invalidad');
 
   } catch (error) {
-    return { error: "Invalid password or username" }
+    throw new Error ('Server Error, falla al iniciar sesión');
   }
 
 
