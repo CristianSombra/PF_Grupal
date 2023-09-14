@@ -6,14 +6,14 @@ import SearchBar from "../searchbar/searchbar";
 import Navbar from 'react-bootstrap/Navbar';
 import LoginButton from "../users/loginButton"
 import WelcomeMessage from "../../components/users/WelcomeMessage"
-import LogoutButton from "../users/LogoutButton"
-import ButtonAccount from "../users/ButtonAccount"
-import RegisterButton from "../users/RegisterButton"
+import LogoutButton from "../users/LogoutButton";
+import ButtonAccount from "../users/ButtonAccount";
+import RegisterButton from "../users/RegisterButton";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import logo from '../../assets/logo.png'
-import './navbar.css'
+import logo from '../../assets/logo.png';
+import './navbar.css';
 
 
 const Navbar1 = ({user}) => {
@@ -73,7 +73,7 @@ const Navbar1 = ({user}) => {
         <i className="bi bi-power" style={{ fontSize: '2.3rem' }}></i>
       </Button>
     </Navbar>
-  );
+  )
 };
 
 
