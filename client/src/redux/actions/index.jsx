@@ -193,6 +193,7 @@ export const createUser = (formData) => async (dispatch) => {
     const res = await axios.post('http://localhost:3001/user', formData);
     // Disparar una acción de éxito con los datos del nuevo usuario
     dispatch({ type: CREATE_USER_SUCCESS, payload: res.data });
+    dispatch({ type: LOGIN_SUCCESS, payload: res.data });
   } catch (error) {
     // Disparar una acción de error en caso de fallo
     dispatch({ type: CREATE_USER_FAIL, payload: error.response.data });
