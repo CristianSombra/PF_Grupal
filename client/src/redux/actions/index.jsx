@@ -1,10 +1,10 @@
 import axios from "axios";
-export const UPDATE_SEARCH_RESULTS = "UPDATE_SEARCH_RESULTS";
 export const ERROR = "ERROR";
 export const GET_PODUCT_SUCCESS = 'GET_PODUCT_SUCCESS';
 export const GET_PRODUCT_DETAIL = 'GET_PRODUCT_DETAIL';
 export const SORT_PRODUCTS_BY_PRICE = 'SORT_PRODUCTS_BY_PRICE';
 export const CREATE_PRODUCT = 'CREATE_PRODUCT'
+export const UPDATE_SEARCH_RESULTS = "UPDATE_SEARCH_RESULTS";
 export const RESET_SELECTED_BRAND_CATEGORY = "RESET_SELECTED_BRAND_CATEGORY"
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
@@ -12,11 +12,14 @@ export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
 export const CREATE_USER_FAIL = 'CREATE_USER_FAIL';
 export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
 export const LOAD_USER_FAIL = 'LOAD_USER_FAIL';
-export const LOGOUT  = 'LOGOUT ';
-export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
-export const UPDATE_USER_FAIL = 'UPDATE_USER_FAIL';
 export const UPDATE_USER_INFO_SUCCESS = 'UPDATE_USER_INFO_SUCCESS';
 export const UPDATE_USER_INFO_FAIL = 'UPDATE_USER_INFO_FAIL';
+export const LOGOUT  = 'LOGOUT ';
+export const CREATE_RATING = "CREATE_RATING";
+export const GET_RATINGS = "GET_RATINGS";
+export const SET_SHOW_RESULTS = "SET_SHOW_RESULTS";
+
+
 
 export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
@@ -190,6 +193,7 @@ export const createUser = (formData) => async (dispatch) => {
     const res = await axios.post('http://localhost:3001/user', formData);
     // Disparar una acción de éxito con los datos del nuevo usuario
     dispatch({ type: CREATE_USER_SUCCESS, payload: res.data });
+    dispatch({ type: LOGIN_SUCCESS, payload: res.data });
   } catch (error) {
     // Disparar una acción de error en caso de fallo
     dispatch({ type: CREATE_USER_FAIL, payload: error.response.data });
@@ -205,29 +209,66 @@ export const createUser = (formData) => async (dispatch) => {
     };
   };
 
- export const updateUserInfo = ( newPassword) => async (dispatch, getState) => {
-  const userId = getState().user.id;
+  export const updateUserInfo = (user_password) => async (dispatch, getState) => {
+    const id = getState().user.id;
   
-  // Realiza una solicitud para actualizar la información del usuario en el servidor
-  try {
-    const res = await axios.put(`http://localhost:3001/user/id/${userId}`, {
-      user_password: newPassword,
-    });
-
-    // Si la actualización fue exitosa, puedes despachar una acción de éxito o manejarla según tus necesidades
-    dispatch({ type: UPDATE_USER_INFO_SUCCESS, payload: res.data });
-
-    // Muestra un mensaje de éxito o redirige al usuario a su cuenta
-    alert('Datos actualizados correctamente');
-    // Puedes redirigir al usuario a su cuenta aquí, por ejemplo:
-    // history.push('/mi-cuenta');
-  } catch (error) {
-    // Maneja los errores y dispatch una acción de error si es necesario
-    dispatch({ type: UPDATE_USER_INFO_FAIL, payload: error.response.data });
+    // Realiza una solicitud para actualizar la información del usuario en el servidor
+    try {
+      const res = await axios.put(`http://localhost:3001/user/id/${id}`, {
+        user_password: user_password, // Asegúrate de que la estructura coincida con lo esperado por tu backend
+      });
+  
+      // Si la actualización fue exitosa, puedes despachar una acción de éxito o manejarla según tus necesidades
+      dispatch({ type: UPDATE_USER_INFO_SUCCESS, payload: res.data });
+  
+      // Muestra un mensaje de éxito o redirige al usuario a su cuenta
+      alert('Datos actualizados correctamente');
+      // Puedes redirigir al usuario a su cuenta aquí, por ejemplo:
+      // history.push('/mi-cuenta');
+    } catch (error) {
+      // Maneja los errores y dispatch una acción de error si es necesario
+      dispatch({ type: UPDATE_USER_INFO_FAIL, payload: error.response.data });
+    }
   };
-};
 
     export const logout = () => ({
       type: LOGOUT,
     });
+
+export const createRating = (product_id,rate, review) => async (dispatch) => {
+  try {
+
+
+    const response = await axios.post('http://localhost:3001/rating', {
+      product_id,
+      rate,
+      review,
+    });
+
+    dispatch({
+      type: CREATE_RATING,
+      payload: response.data,
+    });
+  } catch (error) {
+    console.error("Error al crear la calificación:", error);
+  }
+};
+
+// Acción para obtener todas las calificaciones
+export const getRatings = () => async (dispatch) => {
+  try {
+    const response = await axios.get("http://localhost:3001/rating");
+    dispatch({
+      type: GET_RATINGS,
+      payload: response.data,
+    });
+  } catch (error) {
+    console.error("Error al obtener las calificaciones:", error);
+  }
+};
+
+export const setShowResults = (showResults) => ({
+  type: 'SET_SHOW_RESULTS',
+  showResults,
+});
 
