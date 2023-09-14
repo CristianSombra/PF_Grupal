@@ -7,10 +7,11 @@ const WelcomeMessage = ({ user }) => {
 
   // Verifica si el usuario está autenticado
   if (user) {
+    console.log(user);
     return (
       <div>
         {/* Aplica el estilo al texto */}
-        <p className="text-white bg-dark text-center mb-0" >Bienvenido, {user.user_name}!</p>
+        <p className="text-white bg-dark text-center mb-0" >Bienvenido, {user.first_name}!</p>
       </div>
     );
   } else {

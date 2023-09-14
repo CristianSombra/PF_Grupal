@@ -1,6 +1,7 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 import { v4 as uuidv4 } from 'uuid';
 
 const BuyPage = () => {
@@ -14,7 +15,8 @@ const BuyPage = () => {
   const referenceUUID = uuidv4();
 
   return (
-    <div style={{ margin: "150px", border: "gray solid 1px", borderRadius: "10px", padding:"20px",  boxShadow: "0px 0px 5px 2px rgba(0, 0, 0, 0.5)"}}>
+    <div>
+    <div style={{ margin: "150px", border: "gray 1px", borderRadius: "10px", padding:"20px",  boxShadow: "0px 0px 5px 2px rgba(0, 0, 0, 0.5)", marginBottom: "50px"}}>
       <h2 style={{fontWeight:700}}>Resumen de Compra</h2>
       <div>
         <div className="card-body">
@@ -43,6 +45,12 @@ const BuyPage = () => {
             <Button variant="primary" type="submit" class="waybox-button" style={{width:"30%"}}>Pagar</Button>
             </div>
       </form>
+    </div>
+    <div className="text-center m-4">
+        <Button variant="dark" as={Link} to="/cart">
+          Volver al carrito
+        </Button>
+      </div>
     </div>
   )
 };
