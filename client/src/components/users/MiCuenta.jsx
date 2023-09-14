@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { loadUserById } from '../../redux/actions/index';
 import UpdateButton from './UpdateButton';
 import Container from 'react-bootstrap/Container';
@@ -7,11 +7,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 
-const MyAccount = ({ user, loadedUser, error, loadUserById }) => {
+const MyAccount = ({loadedUser, error, loadUserById }) => {
+  const user = useSelector(state => (state.user))
   useEffect(() => {
     // Carga los datos del usuario cuando el componente se monta
-    if (user && user.id) {
-      loadUserById(user.id);
+    if (user && user.user.id) {
+      loadUserById(user.user.id);
     }
   }, [user, loadUserById]);
 
