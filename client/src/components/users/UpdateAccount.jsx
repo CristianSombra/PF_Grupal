@@ -1,45 +1,60 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { updateUserInfo } from '../../redux/actions/index';
-  import { Button } from 'react-bootstrap';
-  
-const UpdateAccount = ({ userId, updateUserInfo }) => {
-  const [newPassword, setNewPassword] = useState('');
-  const [error, setError] = useState(null); // Estado para manejar errores
+import { Button, Container, Row, Col, Form } from 'react-bootstrap';
 
+const UpdateAccount = ({ updateUserInfo, userId }) => {
+  const [user_password, setuser_password] = useState('');
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const handleUpdate = async () => {
     try {
-      // Llama a la acción para actualizar la contraseña del usuario
-      await updateUserInfo(userId, newPassword);
-
-      // Si la actualización es exitosa, muestra un mensaje y redirige
-      alert('Contraseña actualizada correctamente.');
-      // Aquí puedes redirigir al usuario a donde desees, por ejemplo, la página de su cuenta.
+      await updateUserInfo(userId, { user_password: user_password });
+      setSuccess('Contraseña actualizada correctamente.');
+      setError(null);
+      // Puedes redirigir al usuario a donde desees, por ejemplo, la página de su cuenta.
     } catch (err) {
-      setError(err.response?.data?.error || 'Error al actualizar la contraseña.'); // Maneja el error
+      setError('Error al actualizar la contraseña. Por favor, inténtelo de nuevo.');
+      setSuccess(null);
     }
   };
 
   return (
-    <div>
-      <h3>Ingresa tu nueva contraseña</h3>
-      {error && <div style={{ color: 'red' }}>{error}</div>} {/* Muestra el mensaje de error si hay uno */}
-      <label>Nueva contraseña:</label>
-      <input
-        type="password"
-        value={newPassword}
-        onChange={(e) => setNewPassword(e.target.value)}
-      />
-      <Button onClick={handleUpdate} variant="dark" size="sm">Actualizar</Button>
-      
-    </div>
+    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 100px)', marginTop: '70px', marginBottom: '30px' }} >
+      <Row>
+        <Col>
+          <h3 className="text-center">Ingresa tu nueva contraseña</h3>
+          {error && <div className="text-danger text-center mb-3">{error}</div>}
+          {success && <div className="text-success text-center mb-3">{success}</div>}
+          <Form>
+            <Form.Group>
+              <Form.Label>Nueva Contraseña:</Form.Label>
+              <Form.Control
+                type="password"
+                value={user_password}
+                onChange={(e) => setuser_password(e.target.value)}
+              />
+            </Form.Group>
+            <div className="text-center">
+              <Button onClick={handleUpdate} variant="dark" size="sm">
+                Actualizar
+              </Button>
+            </div>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  updateUserInfo: (userId, newPassword) =>
-    dispatch(updateUserInfo(userId, newPassword)),
+const mapStateToProps = (state) => ({
+  userId: state.user.id,
 });
 
-export default connect(null, mapDispatchToProps)(UpdateAccount);
+const mapDispatchToProps = (dispatch) => ({
+  updateUserInfo: (id, user_password) =>
+    dispatch(updateUserInfo(id, user_password)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(UpdateAccount);

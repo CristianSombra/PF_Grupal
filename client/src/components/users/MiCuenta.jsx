@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { loadUserById } from '../../redux/actions/index';
 import UpdateButton from './UpdateButton';
+import WelcomeMessage from "../../components/users/WelcomeMessage"
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-
 const MyAccount = ({loadedUser, error, loadUserById }) => {
   const user = useSelector(state => (state.user))
+
   useEffect(() => {
     // Carga los datos del usuario cuando el componente se monta
     if (user && user.user.id) {
@@ -39,20 +40,17 @@ const MyAccount = ({loadedUser, error, loadUserById }) => {
               <p>Tipo de cuenta: {loadedUser.role}</p>
               <p>Historial de compras: {loadedUser.purchase_history}</p>
             </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
             <UpdateButton />
           </Col>
         </Row>
+       
       </Container>
             </div>
     );
   }
 
   // El usuario todavía se está cargando, puedes mostrar un indicador de carga
-  return <div>Cargando...</div>;
+  return <div className="mt-4">Cargando...</div>;
 };
 
 const mapStateToProps = (state) => ({
