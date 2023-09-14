@@ -44,6 +44,7 @@ const LoginForm = ({ login, user, error }) => {
   };
 
   const handleSubmit = async (e) => {
+    
     e.preventDefault();
     // Llamar a la acción de inicio de sesión
     await login(formData);
