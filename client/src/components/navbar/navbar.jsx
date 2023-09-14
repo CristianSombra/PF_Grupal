@@ -7,7 +7,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import LoginButton from "../users/loginButton"
 import WelcomeMessage from "../../components/users/WelcomeMessage"
 import LogoutButton from "../users/LogoutButton";
-import ButtonAccount from "../users/ButtonAccount";
 import RegisterButton from "../users/RegisterButton";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -47,8 +46,11 @@ const Navbar1 = ({user}) => {
           <Dropdown.Menu>
             <Dropdown.Item>
               <WelcomeMessage />
-              <ButtonAccount />
+              <Dropdown.Item as={Link} to="/account">Mi Perfil</Dropdown.Item>
+              <Dropdown.Item as={Link} to="/purchases">Mis Compras</Dropdown.Item>
+              <Dropdown.Item as={Link} to="/wishlist">Lista de Deseos</Dropdown.Item>
             </Dropdown.Item>
+          
             <Dropdown.Item onClick={() => setLoggedIn(false)}>
               <LogoutButton />
             </Dropdown.Item>
