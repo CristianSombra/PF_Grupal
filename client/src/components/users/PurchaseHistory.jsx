@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { loadUserById } from '../../redux/actions/index';
-import UpdateButton from './UpdateButton';
-import WelcomeMessage from "../../components/users/WelcomeMessage"
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-const MyAccount = ({ user, loadedUser, error, loadUserById }) => {
+const PurchageHistori = ({ user, loadedUser, error, loadUserById }) => {
   useEffect(() => {
     // Carga los datos del usuario cuando el componente se monta
     if (user && user.id) {
@@ -21,29 +19,40 @@ const MyAccount = ({ user, loadedUser, error, loadUserById }) => {
   }
 
   // Renderizar el perfil del usuario si está cargado
-  if (loadedUser) {
+  if (loadedUser.purchase_history) {
+    const purchaseHistory = loadedUser.purchase_history;
+
+    if (purchaseHistory.length === 0) {
+      return (
+        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 100px)', marginTop: '70px', marginBottom: '30px' }}>
+          <Row>
+            <Col>
+              <div>
+                <p>No hay compras registradas.</p>
+              </div>
+            
+            </Col>
+          </Row>
+        </Container>
+      );
+    }
+
     return (
-      <div className="mx-auto" style={{ width: "40%", margin: "130px",borderRadius: "10px", padding:"30px",  boxShadow: "0px 0px 5px 2px rgba(0, 0, 0, 0.5)"}}>
-      <Container>
+      <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 100px)', marginTop: '70px', marginBottom: '30px' }}>
         <Row>
           <Col>
             <div>
-              <h1 style={{fontWeight:700}}>Perfil de Usuario</h1>
-              <p>Nombre: {loadedUser.first_name} {loadedUser.last_name}</p>
-              <p>Correo electrónico: {loadedUser.email}</p>
-              <p>Dirección de envíos: {loadedUser.delivery_address}</p>
-              <p>País: {loadedUser.country}</p>
-              <p>Teléfono de contacto: {loadedUser.mobile}</p>
-              <p>Actividad laboral: {loadedUser.CustomElementRegistry}</p>
-              <p>Tipo de cuenta: {loadedUser.role}</p>
-              <p>Historial de compras: {loadedUser.purchase_history}</p>
+              <h3>Historial De compras</h3>
+              <ul>
+                {purchaseHistory.map((purchase, index) => (
+                  <li key={index}>Compra {index + 1}: {purchase}</li>
+                ))}
+              </ul>
             </div>
-            <UpdateButton />
+           
           </Col>
         </Row>
-       
       </Container>
-            </div>
     );
   }
 
@@ -61,4 +70,4 @@ const mapDispatchToProps = (dispatch) => ({
   loadUserById: (userId) => dispatch(loadUserById(userId)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAccount);
+export default connect(mapStateToProps, mapDispatchToProps)(PurchageHistori);

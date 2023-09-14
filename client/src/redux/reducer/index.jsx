@@ -1,4 +1,3 @@
-
 import { 
   ERROR, 
   GET_PODUCT_SUCCESS, 
@@ -17,7 +16,11 @@ import {
   UPDATE_USER_INFO_FAIL,
   LOGOUT,
   ADD_TO_CART, 
-  REMOVE_FROM_CART
+  REMOVE_FROM_CART,
+  CREATE_RATING, 
+  GET_RATINGS, 
+  SET_SHOW_RESULTS,
+  
 } from "../actions/index";
 
 
@@ -35,6 +38,8 @@ const initialState = {
   updateUserInfoSuccess: false, // Para rastrear el éxito de la actualización
   updateUserInfoError: null, // Para rastrear errores de actualización
   cartItems: [],
+  ratings: [],
+  showResults : false, 
  };
 
 const rootReducer = (state = initialState, action) => {
@@ -155,6 +160,26 @@ const rootReducer = (state = initialState, action) => {
                       return {
                         ...state, cartItems: state.cartItems.filter(product => product.sku !== action.payload)
                       };
+      case LOGOUT:
+        return {
+          ...state,
+          user: null, // Establece 'user' en null al cerrar sesión
+           };
+      case CREATE_RATING:
+        return {
+          ...state,
+          ratings: [ action.payload,...state.ratings],            
+             };
+      case GET_RATINGS:
+          console.log("Recibida la acción GET_RATINGS con payload:", action.payload);
+          return {
+          ...state,
+          ratings: action.payload,
+           };
+      case SET_SHOW_RESULTS:
+      return { ...state, showResults: action.showResults };
+    
+   
             default:
               return state;
           }
