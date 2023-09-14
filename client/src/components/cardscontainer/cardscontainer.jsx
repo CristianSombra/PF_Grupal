@@ -15,7 +15,7 @@ const CardsContainer = () => {
   }, [dispatch]);
 
   let sortedProducts = [...allProducts];
-
+ 
   if (orderByPrice !== null) {
     sortedProducts = orderByPrice === 'asc'
       ? sortProductsByPrice(sortedProducts, 'asc')
@@ -33,9 +33,9 @@ const CardsContainer = () => {
     columns.push(sortedProducts.slice(i, i + 3));
   }
 
-  if (sortedProducts.length>0){
+  if (sortedProducts.length>0) {
     dispatch(setShowResults(true));
-  } else dispatch(setShowResults(false));
+  } else { dispatch(setShowResults(false))}
 
   return (
     <div className="container">
