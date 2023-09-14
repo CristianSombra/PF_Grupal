@@ -39,7 +39,7 @@ const initialState = {
   updateUserInfoError: null, // Para rastrear errores de actualización
   cartItems: [],
   ratings: [],
-  showResults : "false", 
+  showResults : false, 
  };
 
 const rootReducer = (state = initialState, action) => {
