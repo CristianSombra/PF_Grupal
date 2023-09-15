@@ -4,6 +4,7 @@ import Detail from './detail/detail';
 import ProductForm from './productForm/productForm';
 import Cart from './cart/cart';
 import BuyPage from './buyPage/buyPage';
+import NotFound from './404/notfound'
 
 
 export {
@@ -12,5 +13,6 @@ export {
     Detail,
     ProductForm,
     Cart,
-    BuyPage
+    BuyPage,
+    NotFound
 }

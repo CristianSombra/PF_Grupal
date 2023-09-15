@@ -26,10 +26,11 @@ const Detail = () => {
   };
 
   return (
-    <div className="container-detail">
-      <h1 className="mt-5 mx-auto text-center">Detalle del producto</h1>
-      <div className="row mt-3">
-        <div className="col-md-8 mx-auto" style={{ maxWidth: "600px" }}>
+    <div className="container-detail" style={{ marginTop: "140px" }}>
+      <div >
+      <h1 className="text-center" style={{ marginTop: "20px" }} >Detalle del producto</h1>
+      <div className="row">
+        <div className="col-md-8 mx-auto" style={{ maxWidth: "600px", marginTop: "10px" }}>
           <div className="card custom-shadow">
             <div className="card-body">
               <p className="card-text">N/P: {productDetail.number_part}</p>
@@ -77,6 +78,7 @@ const Detail = () => {
           Volver a inicio
         </Button>
       </div>
+    </div>
     </div>
   );
 };
