@@ -14,7 +14,7 @@ import './components/css/index.css';
 import './App.css';
 import PrivateRoute from './PrivateRoute';
 import BuyPage from './views/buyPage/buyPage';
-/* import Payment from './views/payment/payment" */
+import Payment from './views/Payment/Payment';
 
 
 function App() {
@@ -38,8 +38,8 @@ function App() {
         <Route path="/account" element={<MiCuenta />} />
         <Route path="/updateaccount" element={<UpdateAccount />} />
         <Route path="/cart" element={<Cart />} />
-        {/* <Route path="/buyPage" element={<BuyPage />} />
-        <Route path="/payments" element={<Payment />} />  */}
+        <Route path="/buyPage" element={<BuyPage />} />
+        <Route path="/payments" element={<Payment />} />  
         
         </Route>
       </Routes>
