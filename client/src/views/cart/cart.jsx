@@ -32,7 +32,7 @@ const Cart = () => {
           </div>
         </div>
       )}
-      <Button className="mt-3" variant="dark" as={Link} to="/buyPage">
+      <Button className="mt-3" variant="dark" as={Link} to="/Payment">
         Terminar compra
       </Button>
     </div>

@@ -18,7 +18,7 @@ mainRouter.use("/user", userRouter);
 mainRouter.use("/order", orderRouter);
 mainRouter.use("/cart", cartRouter);
 mainRouter.use("/rating", ratingRouter);
-mainRouter.use("/payment", paymentRouter);
+mainRouter.use("/payments", paymentRouter);
 mainRouter.use("/brand", brandRouter);
 mainRouter.use("/category", categoryRouter);
 
