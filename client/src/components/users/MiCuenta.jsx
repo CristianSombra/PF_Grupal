@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import { loadUserById } from '../../redux/actions/index';
 import UpdateButton from './UpdateButton';
-import WelcomeMessage from "../../components/users/WelcomeMessage"
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
