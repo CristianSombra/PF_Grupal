@@ -22,7 +22,7 @@ const createUser = async (user_name, first_name, last_name, gender, email, deliv
     });
 
     const token = jwt.sign({ email, role }, JWT_KEY);
-      return { newUser,
+      return { user: newUser,
         msg:'success' ,
         token: token,
         // id: result.id,
@@ -94,11 +94,7 @@ const loginUsers = async (email, user_password) => {
       return {
         msg:'success' ,
         token: token,
-        id: result.id,
-        user_name: result.user_name,
-        first_name: result.first_name,
-        last_name: result.last_name,
-        role: result.role,
+        user: result
       }
 
     }

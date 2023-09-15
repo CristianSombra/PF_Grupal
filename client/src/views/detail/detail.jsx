@@ -5,10 +5,17 @@ import { useGetProductDetailHandler } from "../../components/handlers/handlersde
 import Button from "react-bootstrap/esm/Button";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/actions";
+import AddRating from "../../components/rating/AddRating";
+import ProductRating from "../../components/rating/ProductRating";
+import ProductComment from "../../components/rating/ProductComment";
+
 
 const Detail = () => {
   const productDetail = useGetProductDetailHandler();
   const dispatch = useDispatch();
+  const product_id = productDetail ? productDetail.sku : null; // Asegúrate de tener un SKU válido
+
+  
 
   if (!productDetail) {
     return <p>No se encontró información para el producto seleccionado.</p>;
@@ -37,22 +44,19 @@ const Detail = () => {
                 <li>Pantalla: {productDetail.detail.pantalla}</li>
                 <li>Procesador: {productDetail.detail.procesador}</li>
                 <li>Almacenamiento: {productDetail.detail.almacenamiento}</li>
+                <li>Almacenamiento: {product_id}</li>
               </ul>
 
-              <div className="mt-2 text-center d-flex justify-content-center">
-                <Button
-                  variant="success"
-                  className="mt-2 btn me-3"
-                  onClick={() => handleAddToCart(productDetail)}
-                >
-                  <i className="bi bi-cart-plus"></i></Button>
-                <Button
-                  variant="danger"
-                  className="mt-2 btn"
-                  //logica para agregar la tarjeta a favoritos
-                >
-                  <i className="bi bi-heart"></i></Button>
-              </div>
+                    <ProductRating sku={product_id} />
+              <Button
+                variant="dark"
+                onClick={() => handleAddToCart(productDetail)}
+              >
+                Agregar al carrito
+              </Button>
+        
+              <AddRating product_id={product_id} />
+
             </div>
           </div>
         </div>
@@ -62,8 +66,15 @@ const Detail = () => {
             alt={productDetail.titulo}
             className="img-detail"
           />
+
+        <div>
+         <ProductComment sku={product_id} className="col-md-6" />
+      </div> 
+
         </div>
+   
       </div>
+      
 
       <div className="text-center mt-4">
         <Button variant="dark" as={Link} to="/Home">
@@ -75,3 +86,4 @@ const Detail = () => {
 };
 
 export default Detail;
+

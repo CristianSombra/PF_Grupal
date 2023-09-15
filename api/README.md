@@ -19,3 +19,14 @@ DB_USER=mi_usuario DB_PASSWORD=mi_contraseña DB_HOST=mi_host
 Inicia el servidor de desarrollo con el siguiente comando:
 
 `npm start` 
+
+4. Datos .env:
+
+DB_USER=postgres
+DB_PASSWORD=Minombre12
+DB_HOST=localhost
+JWT_KEY=Grupo7
+ACCESS_TOKEN="TEST-6310559041386566-071820-2556cfd79c12b7ca5ed095500b899251-1338314230"
+BACK_URL_SUCCESS="http://localhost:3001"
+BACK_URL_FAILED="http://localhost3010/failed"
+BACK_URL_PENDING="http://localhost3010/pending"
