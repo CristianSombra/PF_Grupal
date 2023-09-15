@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Card from "../card/card";
 import { sortProductsByPrice } from '../sortingUtils/sortingUtils';
-import { getAllProducts , setShowResults} from "../../redux/actions/index";
+import { getAllProducts } from "../../redux/actions/index";
 
 const CardsContainer = () => {
   const allProducts = useSelector((state) => state.products);
@@ -15,7 +15,7 @@ const CardsContainer = () => {
   }, [dispatch]);
 
   let sortedProducts = [...allProducts];
- 
+
   if (orderByPrice !== null) {
     sortedProducts = orderByPrice === 'asc'
       ? sortProductsByPrice(sortedProducts, 'asc')
@@ -32,10 +32,6 @@ const CardsContainer = () => {
   for (let i = 0; i < sortedProducts.length; i += 3) {
     columns.push(sortedProducts.slice(i, i + 3));
   }
-
-  if (sortedProducts.length>0) {
-    dispatch(setShowResults(true));
-  } else { dispatch(setShowResults(false))}
 
   return (
     <div className="container">

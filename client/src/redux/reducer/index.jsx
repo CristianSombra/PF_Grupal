@@ -1,3 +1,4 @@
+
 import { 
   ERROR, 
   GET_PODUCT_SUCCESS, 
@@ -17,15 +18,8 @@ import {
   LOGOUT,
   ADD_TO_CART, 
   REMOVE_FROM_CART,
-<<<<<<< HEAD
   INCREASE_QUANTITY, 
   DECREASE_QUANTITY, 
-=======
-  CREATE_RATING, 
-  GET_RATINGS, 
-  SET_SHOW_RESULTS,
-  
->>>>>>> 9d96e2bea4d6b47dc755ec261a2c34a7f65cca2a
 } from "../actions/index";
 
 
@@ -43,8 +37,6 @@ const initialState = {
   updateUserInfoSuccess: false, // Para rastrear el éxito de la actualización
   updateUserInfoError: null, // Para rastrear errores de actualización
   cartItems: [],
-  ratings: [],
-  showResults : false, 
  };
 
 const rootReducer = (state = initialState, action) => {
@@ -149,7 +141,6 @@ const rootReducer = (state = initialState, action) => {
           updateUserInfoSuccess: false,
           updateUserInfoError: action.payload, // Almacena el error si la actualización falla
         };
-<<<<<<< HEAD
                   case LOGOUT:
                     return {
                       ...state,
@@ -186,38 +177,6 @@ const rootReducer = (state = initialState, action) => {
                           ),
                         };
                       
-=======
-                      
-      case LOGOUT:
-        return {
-          ...state,
-          user: null, // Establece 'user' en null al cerrar sesión
-           };
-      case CREATE_RATING:
-        return {
-          ...state,
-          ratings: [ action.payload,...state.ratings],            
-             };
-      case GET_RATINGS:
-          console.log("Recibida la acción GET_RATINGS con payload:", action.payload);
-          return {
-          ...state,
-          ratings: action.payload,
-           };
-      case SET_SHOW_RESULTS:
-           return { ...state, showResults: action.showResults };
-
-      case ADD_TO_CART:
-         return {
-          ...state,
-          cartItems: [...state.cartItems, action.payload],
-        };
-      case REMOVE_FROM_CART:
-          return {
-            ...state, cartItems: state.cartItems.filter(product => product.sku !== action.payload)
-          };
-   
->>>>>>> 9d96e2bea4d6b47dc755ec261a2c34a7f65cca2a
             default:
               return state;
           }
