@@ -1,3 +1,4 @@
+
 import { 
   ERROR, 
   GET_PODUCT_SUCCESS, 
@@ -17,10 +18,8 @@ import {
   LOGOUT,
   ADD_TO_CART, 
   REMOVE_FROM_CART,
-  CREATE_RATING, 
-  GET_RATINGS, 
-  SET_SHOW_RESULTS,
-  
+  INCREASE_QUANTITY, 
+  DECREASE_QUANTITY, 
 } from "../actions/index";
 
 
@@ -38,8 +37,6 @@ const initialState = {
   updateUserInfoSuccess: false, // Para rastrear el éxito de la actualización
   updateUserInfoError: null, // Para rastrear errores de actualización
   cartItems: [],
-  ratings: [],
-  showResults : false, 
  };
 
 const rootReducer = (state = initialState, action) => {
@@ -144,36 +141,42 @@ const rootReducer = (state = initialState, action) => {
           updateUserInfoSuccess: false,
           updateUserInfoError: action.payload, // Almacena el error si la actualización falla
         };
+                  case LOGOUT:
+                    return {
+                      ...state,
+                      user: null, // Establece 'user' en null al cerrar sesión
+                    };
+                    case ADD_TO_CART:
+                      return {
+                        ...state,
+                        cartItems: [...state.cartItems, action.payload],
+                      };
+                
+                    case REMOVE_FROM_CART:
+                      return {
+                        ...state, cartItems: state.cartItems.filter(product => product.sku !== action.payload)
+                      };
                       
-      case LOGOUT:
-        return {
-          ...state,
-          user: null, // Establece 'user' en null al cerrar sesión
-           };
-      case CREATE_RATING:
-        return {
-          ...state,
-          ratings: [ action.payload,...state.ratings],            
-             };
-      case GET_RATINGS:
-          console.log("Recibida la acción GET_RATINGS con payload:", action.payload);
-          return {
-          ...state,
-          ratings: action.payload,
-           };
-      case SET_SHOW_RESULTS:
-           return { ...state, showResults: action.showResults };
-
-      case ADD_TO_CART:
-         return {
-          ...state,
-          cartItems: [...state.cartItems, action.payload],
-        };
-      case REMOVE_FROM_CART:
-          return {
-            ...state, cartItems: state.cartItems.filter(product => product.sku !== action.payload)
-          };
-   
+                      case INCREASE_QUANTITY:
+                        return {
+                          ...state,
+                          cartItems: state.cartItems.map((item) =>
+                            item.sku === action.payload
+                              ? { ...item, quantity: item.quantity + 1 }
+                              : item
+                          ),
+                        };
+                      
+                      case DECREASE_QUANTITY:
+                        return {
+                          ...state,
+                          cartItems: state.cartItems.map((item) =>
+                            item.sku === action.payload && item.quantity > 1
+                              ? { ...item, quantity: item.quantity - 1 }
+                              : item
+                          ),
+                        };
+                      
             default:
               return state;
           }
