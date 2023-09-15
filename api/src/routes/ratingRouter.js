@@ -1,9 +1,10 @@
 const { Router } = require("express");
-const { getRating } = require("../handlers/ratingHandler");
-
+const { getProductRatingshandler} = require("../handlers/ratingHandler");
+const {  createRatinghandler } = require("../handlers/ratingHandler");
 const ratingRouter = Router();
 
-ratingRouter.get('/',  getRating);
+ratingRouter.post('/', createRatinghandler); // Crear una nueva calificación
+ratingRouter.get('/', getProductRatingshandler); // Obtener todas las calificaciones
 
-module.exports = ratingRouter; 
 
+module.exports = ratingRouter;

@@ -10,6 +10,9 @@ import LoginForm from "./components/users/LoginForm";
 import RegistrationForm from "./components/users/RegistrationForm";
 import MiCuenta from "./components/users/MiCuenta";
 import UpdateAccount from "./components/users/UpdateAccount";
+import PurchageHistori from "./components/users/PurchaseHistory"
+
+
 import './components/css/index.css';
 import './App.css';
 import PrivateRoute from './PrivateRoute';
@@ -36,6 +39,8 @@ function App() {
         <Route path="/createProduct" element={<ProductForm />} />
         <Route path="/account" element={<MiCuenta />} />
         <Route path="/updateaccount" element={<UpdateAccount />} />
+        <Route path="/purchases" element={<PurchageHistori />} />
+      
         <Route path="/cart" element={<Cart />} />
         <Route path="/buyPage" element={<BuyPage />} />
         
