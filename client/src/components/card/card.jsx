@@ -4,8 +4,16 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import './card.css';
 
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/actions";
+
 const Cards = (props) => {
   const { sku, name, image, titulo, price } = props;
+  const dispatch = useDispatch();
+
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
 
   return (
     <Card className="custom-shadow custom-card">
@@ -18,9 +26,22 @@ const Cards = (props) => {
           style: "currency",
           currency: "COP",
         }).format(price)}</Card.Title>
-        <div className="mt-3 text-center">
-          <Button variant="dark" as={Link} to={`/detail/${sku}`}>
-            Ver detalles
+        <div className="mt-2 text-center d-flex justify-content-between">
+          <Button variant="dark" as={Link} to={`/detail/${sku}`} size='sm' className='me-2 btn'>
+            Ver detalles <i className="bi bi-eye-fill"></i>
+          </Button>
+          <Button
+            variant="success"
+            className="mt-2 btn"
+            onClick={() => handleAddToCart(props)}>
+            <i className="bi bi-cart-plus"></i>
+          </Button>
+          <Button
+            variant="danger"
+            className="mt-2 btn"
+            //logica para agregar la tarjeta a favoritos
+          >
+            <i className="bi bi-heart"></i>
           </Button>
         </div>
       </Card.Body>

@@ -17,14 +17,29 @@ export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
 export const UPDATE_USER_FAIL = 'UPDATE_USER_FAIL';
 export const UPDATE_USER_INFO_SUCCESS = 'UPDATE_USER_INFO_SUCCESS';
 export const UPDATE_USER_INFO_FAIL = 'UPDATE_USER_INFO_FAIL';
-
 export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+export const INCREASE_QUANTITY = 'INCREASE_QUANTITY';
+export const DECREASE_QUANTITY = 'DECREASE_QUANTITY';
+
+export const increaseQuantity = (sku) => {
+  return {
+    type: INCREASE_QUANTITY,
+    payload: sku,
+  };
+};
+
+export const decreaseQuantity = (sku) => {
+  return {
+    type: "DECREASE_QUANTITY",
+    payload: sku,
+  };
+};
 
 export const addToCart = (product) => {
   return {
     type: ADD_TO_CART,
-    payload: product,
+    payload: { ...product, quantity: 1 }, // Inicializa la cantidad en 1
   };
 };
 

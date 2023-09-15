@@ -1,10 +1,9 @@
 import React from "react";
-import '../../components/css/index.css';
+import "../../components/css/index.css";
 import { Link } from "react-router-dom";
 import { useGetProductDetailHandler } from "../../components/handlers/handlersdetail";
 import Button from "react-bootstrap/esm/Button";
 import { useDispatch } from "react-redux";
-import Cards from "../../components/card/card"; 
 import { addToCart } from "../../redux/actions";
 
 const Detail = () => {
@@ -29,7 +28,9 @@ const Detail = () => {
               <p className="card-text">N/P: {productDetail.number_part}</p>
               <h5 className="card-title">Nombre: {productDetail.titulo}</h5>
               <p className="card-text">Precio: {productDetail.price}</p>
-              <p className="card-text">En stock: {productDetail.disponibility}</p>
+              <p className="card-text">
+                En stock: {productDetail.disponibility}
+              </p>
               <p className="card-text">Detalle:</p>
               <ul>
                 <li>Ram: {productDetail.detail.ram}</li>
@@ -37,13 +38,21 @@ const Detail = () => {
                 <li>Procesador: {productDetail.detail.procesador}</li>
                 <li>Almacenamiento: {productDetail.detail.almacenamiento}</li>
               </ul>
-              
-              <Button
-                variant="dark"
-                onClick={() => handleAddToCart(productDetail)}
-              >
-                Agregar al carrito
-              </Button>
+
+              <div className="mt-2 text-center d-flex justify-content-center">
+                <Button
+                  variant="success"
+                  className="mt-2 btn me-3"
+                  onClick={() => handleAddToCart(productDetail)}
+                >
+                  <i className="bi bi-cart-plus"></i></Button>
+                <Button
+                  variant="danger"
+                  className="mt-2 btn"
+                  //logica para agregar la tarjeta a favoritos
+                >
+                  <i className="bi bi-heart"></i></Button>
+              </div>
             </div>
           </div>
         </div>

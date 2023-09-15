@@ -41,15 +41,16 @@ const Filter = ({ listCategories, listBrands }) => {
     setSelectedCategory(""); // Restablece la selección de categoría
     dispatch(resetFilters()); // Llama a la acción para restablecer otros filtros
   };
-
+  
   return (
-    <div className="container">
-      <Form>
-        <Form.Group>
-          <Form.Label>Filtrar por Marca:</Form.Label>
+    <div className="rounded p-4 border mt-4 text-center"> 
+      <Form className="mb-3">
+        <Form.Group className="mb-3">
+          <Form.Label className="mb-1"><strong>Filtrar por Marca:</strong></Form.Label>
           <Form.Select
             value={selectedBrand}
             onChange={handleBrandChange}
+            className="form-control"
           >
             <option value="">Todas las Marcas</option>
             {brands.map((brand) => (
@@ -59,11 +60,12 @@ const Filter = ({ listCategories, listBrands }) => {
             ))}
           </Form.Select>
         </Form.Group>
-        <Form.Group>
-          <Form.Label>Filtrar por Categoría:</Form.Label>
+        <Form.Group className="mb-4">
+          <Form.Label className="mb-2"><strong>Filtrar por Categoría:</strong></Form.Label>
           <Form.Select
             value={selectedCategory}
             onChange={handleCategoryChange}
+            className="form-control"
           >
             <option value="">Todas las Categorías</option>
             {categories.map((category) => (
@@ -73,11 +75,11 @@ const Filter = ({ listCategories, listBrands }) => {
             ))}
           </Form.Select>
         </Form.Group>
-        <div className="d-grid gap-3">
-          <Button variant="dark" onClick={applyFilters}>
+        <div className="custom-button-container d-grid gap-2"> 
+          <Button variant="dark" size="sm"  onClick={applyFilters}>
             Aplicar Filtros
           </Button>
-          <Button variant="dark" onClick={reset}>
+          <Button variant="dark" size="sm"  onClick={reset}>
             Resetear Filtros
           </Button>
         </div>

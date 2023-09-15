@@ -17,7 +17,9 @@ import {
   UPDATE_USER_INFO_FAIL,
   LOGOUT,
   ADD_TO_CART, 
-  REMOVE_FROM_CART
+  REMOVE_FROM_CART,
+  INCREASE_QUANTITY, 
+  DECREASE_QUANTITY, 
 } from "../actions/index";
 
 
@@ -144,7 +146,6 @@ const rootReducer = (state = initialState, action) => {
                       ...state,
                       user: null, // Establece 'user' en null al cerrar sesión
                     };
-                 
                     case ADD_TO_CART:
                       return {
                         ...state,
@@ -155,6 +156,27 @@ const rootReducer = (state = initialState, action) => {
                       return {
                         ...state, cartItems: state.cartItems.filter(product => product.sku !== action.payload)
                       };
+                      
+                      case INCREASE_QUANTITY:
+                        return {
+                          ...state,
+                          cartItems: state.cartItems.map((item) =>
+                            item.sku === action.payload
+                              ? { ...item, quantity: item.quantity + 1 }
+                              : item
+                          ),
+                        };
+                      
+                      case DECREASE_QUANTITY:
+                        return {
+                          ...state,
+                          cartItems: state.cartItems.map((item) =>
+                            item.sku === action.payload && item.quantity > 1
+                              ? { ...item, quantity: item.quantity - 1 }
+                              : item
+                          ),
+                        };
+                      
             default:
               return state;
           }
