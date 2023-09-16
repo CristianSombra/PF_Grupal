@@ -28,7 +28,10 @@ module.exports = (sequelize) => {
       },
     },
     {
-      timestamps: false,
+      timestamps: true,
+      createdAt: false,
+      updatedAt: false,
+      paranoid: true,
     }
   );
 };
