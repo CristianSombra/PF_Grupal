@@ -48,7 +48,12 @@ const BuyPage = () => {
                   <p className="card-text">Precio: ${item.price}</p>
                   <p className="card-text">Cantidad: {item.quantity}</p>{" "}
                   {/* Utiliza item.quantity para mostrar la cantidad */}
-                  <img src={product.image} alt={product.title} />
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    className="img-fluid"
+                    style={{ maxWidth: "200px", maxHeight: "200px" }}
+                  />
                 </div>
               </div>
             );
@@ -78,7 +83,7 @@ const BuyPage = () => {
           <Button
             variant="primary"
             type="submit"
-            class="waybox-button"
+            className="waybox-button"
             style={{ width: "30%" }}
           >
             Pagar
