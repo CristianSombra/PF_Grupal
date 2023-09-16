@@ -1,6 +1,7 @@
 
   
   import React, { useEffect, useState } from "react";
+  import { MercadoPago } from 'mercadopago';
   import axios from "axios";
   import { useDispatch, useSelector } from "react-redux";
   import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
@@ -9,11 +10,10 @@
   import NavBar2 from "../../components/NavBar2";
   import { SiMercadopago, SiCashapp } from "react-icons/si";
  
-  
-  
+    
   const apiUrl = "TEST-77c820a7-513b-44a4-8b2d-01ea41494588";
   const POST_NEW_ORDER = "http://localhost:3001/orders/create";
-  const POST_PAYMENT = "http://localhost:3001/payments/generate";
+  const POST_PAYMENT = "http://localhost:3000/payments/generate";
   
   initMercadoPago(apiUrl);
   
