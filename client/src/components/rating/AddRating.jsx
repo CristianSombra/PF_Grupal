@@ -55,7 +55,7 @@ const AddRating = ({ product_id }) => {
   return (
     <div className="text-center">
       {user ? (
-        <Button variant="dark" size="sm" onClick={handleShow}>
+        <Button variant="dark" size="md" onClick={handleShow}>
           Calificar
         </Button>
       ) : (

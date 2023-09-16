@@ -21,6 +21,9 @@ export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const INCREASE_QUANTITY = "INCREASE_QUANTITY";
 export const DECREASE_QUANTITY = "DECREASE_QUANTITY";
+export const CREATE_RATING = "CREATE_RATING";
+export const GET_RATINGS = "GET_RATINGS";
+export const SET_SHOW_RESULTS = "SET_SHOW_RESULTS";
 
 export const increaseQuantity = (sku) => {
   return {
@@ -31,7 +34,7 @@ export const increaseQuantity = (sku) => {
 
 export const decreaseQuantity = (sku) => {
   return {
-    type: "DECREASE_QUANTITY",
+    type: DECREASE_QUANTITY,
     payload: sku,
   };
 };
@@ -251,4 +254,42 @@ export const updateUserInfo = (newPassword) => async (dispatch, getState) => {
 
 export const logout = () => ({
   type: LOGOUT,
+});
+
+
+export const createRating = (product_id,rate, review) => async (dispatch) => {
+  try {
+
+
+    const response = await axios.post('http://localhost:3001/rating', {
+      product_id,
+      rate,
+      review,
+    });
+
+    dispatch({
+      type: CREATE_RATING,
+      payload: response.data,
+    });
+  } catch (error) {
+    console.error("Error al crear la calificación:", error);
+  }
+};
+
+// Acción para obtener todas las calificaciones
+export const getRatings = () => async (dispatch) => {
+  try {
+    const response = await axios.get("http://localhost:3001/rating");
+    dispatch({
+      type: GET_RATINGS,
+      payload: response.data,
+    });
+  } catch (error) {
+    console.error("Error al obtener las calificaciones:", error);
+  }
+};
+
+export const setShowResults = (showResults) => ({
+  type: 'SET_SHOW_RESULTS',
+  showResults,
 });

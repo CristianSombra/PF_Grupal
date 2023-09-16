@@ -19,6 +19,9 @@ import {
   REMOVE_FROM_CART,
   INCREASE_QUANTITY,
   DECREASE_QUANTITY,
+  CREATE_RATING, 
+  GET_RATINGS, 
+  SET_SHOW_RESULTS,
 } from "../actions/index";
 
 const initialState = {
@@ -35,6 +38,8 @@ const initialState = {
   updateUserInfoSuccess: false, // Para rastrear el éxito de la actualización
   updateUserInfoError: null, // Para rastrear errores de actualización
   cartItems: [],
+  ratings: [],
+  showResults : false, 
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -194,6 +199,18 @@ const rootReducer = (state = initialState, action) => {
             : item
         ),
       };
+    case CREATE_RATING:
+        return {
+          ...state,
+          ratings: [ action.payload,...state.ratings],            
+             };
+    case GET_RATINGS:
+          return {
+          ...state,
+          ratings: action.payload,
+           };
+    case SET_SHOW_RESULTS:
+           return { ...state, showResults: action.showResults };
 
     default:
       return state;
