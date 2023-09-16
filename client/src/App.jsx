@@ -12,13 +12,10 @@ import MiCuenta from "./components/users/MiCuenta";
 import UpdateAccount from "./components/users/UpdateAccount";
 import PurchageHistori from "./components/users/PurchaseHistory";
 import NotFound from "./views/404/notfound";
-
-
-import './components/css/index.css';
-import './App.css';
 import PrivateRoute from './PrivateRoute';
 import BuyPage from './views/buyPage/buyPage';
-
+import './App.css';
+import './components/css/index.css';
 
 function App() {
   const location = useLocation();
