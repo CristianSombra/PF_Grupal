@@ -10,15 +10,21 @@ import LoginForm from "./components/users/LoginForm";
 import RegistrationForm from "./components/users/RegistrationForm";
 import MiCuenta from "./components/users/MiCuenta";
 import UpdateAccount from "./components/users/UpdateAccount";
+import PurchageHistori from "./components/users/PurchaseHistory";
+import NotFound from "./views/404/notfound";
+
+
 import './components/css/index.css';
 import './App.css';
 import PrivateRoute from './PrivateRoute';
-import BuyPage from './views/buyPage/buyPage';
-/* import Payment from './views/Payment/Payment'; */
+/* import BuyPage from './views/buyPage/buyPage';
+ */
+/* import { Payment } from './views/Payment/Payment"'; */
 
 
 function App() {
   const location = useLocation();
+
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -37,14 +43,16 @@ function App() {
         <Route path="/createProduct" element={<ProductForm />} />
         <Route path="/account" element={<MiCuenta />} />
         <Route path="/updateaccount" element={<UpdateAccount />} />
+        <Route path="/purchases" element={<PurchageHistori />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/buyPage" element={<BuyPage />} />
-       {/*  <Route path="/payments" element={<Payment />} />   */}
-        
+        {/* <Route path="/buyPage" element={<BuyPage />} />
+         */}
+        {/*  <Route path="/payments" element= {<Payment />} /> */}
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
-}
+};
 
 export default App;
