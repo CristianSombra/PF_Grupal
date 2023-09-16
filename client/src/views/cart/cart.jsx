@@ -10,7 +10,6 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-
 const Cart = () => {
   const cartItems = useSelector((state) => state.cartItems);
   const dispatch = useDispatch();
@@ -93,6 +92,7 @@ const Cart = () => {
         </div>
       )}
       <p className="mt-3">Total: ${calculateTotalPrice}</p>
+
       <Button className="mt-3" variant="dark" as={Link} to="/buyPage">
         Terminar compra
       </Button>
@@ -101,3 +101,4 @@ const Cart = () => {
   );
 };
 export default Cart;
+

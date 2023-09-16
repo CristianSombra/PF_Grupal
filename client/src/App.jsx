@@ -16,9 +16,13 @@ import PrivateRoute from './PrivateRoute';
 import BuyPage from './views/buyPage/buyPage';
 import './App.css';
 import './components/css/index.css';
+/* import { Payment } from './views/Payment/Payment'; */
+
+
 
 function App() {
   const location = useLocation();
+
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -40,6 +44,7 @@ function App() {
         <Route path="/purchases" element={<PurchageHistori />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/buyPage" element={<BuyPage />} />
+        {/* <Route path="/payments" element= {<Payment />} />  */}
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
