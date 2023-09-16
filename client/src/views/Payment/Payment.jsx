@@ -8,6 +8,7 @@
   import { deleteCart, getDetailOrdersIDArray, emptyDetailOrdersId } from "../../redux/actions";
   import NavBar2 from "../../components/NavBar2";
   import { SiMercadopago, SiCashapp } from "react-icons/si";
+  import 'bootstrap-icons/font/bootstrap-icons.css';
  
     
   const apiUrl = "TEST-77c820a7-513b-44a4-8b2d-01ea41494588";

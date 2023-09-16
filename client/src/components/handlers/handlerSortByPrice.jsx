@@ -14,11 +14,12 @@ const SortByPriceHandler = () => {
   };
 
   return (
-    <div >
+    <div className="mb-3">
       <Form>
-        <Form.Group className="mb-3">
-          <Form.Label>Ordenar por precio:</Form.Label>
-          <DropdownButton variant = 'dark'
+        <Form.Group>
+          <Form.Label><strong>Ordenar por precio:</strong></Form.Label>
+          <DropdownButton
+            variant="dark"
             title={orderByPrice === 'asc' ? 'Menor precio' : orderByPrice === 'desc' ? 'Mayor precio' : 'Sin selección'}
             onSelect={handleSortChange}
           >

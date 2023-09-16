@@ -27,7 +27,7 @@ export default function Home() {
     <div className="container">
       <Carrusel />
       <div className="row">
-      <div className="col-md-3 mb-6 border"> 
+      <div className="col-md-3 mb-6"> 
           <Filter listCategories={listCategories} listBrands={listBrands} />
         </div>
         <div className="col-md-9">
