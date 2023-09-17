@@ -6,8 +6,7 @@ import {
   removeFromCart,
   increaseQuantity,
   decreaseQuantity,
-  addToCart,
-} from "../../redux/actions/index";
+ } from "../../redux/actions/index";
 import "../../components/css/index.css";
 
 const Cart = () => {
@@ -29,10 +28,6 @@ const Cart = () => {
     if (item && item.quantity > 1) {
       dispatch(decreaseQuantity(sku));
     }
-  };
-
-  const handleAddToCart = (sku) => {
-    dispatch(addToCart(sku));
   };
 
   const calculateTotalPrice = cartItems.reduce(
