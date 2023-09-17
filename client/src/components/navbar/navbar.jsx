@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { connect } from 'react-redux';
+import React from "react";
+import { connect, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { Button, Dropdown } from "react-bootstrap";
 import SearchBar from "../searchbar/searchbar";
@@ -15,30 +15,23 @@ import logo from '../../assets/logo.png';
 import './navbar.css';
 
 
-const Navbar1 = ({user}) => {
-  const [loggedIn, setLoggedIn] = useState(!!user);
-  
-  const handleLogin = () => {
-    setLoggedIn(true);
-  };
-
-  useEffect(() => {
-    setLoggedIn(!!user);
-  }, [user]);
-
-
+const Navbar1 = () => {
+  const isLoggedIn = useSelector(state => (state.isLoggedIn))
+  const cartProd = useSelector(state => (state.cartItems))
+  const user = useSelector(state => (state.user))
   return (
     <Navbar bg="dark" data-bs-theme="dark" className="navbar-expand-sm d-flex justify-content-between rounded align-items-center fixed-top custom-navbar">
     <div className="d-flex align-items-center">
       <img src={logo} alt="Logo" className="logo custom-logo" />
       <Button as={Link} to="/home" variant="dark" size="sm" style={{ fontSize: '1.2rem' }}>Inicio</Button>
-      <Button as={Link} to="/createProduct" variant="dark" size="sm" style={{ fontSize: '1.2rem' }}>Crear producto</Button>
+      {user?.user.role==="Administrador" ? (<Button as={Link} to="/createProduct" variant="dark" size="sm" style={{ fontSize: '1.2rem' }}>Crear producto</Button>):(<></>)}
+      
     </div>
     <SearchBar />
-      <Button as={Link} to="/cart" variant="dark" size="sm" className="me-3 custom-button">
-        <i className="bi bi-cart" style={{ fontSize: '2.3rem' }}></i>
+      <Button as={Link} to="/cart" variant="dark" size="sm" className="me-3 mt-3 custom-button" style={{height:"100%", justifySelf:"center", alignSelf: "center"}}>
+        <i className="bi bi-cart" style={{ fontSize: '2.3rem' }}> {cartProd.length > 0 && <span className="cartCount">{cartProd.length}</span>}</i>
       </Button>
-      {loggedIn ? (
+      {isLoggedIn ? (
         <Dropdown>
           <Dropdown.Toggle variant="dark" size="sm" className="me-3 custom-button">
             <FontAwesomeIcon icon={faUser} style={{ fontSize: '2rem' }}/>
@@ -50,9 +43,8 @@ const Navbar1 = ({user}) => {
               <Dropdown.Item as={Link} to="/purchases">Mis Compras</Dropdown.Item>
               <Dropdown.Item as={Link} to="/wishlist">Lista de Deseos</Dropdown.Item>
             </Dropdown.Item>
-          
-            <Dropdown.Item onClick={() => setLoggedIn(false)}>
-              <LogoutButton />
+            <Dropdown.Item>
+              <LogoutButton/>
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
@@ -63,7 +55,7 @@ const Navbar1 = ({user}) => {
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item>
-              <LoginButton onClick={handleLogin} /> 
+              <LoginButton/> 
             </Dropdown.Item>
             <Dropdown.Item>
               <RegisterButton /> 
