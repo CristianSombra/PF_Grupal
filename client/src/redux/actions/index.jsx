@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 export const UPDATE_SEARCH_RESULTS = "UPDATE_SEARCH_RESULTS";
 export const ERROR = "ERROR";
 export const GET_PODUCT_SUCCESS = "GET_PODUCT_SUCCESS";
@@ -12,7 +13,8 @@ export const CREATE_USER_SUCCESS = "CREATE_USER_SUCCESS";
 export const CREATE_USER_FAIL = "CREATE_USER_FAIL";
 export const LOAD_USER_SUCCESS = "LOAD_USER_SUCCESS";
 export const LOAD_USER_FAIL = "LOAD_USER_FAIL";
-export const LOGOUT = "LOGOUT ";
+export const LOGOUT = "LOGOUT";
+export const LOGIN = "LOGIN";
 export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
 export const UPDATE_USER_FAIL = "UPDATE_USER_FAIL";
 export const UPDATE_USER_INFO_SUCCESS = "UPDATE_USER_INFO_SUCCESS";
@@ -24,6 +26,7 @@ export const DECREASE_QUANTITY = "DECREASE_QUANTITY";
 export const CREATE_RATING = "CREATE_RATING";
 export const GET_RATINGS = "GET_RATINGS";
 export const SET_SHOW_RESULTS = "SET_SHOW_RESULTS";
+
 
 export const increaseQuantity = (sku) => {
   return {
@@ -199,15 +202,41 @@ export const updateSearchResults = (results) => {
 //login
 
 export const login = (formData) => async (dispatch) => {
-  try {
+  try{
     const res = await axios.post("http://localhost:3001/user/login", formData);
-    dispatch({ type: LOGIN_SUCCESS, payload: res.data });
-    console.log(res);
-  } catch (error) {
-    console.log(error);
-    // Disparar una acción de error en caso de fallo
-    dispatch({ type: LOGIN_FAIL, payload: "Error en el inicio de sesión" });
+    const token = res.data.token
+    const user = res.data.user
+    localStorage.setItem("token", token)
+    localStorage.setItem("id", user.id);
+    dispatch({ type: LOGIN, payload:{user: user} });
+  } catch(error){
+    Swal.fire({
+    icon: "error",
+    title: "Login Failed! Please Check Your Data",
+  })}
+};
+
+export const loginGoogle = (formData) => {
+  return async (dispatch)=>{
+    const res = await axios.post("http://localhost:3001/user/google", formData);
+    const token = res.data.token
+    const user = res.data.user
+    localStorage.setItem("token", token)
+    localStorage.setItem("id", user.id);
+    dispatch({ type: LOGIN, payload:{user: user} });
   }
+};
+
+export const logout = () => {
+  return (dispatch) => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("id");
+    dispatch({ type: LOGOUT });
+    Swal.fire({
+      icon: "success",
+      title: "Logged Out Successfully",
+    })
+  };
 };
 
 export const createUser = (formData) => async (dispatch) => {
@@ -215,16 +244,21 @@ export const createUser = (formData) => async (dispatch) => {
     const res = await axios.post("http://localhost:3001/user", formData);
     // Disparar una acción de éxito con los datos del nuevo usuario
     dispatch({ type: CREATE_USER_SUCCESS, payload: res.data });
+    return "Success"
   } catch (error) {
-    // Disparar una acción de error en caso de fallo
+    Swal.fire({
+      icon: "error",
+      title: "The email has already been registered use a new one",
+    })
     dispatch({ type: CREATE_USER_FAIL, payload: error.response.data });
+    return "Error"
   }
 };
 
 export const loadUserById = (userId) => async (dispatch) => {
   try {
     const res = await axios.get(`http://localhost:3001/user/id/${userId}`);
-    dispatch({ type: LOAD_USER_SUCCESS, payload: res.data });
+    dispatch({ type: LOAD_USER_SUCCESS, payload:{ user:res.data } });
   } catch (error) {
     dispatch({ type: LOAD_USER_FAIL, payload: error.message });
   }
@@ -252,12 +286,7 @@ export const updateUserInfo = (newPassword) => async (dispatch, getState) => {
   }
 };
 
-export const logout = () => ({
-  type: LOGOUT,
-});
-
-
-export const createRating = (product_id,rate, review) => async (dispatch) => {
+export const createRating = (product_id, rate, review) => async (dispatch) => {
   try {
 
 

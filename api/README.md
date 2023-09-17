@@ -30,3 +30,5 @@ ACCESS_TOKEN="TEST-6310559041386566-071820-2556cfd79c12b7ca5ed095500b899251-1338
 BACK_URL_SUCCESS="http://localhost:3001"
 BACK_URL_FAILED="http://localhost3010/failed"
 BACK_URL_PENDING="http://localhost3010/pending"
+EMAIL_PASSWORD=eotozmzgsmxdejnk
+EMAIL_USER=ecommercepfhenry@gmail.com

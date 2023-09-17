@@ -6,6 +6,7 @@ import "./card.css";
 
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/actions";
+import Swal from "sweetalert2";
 
 const Cards = (props) => {
   const { sku, name, image, titulo, price } = props;
@@ -13,6 +14,16 @@ const Cards = (props) => {
 
   const handleAddToCart = (product) => {
     dispatch(addToCart(product));
+    Swal.fire({
+      icon: 'success',
+      title: 'Agregado al carrito',
+      text: `${name} se ha agregado al carrito.`,
+      imageUrl: image,
+      imageAlt: titulo,
+      showCancelButton: false,
+      showConfirmButton: false,
+      timer: 1200,
+    });
   };
 
   return (

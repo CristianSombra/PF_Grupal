@@ -6,15 +6,12 @@ import {
   CREATE_PRODUCT,
   UPDATE_SEARCH_RESULTS,
   RESET_SELECTED_BRAND_CATEGORY,
-  LOGIN_FAIL,
-  LOGIN_SUCCESS,
   CREATE_USER_SUCCESS,
   CREATE_USER_FAIL,
   LOAD_USER_SUCCESS,
   LOAD_USER_FAIL,
   UPDATE_USER_INFO_SUCCESS,
   UPDATE_USER_INFO_FAIL,
-  LOGOUT,
   ADD_TO_CART,
   REMOVE_FROM_CART,
   INCREASE_QUANTITY,
@@ -22,6 +19,8 @@ import {
   CREATE_RATING, 
   GET_RATINGS, 
   SET_SHOW_RESULTS,
+  LOGOUT,
+  LOGIN
 } from "../actions/index";
 
 const initialState = {
@@ -39,11 +38,19 @@ const initialState = {
   updateUserInfoError: null, // Para rastrear errores de actualización
   cartItems: [],
   ratings: [],
+  isLoggedIn: localStorage.getItem("token") ? true : false,
   showResults : false, 
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOGIN:
+      return {
+        ...state,
+        isLoggedIn: true,
+        user: action.payload,
+        loadedUser: action.payload
+      };
     case ERROR:
       return {
         ...state,
@@ -93,23 +100,9 @@ const rootReducer = (state = initialState, action) => {
         SelectedCategory: "",
       };
 
-    case LOGIN_SUCCESS:
-      return {
-        ...state,
-        user: action.payload,
-        error: null,
-      };
-    case LOGIN_FAIL:
-      return {
-        ...state,
-        user: null,
-        error: action.payload,
-      };
-
     case CREATE_USER_SUCCESS:
       return {
         ...state,
-        user: action.payload,
         error: null,
       };
     case CREATE_USER_FAIL:
@@ -121,6 +114,7 @@ const rootReducer = (state = initialState, action) => {
     case LOAD_USER_SUCCESS:
       return {
         ...state,
+        user: action.payload,
         loadedUser: action.payload,
         error: null,
       };
@@ -145,7 +139,9 @@ const rootReducer = (state = initialState, action) => {
     case LOGOUT:
       return {
         ...state,
-        user: null, // Establece 'user' en null al cerrar sesión
+        user: null,
+        loadedUser: null,
+        isLoggedIn: false, // Establece 'user' en null al cerrar sesión
       };
 
     case ADD_TO_CART:

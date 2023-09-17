@@ -12,6 +12,16 @@ module.exports = {
     }
   },
 
+  loginGoogle: async (req, res) => {
+    const { user_name,first_name, last_name,gender,email,delivery_address,country,CustomElementRegistry,mobile,role,user_status, purchase_history,user_password } = req.body;
+try {
+  const newUser = await userController.loginGoogle(user_name,first_name, last_name,gender,email,delivery_address,country,CustomElementRegistry,mobile,role,user_status, purchase_history,user_password);
+  res.status(200).json(newUser);
+} catch (error) {
+  res.status(500).json({ error: error.message });
+}
+},
+
   getAllUsers: async(req, res) => {
     try {
       const users = await  userController.getAllUsers(req, res);

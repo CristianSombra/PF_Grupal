@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Home from './views/home/home'; 
 import Landing from './views/landing/landing';
@@ -13,38 +13,52 @@ import UpdateAccount from "./components/users/UpdateAccount";
 import PurchageHistori from "./components/users/PurchaseHistory";
 import NotFound from "./views/404/notfound";
 import PrivateRoute from './PrivateRoute';
+import PrivateRouteAdmin from './PrivateRouteAdmin';
 import BuyPage from './views/buyPage/buyPage';
 import './App.css';
 import './components/css/index.css';
+import { useDispatch } from 'react-redux';
+import { loadUserById } from './redux/actions';
 /* import { Payment } from './views/Payment/Payment'; */
 
 
 
 function App() {
   const location = useLocation();
-
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
 
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const id = localStorage.getItem("id")
+    if (token && id) {
+      dispatch(loadUserById(id));
+    }
+  }, [dispatch]);
+
   return (
     <div className="APP">
       {location.pathname !== '/' && <Navbar />}
       <Routes>
-        <Route exact path="/" element={<Landing />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/detail/:sku" element={<Detail />} />
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/registration" element={<RegistrationForm />} />
+        <Route exact path="/" element={<Landing/>} />
+        <Route path="/home" element={<Home/>} />
+        <Route path="/detail/:sku" element={<Detail/>} />
+        <Route path="/login" element={<LoginForm/>} />
+        <Route path="/registration" element={<RegistrationForm/>} />
         <Route element={<PrivateRoute />}>
-        <Route path="/createProduct" element={<ProductForm />} />
-        <Route path="/account" element={<MiCuenta />} />
-        <Route path="/updateaccount" element={<UpdateAccount />} />
-        <Route path="/purchases" element={<PurchageHistori />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/account" element={<MiCuenta/>} />
+        <Route path="/updateaccount" element={<UpdateAccount/>} />
+        <Route path="/purchases" element={<PurchageHistori/>} />
+        <Route path="/cart" element={<Cart/>} />
         <Route path="/buyPage" element={<BuyPage />} />
         {/* <Route path="/payments" element= {<Payment />} />  */}
+        </Route>
+        <Route element={<PrivateRouteAdmin />}>
+        <Route path="/createProduct" element={<ProductForm/>} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

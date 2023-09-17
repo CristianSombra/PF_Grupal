@@ -8,6 +8,7 @@ import { addToCart } from "../../redux/actions";
 import AddRating from "../../components/rating/AddRating";
 import ProductRating from "../../components/rating/ProductRating";
 import ProductComment from "../../components/rating/ProductComment";
+import Swal from "sweetalert2";
 
 const Detail = () => {
   const productDetail = useGetProductDetailHandler();
@@ -20,6 +21,16 @@ const Detail = () => {
 
   const handleAddToCart = (product) => {
     dispatch(addToCart(product));
+    Swal.fire({
+      icon: 'success',
+      title: 'Agregado al carrito',
+      text: `${productDetail.titulo} se ha agregado al carrito.`,
+      imageUrl: productDetail.image,
+      imageAlt: productDetail.titulo,
+      showCancelButton: false,
+      showConfirmButton: false,
+      timer: 1200,
+    });
   };
 
   return (
