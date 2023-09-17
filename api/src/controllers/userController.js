@@ -2,8 +2,11 @@ const { User } = require('../db');
 const jwt = require('jsonwebtoken');
 require("dotenv").config();
 const { JWT_KEY } = process.env;
+const {encryptPassword, comparePassword}=require('./encrypt')
 
 const createUser = async (user_name, first_name, last_name, gender, email, delivery_address, country, CustomElementRegistry, mobile, role, user_status, purchase_history, user_password) => {
+  const newPassword=await encryptPassword(user_password)
+  // console.log(newPassword);
   try {
     const newUser = await User.create({
       user_name,
@@ -18,7 +21,7 @@ const createUser = async (user_name, first_name, last_name, gender, email, deliv
       role,
       user_status,
       purchase_history,
-      user_password
+      user_password: newPassword
     });
 
     const token = jwt.sign({ email, role }, JWT_KEY);
@@ -58,6 +61,15 @@ const getUserById = async (id) => {
   }
 };
 
+const getUserByEmail = async (email) => {  
+    const userId = await User.findOne({ where: { email } });    
+    if (userId) {
+      return userId;
+    } else {
+      throw new Error('User not found');
+    }
+};
+
 const updateUsers = async (userId, newPassword) => {
 
   try {
@@ -73,6 +85,22 @@ const updateUsers = async (userId, newPassword) => {
 
 };
 
+const deleteUsers = async (email) => {
+
+  try {
+    await User.destroy({
+      where: {
+        email
+      },
+      // force: true
+    })  
+  }
+  catch (error) {
+    throw new Error( error.message);
+  }
+};
+
+
 const loginUsers = async (email, user_password) => {
   let result
   if (!email || !user_password)
@@ -87,9 +115,9 @@ const loginUsers = async (email, user_password) => {
       }
     });
 
-    if (result.user_password === user_password) {
+    const compare= await comparePassword (user_password, result.user_password)
+    if (compare) {
       // console.log("password: " + result.user_password);
-
       const token = jwt.sign({ email, role: result.role }, JWT_KEY);
       return {
         msg:'success' ,
@@ -98,7 +126,7 @@ const loginUsers = async (email, user_password) => {
       }
 
     }
-    else throw new Error('Server Error, email o password invalidad');
+    else throw new Error('Server Error, email o password invalid');
 
   } catch (error) {
     throw new Error ('Server Error, falla al iniciar sesión');
@@ -107,4 +135,4 @@ const loginUsers = async (email, user_password) => {
 
 }
 
-module.exports = { getAllUsers, createUser, getUserById, updateUsers, loginUsers };
+module.exports = { getAllUsers, createUser, getUserById, updateUsers, loginUsers, getUserByEmail, deleteUsers };
