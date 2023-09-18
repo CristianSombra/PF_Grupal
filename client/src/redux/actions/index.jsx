@@ -15,10 +15,6 @@ export const LOAD_USER_SUCCESS = "LOAD_USER_SUCCESS";
 export const LOAD_USER_FAIL = "LOAD_USER_FAIL";
 export const LOGOUT = "LOGOUT";
 export const LOGIN = "LOGIN";
-export const UPDATE_USER_SUCCESS = "UPDATE_USER_SUCCESS";
-export const UPDATE_USER_FAIL = "UPDATE_USER_FAIL";
-export const UPDATE_USER_INFO_SUCCESS = "UPDATE_USER_INFO_SUCCESS";
-export const UPDATE_USER_INFO_FAIL = "UPDATE_USER_INFO_FAIL";
 export const ADD_TO_CART = "ADD_TO_CART";
 export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
 export const INCREASE_QUANTITY = "INCREASE_QUANTITY";
@@ -28,6 +24,9 @@ export const GET_RATINGS = "GET_RATINGS";
 export const SET_SHOW_RESULTS = "SET_SHOW_RESULTS";
 export const FETCH_USER_RATING_SUCCESS = 'FETCH_USER_RATING_SUCCESS';
 export const FETCH_USER_RATING_FAILURE = 'FETCH_USER_RATING_FAILURE';
+export const UPDATE_PASSWORD_REQUEST = 'UPDATE_PASSWORD_REQUEST';
+export const UPDATE_PASSWORD_SUCCESS = 'UPDATE_PASSWORD_SUCCESS';
+export const UPDATE_PASSWORD_FAILURE = 'UPDATE_PASSWORD_FAILURE';
 
 
 export const increaseQuantity = (sku) => {
@@ -266,27 +265,41 @@ export const loadUserById = (userId) => async (dispatch) => {
   }
 };
 
-export const updateUserInfo = (newPassword) => async (dispatch, getState) => {
-  const userId = getState().user.id;
 
-  // Realiza una solicitud para actualizar la información del usuario en el servidor
-  try {
-    const res = await axios.put(`http://localhost:3001/user/id/${userId}`, {
-      user_password: newPassword,
-    });
+export const updatePassword = (userId, user_password) => {
+  return async (dispatch) => {
+    dispatch({ type: UPDATE_PASSWORD_REQUEST });
 
-    // Si la actualización fue exitosa, puedes despachar una acción de éxito o manejarla según tus necesidades
-    dispatch({ type: UPDATE_USER_INFO_SUCCESS, payload: res.data });
+    try {
+      // Obtener el token de autenticación desde el almacenamiento local
+      const token = localStorage.getItem('token');
 
-    // Muestra un mensaje de éxito o redirige al usuario a su cuenta
-    alert("Datos actualizados correctamente");
-    // Puedes redirigir al usuario a su cuenta aquí, por ejemplo:
-    // history.push('/mi-cuenta');
-  } catch (error) {
-    // Maneja los errores y dispatch una acción de error si es necesario
-    dispatch({ type: UPDATE_USER_INFO_FAIL, payload: error.response.data });
-  }
+      if (!token) {
+        // Manejar el caso en el que el token no esté presente
+        throw new Error('Token de autenticación no encontrado');
+      }
+
+      // Configurar las cabeceras de la solicitud para incluir el token
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      // Realizar la solicitud PUT al backend con la contraseña en el cuerpo de la solicitud
+      const response = await axios.put(`http://localhost:3001/user/id/${userId}`, {
+        user_password: user_password,
+      }, config);
+
+      // Si la solicitud se completa con éxito, despacha la acción de éxito
+      dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: response.data });
+    } catch (error) {
+      // Si hay un error en la solicitud, despacha la acción de fallo
+      dispatch({ type: UPDATE_PASSWORD_FAILURE, error: error.message });
+    }
+  };
 };
+
 
 export const createRating = (userId,product_id, rate, review) => async (dispatch) => {
   try {
