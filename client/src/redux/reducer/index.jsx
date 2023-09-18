@@ -20,7 +20,9 @@ import {
   GET_RATINGS, 
   SET_SHOW_RESULTS,
   LOGOUT,
-  LOGIN
+  LOGIN,
+  FETCH_USER_RATING_SUCCESS,
+  FETCH_USER_RATING_FAILURE,
 } from "../actions/index";
 
 const initialState = {
@@ -40,6 +42,7 @@ const initialState = {
   ratings: [],
   isLoggedIn: localStorage.getItem("token") ? true : false,
   showResults : false, 
+  userDataRating: null,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -207,6 +210,19 @@ const rootReducer = (state = initialState, action) => {
            };
     case SET_SHOW_RESULTS:
            return { ...state, showResults: action.showResults };
+
+           case FETCH_USER_RATING_SUCCESS:
+            return {
+             ...state,
+              userDataRating: action.payload,
+               error: null,
+              };
+          case FETCH_USER_RATING_FAILURE:
+            return {
+              ...state,
+              userDataRating: null,
+              error: action.error,
+            };
 
     default:
       return state;

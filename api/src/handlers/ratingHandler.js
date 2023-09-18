@@ -13,9 +13,19 @@ module.exports = {
 
   createRatinghandler: async (req, res) => {
     try {
-      const { product_id, rate, review } = req.body;
-      const newRating = await ratingController.createRating(product_id, rate, review);
-      return res.status(201).json(newRating);
+      const { userId,product_id, rate, review } = req.body;
+      const userRating = await ratingController.createRating(userId,product_id, rate, review);
+      return res.status(201).json(userRating);
+    } catch (error) {
+      return res.status(500).json({ message: "Error interno del servidor" });
+    }
+  },
+
+  getUserRatingPropertiesHandler: async (req, res) => {
+    try {
+      const id = req.params.id;
+      const user = await ratingController.getUserRatingProperties(id);
+      return res.status(201).json(user);
     } catch (error) {
       return res.status(500).json({ message: "Error interno del servidor" });
     }

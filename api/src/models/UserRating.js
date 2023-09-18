@@ -2,12 +2,20 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "Rating",
+    "UserRating",
     {
-      rating_id: {
+      id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
+      },
+      userId: {
+        type: DataTypes.UUID, // Debe coincidir con el tipo de ID en tu modelo User
+        allowNull: false,
+      },
+      product_id: {
+        type: DataTypes.INTEGER, // Debe coincidir con el tipo de ID en tu modelo Product
+        allowNull: false,
       },
       rate: {
         type: DataTypes.INTEGER,
@@ -16,10 +24,6 @@ module.exports = (sequelize) => {
           min: 1,
           max: 5,
         },
-      },
-      product_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
       },
       review: {
         type: DataTypes.TEXT,

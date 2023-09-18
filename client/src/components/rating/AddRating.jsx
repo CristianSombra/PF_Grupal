@@ -1,24 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createRating } from '../../redux/actions/index';
-import { getRatings } from '../../redux/actions';
+import { createRating, getRatings, getUserRating } from '../../redux/actions/index';
 import { Modal, Button, Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; // Importa Link desde React Router
+import { Link } from 'react-router-dom';
 
 const AddRating = ({ product_id }) => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const user = localStorage.getItem('id');
+  const userDataRating = useSelector((state) => state.userDataRating);
 
   const [showModal, setShowModal] = useState(false);
   const [rate, setRate] = useState(0);
   const [review, setReview] = useState('');
   const [error, setError] = useState('');
 
+  useEffect(() => {
+    if (user) {
+      dispatch(getUserRating(user));
+    }
+  }, [dispatch, user]);
+
   const handleClose = () => {
     setShowModal(false);
     setError('');
   };
-  
+
   const handleShow = () => setShowModal(true);
 
   const handleAddRating = () => {
@@ -44,11 +50,18 @@ const AddRating = ({ product_id }) => {
       return;
     }
 
-    dispatch(createRating(product_id, rate, review));
+    const userRatingData = userDataRating || {}; // Si es null, establecer un objeto vacío
+    const userName = userRatingData.user_name || 'Usuario'; // Obtener el nombre de usuario
+
+    const updatedReview = `${userName}: ${review}`;
+
+    dispatch(createRating(user, product_id, rate, updatedReview));
     dispatch(getRatings());
+    dispatch(getUserRating(user));
     setRate(0);
     setReview('');
     dispatch(getRatings());
+    dispatch(getUserRating(user));
     handleClose();
   };
 
@@ -59,12 +72,9 @@ const AddRating = ({ product_id }) => {
           Calificar
         </Button>
       ) : (
-        // Si el usuario no está autenticado, muestra el enlace de inicio de sesión
         <Button variant="dark" size="sm" as={Link} to="/login">
-        Inicia sesión para calificar
-      </Button>
-
-      
+          Inicia sesión para calificar
+        </Button>
       )}
 
       <Modal show={showModal} onHide={handleClose} centered>
