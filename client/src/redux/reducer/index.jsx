@@ -1,28 +1,29 @@
-import { 
-  ERROR, 
-  GET_PODUCT_SUCCESS, 
-  GET_PRODUCT_DETAIL, 
-  SORT_PRODUCTS_BY_PRICE, 
+import {
+  ERROR,
+  GET_PODUCT_SUCCESS,
+  GET_PRODUCT_DETAIL,
+  SORT_PRODUCTS_BY_PRICE,
   CREATE_PRODUCT,
   UPDATE_SEARCH_RESULTS,
   RESET_SELECTED_BRAND_CATEGORY,
-  LOGIN_FAIL,
-  LOGIN_SUCCESS,
   CREATE_USER_SUCCESS,
   CREATE_USER_FAIL,
   LOAD_USER_SUCCESS,
   LOAD_USER_FAIL,
   UPDATE_USER_INFO_SUCCESS,
   UPDATE_USER_INFO_FAIL,
-  LOGOUT,
-  ADD_TO_CART, 
+  ADD_TO_CART,
   REMOVE_FROM_CART,
+  INCREASE_QUANTITY,
+  DECREASE_QUANTITY,
   CREATE_RATING, 
   GET_RATINGS, 
   SET_SHOW_RESULTS,
-  
+  LOGOUT,
+  LOGIN,
+  FETCH_USER_RATING_SUCCESS,
+  FETCH_USER_RATING_FAILURE,
 } from "../actions/index";
-
 
 const initialState = {
   products: [], // Mantén el estado original para todos los productos
@@ -30,8 +31,8 @@ const initialState = {
   error: "",
   orderByPrice: null, // Usar null para indicar que no hay ordenamiento por defecto
   searchResults: [],
-  SelectedBrand: (""),
-  SelectedCategory: (""),
+  SelectedBrand: "",
+  SelectedCategory: "",
   items: [],
   user: null,
   loadedUser: null,
@@ -39,11 +40,20 @@ const initialState = {
   updateUserInfoError: null, // Para rastrear errores de actualización
   cartItems: [],
   ratings: [],
+  isLoggedIn: localStorage.getItem("token") ? true : false,
   showResults : false, 
- };
+  userDataRating: null,
+};
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOGIN:
+      return {
+        ...state,
+        isLoggedIn: true,
+        user: action.payload,
+        loadedUser: action.payload
+      };
     case ERROR:
       return {
         ...state,
@@ -72,57 +82,42 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         creatingProduct: false,
         creatinProductError: null,
-       };
+      };
 
-      case SORT_PRODUCTS_BY_PRICE:
-        return {
-         ...state,
-          orderByPrice: action.payload, 
-       };
-       
-
-     case UPDATE_SEARCH_RESULTS:
+    case SORT_PRODUCTS_BY_PRICE:
       return {
         ...state,
-          searchResults: action.payload, // Actualiza los resultados de búsqueda
-        };
+        orderByPrice: action.payload,
+      };
 
-     case RESET_SELECTED_BRAND_CATEGORY:
-      return {
-            ...state,
-            SelectedBrand: "",
-            SelectedCategory: "",
-          };
-         
-     case LOGIN_SUCCESS:
-              return {
-                ...state,
-                user: action.payload,
-                error: null,
-              };
-      case LOGIN_FAIL:
-              return {
-                ...state,
-                user: null,
-                error: action.payload,
-              };
-      
-      case CREATE_USER_SUCCESS:
-              return {
-                  ...state,
-                  user: action.payload,
-                  error: null,
-                };
-      case CREATE_USER_FAIL:
-              return {
-                  ...state,
-                  user: null,
-                  error: action.payload,
-                }; 
-      case LOAD_USER_SUCCESS:
-
+    case UPDATE_SEARCH_RESULTS:
       return {
         ...state,
+        searchResults: action.payload, // Actualiza los resultados de búsqueda
+      };
+
+    case RESET_SELECTED_BRAND_CATEGORY:
+      return {
+        ...state,
+        SelectedBrand: "",
+        SelectedCategory: "",
+      };
+
+    case CREATE_USER_SUCCESS:
+      return {
+        ...state,
+        error: null,
+      };
+    case CREATE_USER_FAIL:
+      return {
+        ...state,
+        user: null,
+        error: action.payload,
+      };
+    case LOAD_USER_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
         loadedUser: action.payload,
         error: null,
       };
@@ -132,52 +127,106 @@ const rootReducer = (state = initialState, action) => {
         loadedUser: null,
         error: action.payload,
       };
-      case UPDATE_USER_INFO_SUCCESS:
+    case UPDATE_USER_INFO_SUCCESS:
+      return {
+        ...state,
+        updateUserInfoSuccess: true,
+        updateUserInfoError: null,
+      };
+    case UPDATE_USER_INFO_FAIL:
+      return {
+        ...state,
+        updateUserInfoSuccess: false,
+        updateUserInfoError: action.payload, // Almacena el error si la actualización falla
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        user: null,
+        loadedUser: null,
+        isLoggedIn: false, // Establece 'user' en null al cerrar sesión
+      };
+
+    case ADD_TO_CART:
+      const productToAdd = action.payload;
+      const existingProduct = state.cartItems.find(
+        (item) => item.sku === productToAdd.sku
+      );
+
+      if (existingProduct) {
+        // Si el producto ya está en el carrito, aumenta la cantidad
         return {
           ...state,
-          updateUserInfoSuccess: true,
-          updateUserInfoError: null,
+          cartItems: state.cartItems.map((item) =>
+            item.sku === existingProduct.sku
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          ),
         };
-      case UPDATE_USER_INFO_FAIL:
+      } else {
+        // Si el producto no está en el carrito, agrégalo
         return {
           ...state,
-          updateUserInfoSuccess: false,
-          updateUserInfoError: action.payload, // Almacena el error si la actualización falla
+          cartItems: [...state.cartItems, { ...productToAdd, quantity: 1 }],
         };
-                      
-      case LOGOUT:
-        return {
-          ...state,
-          user: null, // Establece 'user' en null al cerrar sesión
-           };
-      case CREATE_RATING:
+      }
+
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        cartItems: state.cartItems.filter(
+          (product) => product.sku !== action.payload
+        ),
+      };
+
+    case INCREASE_QUANTITY:
+      const skuToIncrease = action.payload;
+      return {
+        ...state,
+        cartItems: state.cartItems.map((item) =>
+          item.sku === skuToIncrease
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        ),
+      };
+    case DECREASE_QUANTITY:
+      return {
+        ...state,
+        cartItems: state.cartItems.map((item) =>
+          item.sku === action.payload && item.quantity > 1
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        ),
+      };
+    case CREATE_RATING:
         return {
           ...state,
           ratings: [ action.payload,...state.ratings],            
              };
-      case GET_RATINGS:
-          console.log("Recibida la acción GET_RATINGS con payload:", action.payload);
+    case GET_RATINGS:
           return {
           ...state,
           ratings: action.payload,
            };
-      case SET_SHOW_RESULTS:
+    case SET_SHOW_RESULTS:
            return { ...state, showResults: action.showResults };
 
-      case ADD_TO_CART:
-         return {
-          ...state,
-          cartItems: [...state.cartItems, action.payload],
-        };
-      case REMOVE_FROM_CART:
-          return {
-            ...state, cartItems: state.cartItems.filter(product => product.sku !== action.payload)
-          };
-   
-            default:
-              return state;
-          }
-        };
-        
-        
+           case FETCH_USER_RATING_SUCCESS:
+            return {
+             ...state,
+              userDataRating: action.payload,
+               error: null,
+              };
+          case FETCH_USER_RATING_FAILURE:
+            return {
+              ...state,
+              userDataRating: null,
+              error: action.error,
+            };
+
+    default:
+      return state;
+  }
+};
+
 export default rootReducer;

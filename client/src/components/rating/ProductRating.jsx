@@ -1,18 +1,24 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getRatings } from '../../redux/actions';
 
 const ProductRating = ({ sku }) => {
- 
+  const dispatch = useDispatch();
   const ratings = useSelector((state) => state.ratings);
 
+  useEffect(() => {
+    // Cargar las calificaciones una vez que el componente se monte
+    dispatch(getRatings());
+  }, [dispatch]);
+
+ 
   // Función para calcular la mediana de calificaciones considerando un límite de 5
   const calculateMedianRating = (products) => {
     if (!products || products.length === 0) return 0;
 
     // Obtén todas las calificaciones en un array
     const allRatings = products.reduce((ratingsArray, product) => {
-      return ratingsArray.concat(product.Ratings.map((rating) => rating.rate));
+      return ratingsArray.concat(product.UserRatings.map((rating) => rating.rate));
     }, []);
 
     // Ordena las calificaciones de menor a mayor
@@ -35,8 +41,6 @@ const ProductRating = ({ sku }) => {
 
   const medianRating = calculateMedianRating(filteredProducts);
 
- 
-
   // Función para renderizar las estrellas
   const renderStars = (rating) => {
     const stars = [];
@@ -51,19 +55,17 @@ const ProductRating = ({ sku }) => {
 
     return stars;
   };
-  
 
-  // Mostrar un mensaje si la calificación es menor a 0.5
+  // Mostrar un mensaje si la calificación es menor a 0.1
   const ratingMessage = medianRating < 0.1 ? 'No registra Calificaciones' : '';
 
   return (
     <div>
       <div>
-        Calificación:{ratingMessage ? null : renderStars(medianRating)}
+        Calificación General: {ratingMessage ? null : renderStars(medianRating)}
       </div>
       <div>
         {ratingMessage}
-        
       </div>
     </div>
   );

@@ -1,11 +1,20 @@
-const { Product, Brand, Category} = require("../db");
+const { Product, Brand, Category, User} = require("../db");
 
 const listProducts = require("../data/productsDb");
 
+const userAdmin = {
+  user_name: "admin",
+  first_name: "Admin",
+  last_name: "istrador",
+  email: "admin@ecommerce.com",
+  role: "Administrador",
+  user_password: "$2a$08$q7rj/8iaG7a6E2R8u4Spn./ivL5fqDB0URYklEp5nkcvZFhSMkZiG"
+}
 
 const brands= Array.from(new Set(listProducts.map(product => product.id_brand)));
 const categories= Array.from(new Set(listProducts.map(product => product.id_category)));
 const loadProductsInDB = async (req, res, next) => {
+  await User.create(userAdmin)
   for(const brandid of brands){
     const brand = listProducts.find(product => product.id_brand === brandid);
     if(brand){

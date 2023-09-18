@@ -15,7 +15,7 @@ const CardsContainer = () => {
   }, [dispatch]);
 
   let sortedProducts = [...allProducts];
- 
+
   if (orderByPrice !== null) {
     sortedProducts = orderByPrice === 'asc'
       ? sortProductsByPrice(sortedProducts, 'asc')
@@ -36,6 +36,7 @@ const CardsContainer = () => {
   if (sortedProducts.length>0) {
     dispatch(setShowResults(true));
   } else { dispatch(setShowResults(false))}
+
 
   return (
     <div className="container">

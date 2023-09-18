@@ -21,7 +21,7 @@ const mercadopago = require("mercadopago");
 
 //  Agrega credenciales
 mercadopago.configure({
-  access_token: ACCESS_TOKEN,
+  access_token: "TEST-6310559041386566-071820-2556cfd79c12b7ca5ed095500b899251-1338314230",
 });
 
 const createPayment = async (req, res, next) => {

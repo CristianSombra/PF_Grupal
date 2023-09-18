@@ -10,7 +10,7 @@ const NotFound = () => {
           <div className="d-flex flex-column align-items-center">
             <img src={img} alt="Error 404" />
             <h1 className="display-4" style={{ marginTop: "20px" }}>
-              404 - Página no encontrada
+              Página no encontrada
             </h1>
           </div>
           <p className="lead">

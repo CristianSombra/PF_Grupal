@@ -1,8 +1,12 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart } from "../../redux/actions/index";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import {
+  removeFromCart,
+  increaseQuantity,
+  decreaseQuantity,
+ } from "../../redux/actions/index";
 import "../../components/css/index.css";
 
 const Cart = () => {
@@ -12,6 +16,25 @@ const Cart = () => {
   const handleRemoveFromCart = (product) => {
     dispatch(removeFromCart(product));
   };
+    const handleIncreaseQuantity = (sku) => {
+    dispatch(increaseQuantity(sku));
+  };
+
+  const handleDecreaseQuantity = (sku) => {
+    // Find the item in the cartItems array
+    const item = cartItems.find((item) => item.sku === sku);
+
+    // Make sure the item exists and the quantity is greater than 1
+    if (item && item.quantity > 1) {
+      dispatch(decreaseQuantity(sku));
+    }
+  };
+
+  const calculateTotalPrice = cartItems.reduce(
+    (total, item) => total + item.quantity * item.price,
+    0
+  );
+
 
   return (
     <div className="container-cart">
@@ -48,12 +71,27 @@ const Cart = () => {
                       <Card.Body>
                         <h5 className="card-title">Nombre: {item.titulo}</h5>
                         <p className="card-text">Precio: ${item.price}</p>
-                        <Button
-                          variant="danger"
-                          onClick={() => handleRemoveFromCart(item.sku)}
-                        >
-                          Eliminar
-                        </Button>
+                  <div className="d-flex align-items-center">
+                  <button
+                    className="btn btn-secondary me-2"
+                    onClick={() => handleDecreaseQuantity(item.sku)}
+                  >
+                    -
+                  </button>
+                  <p className="me-2">{item.quantity}</p>
+                  <button
+                    className="btn btn-secondary me-2"
+                    onClick={() => handleIncreaseQuantity(item.sku)}
+                  >
+                    +
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleRemoveFromCart(item.sku)}
+                  >
+                    <i className="bi bi-trash"></i> 
+                  </button>
+                </div>
                       </Card.Body>
                     </Col>
                   </Row>
@@ -61,6 +99,7 @@ const Cart = () => {
               ))}
             </div>
           )}
+          <h3 className="d-flex justify-content-end mt-4" style={{ margin: "30px" }}>Total: ${calculateTotalPrice}</h3>
           {cartItems.length > 0 && (
             <div className="d-flex justify-content-end mt-3">
             <Button variant="success" as={Link} to="/buyPage">
