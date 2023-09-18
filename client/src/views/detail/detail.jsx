@@ -1,19 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../../components/css/index.css";
 import { Link } from "react-router-dom";
 import { useGetProductDetailHandler } from "../../components/handlers/handlersdetail";
 import Button from "react-bootstrap/esm/Button";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../../redux/actions";
+import { addToCart, getUserRating, getRatings } from "../../redux/actions";
 import AddRating from "../../components/rating/AddRating";
 import ProductRating from "../../components/rating/ProductRating";
 import ProductComment from "../../components/rating/ProductComment";
+import UserRatingInfo from "../../components/rating/UserRatingInfo";
 import Swal from "sweetalert2";
 
 const Detail = () => {
   const productDetail = useGetProductDetailHandler();
   const dispatch = useDispatch();
-  const product_id = productDetail ? productDetail.sku : null; // Asegúrate de tener un SKU válido
+  const product_id = productDetail ? productDetail.sku : null;
+  const userId = localStorage.getItem('id');
+
+  useEffect(() => {
+    dispatch(getUserRating(userId));
+    getRatings();
+    // eslint-disable-next-line
+  }, [dispatch]);
 
   if (!productDetail) {
     return <p>No se encontró información para el producto seleccionado.</p>;
@@ -35,10 +43,15 @@ const Detail = () => {
 
   return (
     <div className="container-detail" style={{ marginTop: "140px" }}>
-      <h1 className="text-center" style={{ marginTop: "20px" }} >Detalle del producto</h1>
-      <div className="row">  
-      <div className="col-md-5 mx-auto">
-          <div className="card custom-shadow" style={{ maxWidth: "600px", marginTop: "10px" }}>
+      <h1 className="text-center" style={{ marginTop: "20px" }}>
+        Detalle del producto
+      </h1>
+      <div className="row">
+        <div className="col-md-5 mx-auto">
+          <div
+            className="card custom-shadow"
+            style={{ maxWidth: "600px", marginTop: "10px" }}
+          >
             <div className="card-body">
               <p className="card-text">N/P: {productDetail.number_part}</p>
               <h5 className="card-title">Nombre: {productDetail.titulo}</h5>
@@ -51,37 +64,39 @@ const Detail = () => {
                 <li>Ram: {productDetail.detail.ram}</li>
                 <li>Pantalla: {productDetail.detail.pantalla}</li>
                 <li>Procesador: {productDetail.detail.procesador}</li>
-                <li>Almacenamiento: {productDetail.detail.almacenamiento}</li>
+                <li>
+                  Almacenamiento: {productDetail.detail.almacenamiento}
+                </li>
               </ul>
               <ProductRating sku={product_id} />
+              <UserRatingInfo sku={product_id} />
               <div className="mt-2 text-center d-flex justify-content-center">
                 <Button
                   variant="success"
                   className="mt-2 btn me-3"
                   onClick={() => handleAddToCart(productDetail)}
                 >
-                  <i className="bi bi-cart-plus"></i></Button>
-                <Button
-                  variant="danger"
-                  className="mt-2 btn"
-                >
-                  <i className="bi bi-heart"></i></Button>
+                  <i className="bi bi-cart-plus"></i>
+                </Button>
+                <Button variant="danger" className="mt-2 btn">
+                  <i className="bi bi-heart"></i>
+                </Button>
               </div>
-              <div  style={{marginTop:"20px"}}>
-              <AddRating product_id={product_id}/>
+              <div style={{ marginTop: "20px" }}>
+              <AddRating product_id={product_id} />
               </div>
             </div>
           </div>
         </div>
         <div className="col-md-5">
-        <div className="d-flex flex-column align-items-center">
-          <img
-            src={productDetail.image}
-            alt={productDetail.titulo}
-            className="img-detail"
-          />
-        <ProductComment sku={product_id}/>
-        </div>
+          <div className="d-flex flex-column align-items-center">
+            <img
+              src={productDetail.image}
+              alt={productDetail.titulo}
+              className="img-detail"
+            />
+            <ProductComment productId={product_id} />
+          </div>
         </div>
       </div>
 
@@ -91,7 +106,6 @@ const Detail = () => {
         </Button>
       </div>
     </div>
-   
   );
 };
 
