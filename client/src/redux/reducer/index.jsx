@@ -10,8 +10,6 @@ import {
   CREATE_USER_FAIL,
   LOAD_USER_SUCCESS,
   LOAD_USER_FAIL,
-  UPDATE_USER_INFO_SUCCESS,
-  UPDATE_USER_INFO_FAIL,
   ADD_TO_CART,
   REMOVE_FROM_CART,
   INCREASE_QUANTITY,
@@ -20,7 +18,12 @@ import {
   GET_RATINGS, 
   SET_SHOW_RESULTS,
   LOGOUT,
-  LOGIN
+  LOGIN,
+  FETCH_USER_RATING_SUCCESS,
+  FETCH_USER_RATING_FAILURE,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAILURE
 } from "../actions/index";
 
 const initialState = {
@@ -34,12 +37,13 @@ const initialState = {
   items: [],
   user: null,
   loadedUser: null,
-  updateUserInfoSuccess: false, // Para rastrear el éxito de la actualización
-  updateUserInfoError: null, // Para rastrear errores de actualización
   cartItems: [],
   ratings: [],
   isLoggedIn: localStorage.getItem("token") ? true : false,
   showResults : false, 
+  userDataRating: null,
+  loading: false,
+  success: false,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -124,18 +128,6 @@ const rootReducer = (state = initialState, action) => {
         loadedUser: null,
         error: action.payload,
       };
-    case UPDATE_USER_INFO_SUCCESS:
-      return {
-        ...state,
-        updateUserInfoSuccess: true,
-        updateUserInfoError: null,
-      };
-    case UPDATE_USER_INFO_FAIL:
-      return {
-        ...state,
-        updateUserInfoSuccess: false,
-        updateUserInfoError: action.payload, // Almacena el error si la actualización falla
-      };
     case LOGOUT:
       return {
         ...state,
@@ -207,6 +199,40 @@ const rootReducer = (state = initialState, action) => {
            };
     case SET_SHOW_RESULTS:
            return { ...state, showResults: action.showResults };
+
+           case FETCH_USER_RATING_SUCCESS:
+            return {
+             ...state,
+              userDataRating: action.payload,
+               error: null,
+              };
+          case FETCH_USER_RATING_FAILURE:
+            return {
+              ...state,
+              userDataRating: null,
+              error: action.error,
+            };
+            case UPDATE_PASSWORD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        success: false,
+        error: null,
+      };
+    case UPDATE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        error: null,
+      };
+    case UPDATE_PASSWORD_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        success: false,
+        error: action.error,
+      };
 
     default:
       return state;

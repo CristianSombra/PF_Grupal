@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createProduct } from "../../redux/actions/index";
+import CloudImage from "../../components/cloudimage/cloudimage";
 import "../../components/css/index.css";
 import Button from "react-bootstrap/Button";
+
 const ProductForm = () => {
   const dispatch = useDispatch();
   const [sku, setSku] = useState("");
@@ -11,13 +13,17 @@ const ProductForm = () => {
   const [idBrand, setIdBrand] = useState(1);
   const [idCategory, setIdCategory] = useState(84);
   const [price, setPrice] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
   const [disponibility, setDisponibility] = useState("");
   const [ram, setRam] = useState("");
   const [pantalla, setPantalla] = useState("");
   const [procesador, setProcesador] = useState("");
   const [almacenamiento, setAlmacenamiento] = useState("");
   const [isProductCreated, setIsProductCreated] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+
+  const handleImageUpload = (imageUrl) => {
+    setImageUrl(imageUrl); // Actualiza el estado de la URL de la imagen
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -84,10 +90,6 @@ const ProductForm = () => {
     }
   };
 
-  const handleImageChange = (e) => {
-    const selectedImage = e.target.files[0];
-    setImageUrl(URL.createObjectURL(selectedImage)); // Cambia imageUrl en lugar de setImage
-  };
 
   return (
     <div
@@ -265,24 +267,9 @@ const ProductForm = () => {
                   </div>
                 </div>
               </div>
-              <div className="mb-3">
-                <label htmlFor="image" className="form-label">
-                  Tu Imagen:
-                </label>
-                <input
-                  type="file"
-                  id="image"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  required
-                  className="form-control"
-                />
-                {imageUrl && (
-                  <div className="mt-2">
-                    <img src={imageUrl} alt="Preview" className="img-fluid" />
-                  </div>
-                )}
-              </div>
+                <div className="card-body d-flex align-items-center justify-content-center">
+                  <CloudImage onImageUpload={handleImageUpload} />
+                </div>
               <div className="text-center mt-4">
                 <Button type="submit" variant="dark">
                   Crear Producto

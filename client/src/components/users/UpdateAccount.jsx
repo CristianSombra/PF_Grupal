@@ -1,60 +1,90 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { updateUserInfo } from '../../redux/actions/index';
-import { Button, Container, Row, Col, Form } from 'react-bootstrap';
+import { Button, Container, Row, Col, Form, Alert } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { updatePassword } from '../../redux/actions/index';
+import { useNavigate } from 'react-router-dom';
 
-const UpdateAccount = ({ updateUserInfo, userId }) => {
+const UpdateAccount = () => {
+  const dispatch = useDispatch();
+  const userId = localStorage.getItem('id');
+  const navigate = useNavigate();
   const [user_password, setuser_password] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // Estado para mostrar/ocultar contraseña
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [showAlert, setShowAlert] = useState(false); // Estado para mostrar la alerta
+
+  const isLoading = useSelector((state) => state.user.loading);
 
   const handleUpdate = async () => {
     try {
-      await updateUserInfo(userId, { user_password: user_password });
+      await dispatch(updatePassword(userId, user_password));
       setSuccess('Contraseña actualizada correctamente.');
       setError(null);
-      // Puedes redirigir al usuario a donde desees, por ejemplo, la página de su cuenta.
+
+      // Mostrar la alerta y esperar 3 segundos antes de redirigir
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+        navigate('/account');
+      }, 3000); // 3 segundos
     } catch (err) {
       setError('Error al actualizar la contraseña. Por favor, inténtelo de nuevo.');
       setSuccess(null);
     }
   };
 
+  // Verificar si se muestra el formulario o el mensaje de éxito
+  const showForm = success === null; // Mostrar el formulario si no hay éxito
+
   return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 100px)', marginTop: '70px', marginBottom: '30px' }} >
+    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 100px)', marginTop: '70px', marginBottom: '30px' }}>
       <Row>
         <Col>
           <h3 className="text-center">Ingresa tu nueva contraseña</h3>
           {error && <div className="text-danger text-center mb-3">{error}</div>}
-          {success && <div className="text-success text-center mb-3">{success}</div>}
-          <Form>
-            <Form.Group>
-              <Form.Label>Nueva Contraseña:</Form.Label>
-              <Form.Control
-                type="password"
-                value={user_password}
-                onChange={(e) => setuser_password(e.target.value)}
-              />
-            </Form.Group>
-            <div className="text-center">
-              <Button onClick={handleUpdate} variant="dark" size="sm">
-                Actualizar
-              </Button>
-            </div>
-          </Form>
+          {showForm && (
+            <Form>
+              <Form.Group>
+                <Form.Label>Nueva Contraseña:</Form.Label>
+                <div className="input-group">
+                  <Form.Control
+                    type={showPassword ? 'text' : 'password'}
+                    value={user_password}
+                    onChange={(e) => setuser_password(e.target.value)}
+                  />
+                  <div className="input-group-append">
+                    <Button
+                      variant="outline-secondary"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? 'Ocultar' : 'Mostrar'}
+                    </Button>
+                  </div>
+                </div>
+              </Form.Group>
+              <div className="text-center">
+                <Button
+                  onClick={handleUpdate}
+                  variant="dark"
+                  size="sm"
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'Actualizando...' : 'Actualizar'}
+                </Button>
+              </div>
+            </Form>
+          )}
+          {/* Alerta de éxito */}
+          {showAlert && (
+            <Alert variant="success" className="mt-3">
+              {success}
+            </Alert>
+          )}
         </Col>
       </Row>
     </Container>
   );
 };
 
-const mapStateToProps = (state) => ({
-  userId: state.user.id,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  updateUserInfo: (id, user_password) =>
-    dispatch(updateUserInfo(id, user_password)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(UpdateAccount);
+export default UpdateAccount;

@@ -4,8 +4,7 @@ const CartModel = require("./models/Cart");
 const CategoryModel = require("./models/Category");
 const BrandModel = require("./models/Brand")
 const UserModel = require("./models/User")
-const RatingModel = require("./models/Rating");
-
+const UseratingModel = require("./models/UserRating");
 require("dotenv").config();
 
 const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
@@ -21,14 +20,16 @@ CartModel(sequelize);
 CategoryModel(sequelize);
 BrandModel(sequelize);
 UserModel(sequelize);
-RatingModel(sequelize);
+UseratingModel(sequelize);
 
 
-const { Product,  Cart, Category, Brand, User, Rating  } = sequelize.models;
+const { Product,  Cart, Category, Brand, User, UserRating  } = sequelize.models;
 
 Product.belongsTo(Brand, {foreignKey:'id_brand'} );
 Product.belongsTo(Category, {foreignKey:'id_category'} );
-Product.hasMany(Rating, { foreignKey: "product_id" });
+User.hasMany(UserRating, { foreignKey: "userId" });
+Product.hasMany(UserRating, { foreignKey: "product_id" });
+
 
 User.hasMany(Cart);
 Cart.belongsTo(User);
