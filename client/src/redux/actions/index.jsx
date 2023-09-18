@@ -26,6 +26,8 @@ export const DECREASE_QUANTITY = "DECREASE_QUANTITY";
 export const CREATE_RATING = "CREATE_RATING";
 export const GET_RATINGS = "GET_RATINGS";
 export const SET_SHOW_RESULTS = "SET_SHOW_RESULTS";
+export const FETCH_USER_RATING_SUCCESS = 'FETCH_USER_RATING_SUCCESS';
+export const FETCH_USER_RATING_FAILURE = 'FETCH_USER_RATING_FAILURE';
 
 
 export const increaseQuantity = (sku) => {
@@ -286,11 +288,12 @@ export const updateUserInfo = (newPassword) => async (dispatch, getState) => {
   }
 };
 
-export const createRating = (product_id, rate, review) => async (dispatch) => {
+export const createRating = (userId,product_id, rate, review) => async (dispatch) => {
   try {
 
 
     const response = await axios.post('http://localhost:3001/rating', {
+      userId,
       product_id,
       rate,
       review,
@@ -318,6 +321,20 @@ export const getRatings = () => async (dispatch) => {
   }
 };
 
+export const getUserRating = (userId) => async (dispatch) => {
+  try {
+    const response = await axios.get(`http://localhost:3001/rating/id/${userId}`);
+    dispatch({
+      type: FETCH_USER_RATING_SUCCESS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: FETCH_USER_RATING_FAILURE,
+      error: error.message,
+    });
+  }
+};
 export const setShowResults = (showResults) => ({
   type: 'SET_SHOW_RESULTS',
   showResults,
