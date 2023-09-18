@@ -10,9 +10,19 @@ const BuyPage = () => {
   const products = useSelector((state) => state.products);
 
   const calculateTotal = () => {
-    return cartItems.reduce((total, item) => Number(total) + Number(item.price), 0);
+    let total = 0;
+
+    // Recorre los elementos en el carrito y suma el precio de cada producto
+    for (const item of cartItems) {
+      const product = products.find((p) => p.sku === item.sku);
+      if (product) {
+        total += item.quantity * product.price;
+      }
+    }
+
+    return total;
   };
-  
+
   const referenceUUID = uuidv4();
 
   return (
@@ -49,7 +59,7 @@ const BuyPage = () => {
                       <Col md={8}>
                         <div className="card-body">
                           <h5 className="card-title">Nombre: {product.titulo}</h5>
-                          <p className="card-text">Precio: ${item.price}</p>
+                          <p className="card-text">Precio: ${product.price}</p>
                         </div>
                       </Col>
                     </Row>
@@ -62,7 +72,7 @@ const BuyPage = () => {
           <form action="https://checkout.wompi.co/p/" method="GET">
             <input type="hidden" name="public-key" value="pub_test_GZlevgVBlUIA4Aq8jcYjNPJBJEnbitYV" />
             <input type="hidden" name="currency" value="COP" />
-            <input type="hidden" name="amount-in-cents" value={calculateTotal() * 100} />
+            <input type="hidden" name="amount-in-cents" value={Math.round(calculateTotal() * 100)} />
             <input type="hidden" name="reference" value={referenceUUID} />
             <input type="hidden" name="redirect-url" value="http://localhost:3000/order/result" />
 
