@@ -2,8 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { addToWishlist } from "../../redux/actions";
+import { useSelector } from 'react-redux';
 import "./card.css";
-
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/actions";
 import Swal from "sweetalert2";
@@ -11,12 +12,13 @@ import Swal from "sweetalert2";
 const Cards = (props) => {
   const { sku, name, image, titulo, price } = props;
   const dispatch = useDispatch();
+  const wishlist = useSelector(state => state.wishlist);
 
   const handleAddToCart = (product) => {
     dispatch(addToCart(product));
     Swal.fire({
-      icon: 'success',
-      title: 'Agregado al carrito',
+      icon: "success",
+      title: "Agregado al carrito",
       text: `${name} se ha agregado al carrito.`,
       imageUrl: image,
       imageAlt: titulo,
@@ -25,6 +27,36 @@ const Cards = (props) => {
       timer: 1200,
     });
   };
+
+  const handleAddToWishlist = (product) => {
+    // Comprobar si el producto ya está en la wishlist
+    const alreadyInWishlist = wishlist.some(item => item.sku === product.sku);
+  
+    if (!alreadyInWishlist) {
+      dispatch(addToWishlist(product)); // enviar todo el producto
+      Swal.fire({
+        icon: "success",
+        title: "Agregado a favoritos",
+        text: `${name} se ha agregado a la wishlist.`,
+        imageUrl: image,
+        imageAlt: titulo,
+        showCancelButton: false,
+        showConfirmButton: false,
+        timer: 1200,
+      });
+    } else {
+      // Mostrar un mensaje si el producto ya está en la wishlist
+      Swal.fire({
+        icon: "info",
+        title: "Producto ya en favoritos",
+        text: `${name} ya se encuentra en tu wishlist.`,
+        showCancelButton: false,
+        showConfirmButton: false,
+        timer: 1200,
+      });
+    }
+  };
+  
 
   return (
     <Card className="custom-shadow custom-card">
@@ -61,7 +93,7 @@ const Cards = (props) => {
           <Button
             variant="danger"
             className="mt-2 btn me-2"
-            //logica para agregar la tarjeta a favoritos
+            onClick={() => handleAddToWishlist(props)}
           >
             <i className="bi bi-heart"></i>
           </Button>

@@ -23,7 +23,9 @@ import {
   FETCH_USER_RATING_FAILURE,
   UPDATE_PASSWORD_REQUEST,
   UPDATE_PASSWORD_SUCCESS,
-  UPDATE_PASSWORD_FAILURE
+  UPDATE_PASSWORD_FAILURE,
+  ADD_TO_WISHLIST,
+  REMOVE_FROM_WISHLIST
 } from "../actions/index";
 
 const initialState = {
@@ -44,6 +46,8 @@ const initialState = {
   userDataRating: null,
   loading: false,
   success: false,
+  wishlist: [],
+
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -233,6 +237,25 @@ const rootReducer = (state = initialState, action) => {
         success: false,
         error: action.error,
       };
+
+
+      case ADD_TO_WISHLIST:
+  const newItem = action.product; 
+  
+return {    
+    ...state,
+
+wishlist: [...state.wishlist, newItem],
+  };
+
+  case REMOVE_FROM_WISHLIST:
+    const updatedWishlist = state.wishlist.filter(
+      (item) => item.sku !== action.product.sku
+    );
+    return {
+      ...state,
+      wishlist: updatedWishlist,
+    };
 
     default:
       return state;

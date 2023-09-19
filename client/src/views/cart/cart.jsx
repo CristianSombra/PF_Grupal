@@ -69,7 +69,7 @@ const Cart = () => {
                     </Col>
                     <Col md={8}>
                       <Card.Body>
-                        <h5 className="card-title">Nombre: {item.titulo}</h5>
+                        <h5 className="card-title">Nombre: {item.name}</h5>
                         <p className="card-text">Precio: ${item.price}</p>
                   <div className="d-flex align-items-center">
                   <button
