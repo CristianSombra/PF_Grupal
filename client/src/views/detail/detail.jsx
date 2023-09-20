@@ -3,8 +3,13 @@ import "../../components/css/index.css";
 import { Link } from "react-router-dom";
 import { useGetProductDetailHandler } from "../../components/handlers/handlersdetail";
 import Button from "react-bootstrap/esm/Button";
-import { useDispatch } from "react-redux";
-import { addToCart, getUserRating, getRatings } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToCart,
+  getUserRating,
+  getRatings,
+  addToWishlist,
+} from "../../redux/actions";
 import AddRating from "../../components/rating/AddRating";
 import ProductRating from "../../components/rating/ProductRating";
 import ProductComment from "../../components/rating/ProductComment";
@@ -15,7 +20,8 @@ const Detail = () => {
   const productDetail = useGetProductDetailHandler();
   const dispatch = useDispatch();
   const product_id = productDetail ? productDetail.sku : null;
-  const userId = localStorage.getItem('id');
+  const userId = localStorage.getItem("id");
+  const wishlist = useSelector(state => state.wishlist);
 
   useEffect(() => {
     dispatch(getUserRating(userId));
@@ -30,8 +36,8 @@ const Detail = () => {
   const handleAddToCart = (product) => {
     dispatch(addToCart(product));
     Swal.fire({
-      icon: 'success',
-      title: 'Agregado al carrito',
+      icon: "success",
+      title: "Agregado al carrito",
       text: `${productDetail.titulo} se ha agregado al carrito.`,
       imageUrl: productDetail.image,
       imageAlt: productDetail.titulo,
@@ -40,6 +46,40 @@ const Detail = () => {
       timer: 1200,
     });
   };
+
+  const handleAddToWishlist = (product) => {
+    // Comprobar si el producto ya está en la wishlist
+    const alreadyInWishlist = wishlist.some(item => item.sku === product.sku);
+  
+    if (!alreadyInWishlist) {
+      dispatch(addToWishlist({
+        ...product,
+        name: productDetail.titulo, // Agregar el nombre del producto
+      }));
+  
+      Swal.fire({
+        icon: "success",
+        title: "Agregado a favoritos",
+        text: `${productDetail.titulo} se ha agregado a la wishlist.`,
+        imageUrl: productDetail.image,
+        imageAlt: productDetail.titulo,
+        showCancelButton: false,
+        showConfirmButton: false,
+        timer: 1200,
+      });
+    } else {
+      // Mostrar un mensaje si el producto ya está en la wishlist
+      Swal.fire({
+        icon: "info",
+        title: "Producto ya en favoritos",
+        text: `${productDetail.titulo} ya se encuentra en tu wishlist.`,
+        showCancelButton: false,
+        showConfirmButton: false,
+        timer: 1200,
+      });
+    }
+  };
+  
 
   return (
     <div className="container-detail" style={{ marginTop: "140px" }}>
@@ -64,9 +104,7 @@ const Detail = () => {
                 <li>Ram: {productDetail.detail.ram}</li>
                 <li>Pantalla: {productDetail.detail.pantalla}</li>
                 <li>Procesador: {productDetail.detail.procesador}</li>
-                <li>
-                  Almacenamiento: {productDetail.detail.almacenamiento}
-                </li>
+                <li>Almacenamiento: {productDetail.detail.almacenamiento}</li>
               </ul>
               <ProductRating sku={product_id} />
               <UserRatingInfo sku={product_id} />
@@ -78,12 +116,16 @@ const Detail = () => {
                 >
                   <i className="bi bi-cart-plus"></i>
                 </Button>
-                <Button variant="danger" className="mt-2 btn">
+                <Button
+                  variant="danger"
+                  className="mt-2 btn"
+                  onClick={() => handleAddToWishlist(productDetail)}
+                >
                   <i className="bi bi-heart"></i>
                 </Button>
               </div>
               <div style={{ marginTop: "20px" }}>
-              <AddRating product_id={product_id} />
+                <AddRating product_id={product_id} />
               </div>
             </div>
           </div>

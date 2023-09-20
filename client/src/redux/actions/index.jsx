@@ -27,7 +27,23 @@ export const FETCH_USER_RATING_FAILURE = 'FETCH_USER_RATING_FAILURE';
 export const UPDATE_PASSWORD_REQUEST = 'UPDATE_PASSWORD_REQUEST';
 export const UPDATE_PASSWORD_SUCCESS = 'UPDATE_PASSWORD_SUCCESS';
 export const UPDATE_PASSWORD_FAILURE = 'UPDATE_PASSWORD_FAILURE';
+export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
+export const REMOVE_FROM_WISHLIST = "REMOVE_FROM_WISHLIST";
 
+
+export const removeFromWishlist = (product) => {
+  return {
+    type: REMOVE_FROM_WISHLIST,
+    product,
+  };
+};
+
+export const addToWishlist = (product) => {
+  return {
+    type: ADD_TO_WISHLIST,
+    product, 
+  };
+};
 
 export const increaseQuantity = (sku) => {
   return {

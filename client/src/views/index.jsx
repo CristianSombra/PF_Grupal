@@ -6,6 +6,7 @@ import Cart from './cart/cart';
 import BuyPage from './buyPage/buyPage';
 import NotFound from './404/notfound';
 import Payment from './Payment/Payment'
+import Wishlist from './wishlist/wishlist';
 
 
 export {
@@ -16,5 +17,6 @@ export {
     Cart,
     BuyPage,
     NotFound,
-    Payment
+    Payment,
+    Wishlist
 }
