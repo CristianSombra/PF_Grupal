@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { getCategories, getBrands } from "../../redux/actions";
 import CardsContainer from "../../components/cardscontainer/cardscontainer";
 import Filter from "../../components/filter/filter";
-import SearchResultMessage from "../../components/SearchResultMessage/SearchResultMessage"
+import SearchResultMessage from "../../components/SearchResultMessage/SearchResultMessage";
 import Carrusel from "../../components/banner/banner";
 
 export default function Home() {
@@ -39,4 +39,4 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
