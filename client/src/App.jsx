@@ -20,7 +20,7 @@ import './components/css/index.css';
 import { useDispatch } from 'react-redux';
 import { loadUserById } from './redux/actions';
 /* import { Payment } from './views/Payment/Payment'; */
-
+import Wishlist from './views/wishlist/wishlist';
 
 
 function App() {
@@ -55,6 +55,7 @@ function App() {
         <Route path="/purchases" element={<PurchageHistori/>} />
         <Route path="/cart" element={<Cart/>} />
         <Route path="/buyPage" element={<BuyPage />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         {/* <Route path="/payments" element= {<Payment />} />  */}
         </Route>
         <Route element={<PrivateRouteAdmin />}>

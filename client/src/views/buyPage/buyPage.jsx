@@ -60,6 +60,7 @@ const BuyPage = () => {
                         <div className="card-body">
                           <h5 className="card-title">Nombre: {product.titulo}</h5>
                           <p className="card-text">Precio: ${product.price}</p>
+                          <p className="card-text">Cantidad: {item.quantity}</p>
                         </div>
                       </Col>
                     </Row>
