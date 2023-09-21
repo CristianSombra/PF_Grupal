@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Button } from 'react-bootstrap';
 import UpdateButton from './UpdateButton';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -32,7 +34,12 @@ const MyAccount = () => {
         </Row>
        
       </Container>
-            </div>
+          <div className="text-center mt-4">
+            <Button variant="dark" as={Link} to="/Home">
+              Volver a inicio
+            </Button>
+          </div>
+        </div>
     );
   }
 

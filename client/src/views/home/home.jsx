@@ -10,6 +10,14 @@ export default function Home() {
   const [listCategories, setListCategories] = useState([]);
   const [listBrands, setListBrands] = useState([]);
   const dispatch = useDispatch();
+
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+  
   useEffect(() => {
     const fetchData = async () => {
       const categories = await dispatch(getCategories());
@@ -23,6 +31,27 @@ export default function Home() {
     };
     fetchData();
   }, [dispatch]);
+ 
+    useEffect(() => {
+    const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+  
+    const handleScroll = () => {
+      if (window.pageYOffset > 100) {
+        scrollToTopBtn.style.display = "block";
+      } else {
+        scrollToTopBtn.style.display = "none";
+      }
+    };
+  
+    window.addEventListener("scroll", handleScroll);
+  
+    // Limpia el event listener cuando el componente se desmonta
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+
   return (
     <div className="container">
       <Carrusel />
@@ -37,6 +66,21 @@ export default function Home() {
           <CardsContainer />
         </div>
       </div>
+      <button
+        onClick={handleScrollToTop}
+        className="btn btn-primary btn-lg rounded-circle"
+        style={{
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
+          display: "none",
+          width: "50px",
+          height: "50px",
+        }}
+        id="scrollToTopBtn"
+      >
+        &#9650; 
+      </button>
     </div>
   );
-};
+}
