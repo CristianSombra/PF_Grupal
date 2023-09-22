@@ -1,4 +1,4 @@
-const orderController = require('../controllers/paymentController');
+const paymentController = require('../controllers/paymentController');
 
 module.exports = {
 
@@ -12,13 +12,6 @@ module.exports = {
   },
    
   createPayment: (req, res) => {
-    cartController.createpayment(req, res);
-  }
+    paymentController.createPayment(req, res);
+  }
 };
-  
-
-
-
-
-
-

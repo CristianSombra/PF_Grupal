@@ -22,21 +22,19 @@ const CardsContainer = () => {
       : sortProductsByPrice(sortedProducts, 'desc');
   }
 
-  if (searchResults.length > 0) {
-    sortedProducts = sortedProducts.filter((product) =>
-      product.titulo.toLowerCase().includes(searchResults.toLowerCase())
-    );
-  }
+  // Move this code to the useEffect hook
+  useEffect(() => {
+    if (searchResults.length > 0) {
+      dispatch(setShowResults(true));
+    } else {
+      dispatch(setShowResults(false));
+    }
+  }, [searchResults]);
 
   const columns = [];
   for (let i = 0; i < sortedProducts.length; i += 3) {
     columns.push(sortedProducts.slice(i, i + 3));
   }
-
-  if (sortedProducts.length>0) {
-    dispatch(setShowResults(true));
-  } else { dispatch(setShowResults(false))}
-
 
   return (
     <div className="container">
