@@ -5,6 +5,7 @@ const CategoryModel = require("./models/Category");
 const BrandModel = require("./models/Brand")
 const UserModel = require("./models/User")
 const UseratingModel = require("./models/UserRating");
+const PaymentModel = require('./models/Payment');
 require("dotenv").config();
 
 const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
@@ -21,9 +22,10 @@ CategoryModel(sequelize);
 BrandModel(sequelize);
 UserModel(sequelize);
 UseratingModel(sequelize);
+PaymentModel(sequelize);
 
 
-const { Product,  Cart, Category, Brand, User, UserRating  } = sequelize.models;
+const { Product,  Cart, Category, Brand, User, UserRating } = sequelize.models;
 
 Product.belongsTo(Brand, {foreignKey:'id_brand'} );
 Product.belongsTo(Category, {foreignKey:'id_category'} );

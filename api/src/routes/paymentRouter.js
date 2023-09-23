@@ -6,4 +6,4 @@ const paymentRouter = Router();
 paymentRouter.get('/',getAllPayments);
 paymentRouter.post('/generate',createPayment);
 
-module.exports = paymentRouter; 
+module.exports = paymentRouter;

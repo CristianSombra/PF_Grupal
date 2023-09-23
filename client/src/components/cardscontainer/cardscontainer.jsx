@@ -23,6 +23,14 @@ const CardsContainer = () => {
       : sortProductsByPrice(sortedProducts, 'desc');
   }
 
+
+  useEffect(() => {
+    if (searchResults.length > 0) {
+      dispatch(setShowResults(true));
+    } else {
+      dispatch(setShowResults(false));
+    }
+  }, [searchResults]);
   if (searchResults.length > 0) {
     sortedProducts = sortedProducts.filter((product) =>
       product.titulo.toLowerCase().includes(searchResults.toLowerCase())
@@ -31,6 +39,7 @@ const CardsContainer = () => {
 
   // Número de tarjetas por página
   const cardsPerPage = 12;
+
 
   // Estado para almacenar la página actual
   const [currentPage, setCurrentPage] = useState(1);

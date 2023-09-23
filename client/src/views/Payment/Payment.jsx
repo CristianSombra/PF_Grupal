@@ -1,19 +1,17 @@
-
-  
-  import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
   import axios from "axios";
   import { useDispatch, useSelector } from "react-redux";
-  import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
   import { useNavigate } from "react-router-dom";
-  import { deleteCart, getDetailOrdersIDArray, emptyDetailOrdersId } from "../../redux/actions";
-  import NavBar2 from "../../components/NavBar2";
-  import { SiMercadopago, SiCashapp } from "react-icons/si";
+  import { deleteCart, emptyDetailOrdersId } from "../../redux/actions";
+  import NavBar from "../../components/navbar/navbar"
+  import { SiMercadopago} from "react-icons/si";
+  import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
   import 'bootstrap-icons/font/bootstrap-icons.css';
- 
+  const apiUrl = 'TEST-77c820a7-513b-44a4-8b2d-01ea41494588'
+  const POST_NEW_ORDER = 'http://localhost:3001/order/create';
+  const POST_PAYMENT = 'http://localhost:3001/payments/generate';
     
-  const apiUrl = "TEST-77c820a7-513b-44a4-8b2d-01ea41494588";
-  const POST_NEW_ORDER = "http://localhost:3001/orders/create";
-  const POST_PAYMENT = "http://localhost:3001/payments/generate";
+  
   
   initMercadoPago(apiUrl);
   
@@ -65,7 +63,7 @@
     return (
       <div>
         <div className="container-fluid">
-          <NavBar2 />
+          <NavBar/>
           <div
             className="bg-image"
             style={{
@@ -93,7 +91,7 @@
                           className="d-flex align-items-center bg-gray-300 m-2"
                         >
                           <div className="px-2">
-                            <CheckIcon />
+                      
                           </div>
                           <div>
                             <p>
@@ -146,7 +144,7 @@
                       <button
                         onClick={handleClick}
                         className="btn btn-primary w-120"
-                        style={{ backgroundColor: "blue.900", color: "white" }}
+                        style={{ backgroundColor: "blue", color: "white" }}
                       >
                         Go Back
                       </button>
@@ -158,6 +156,5 @@
           </div>
         </div>
       </div>
-    );
-  }
-  
+    );
+  }
