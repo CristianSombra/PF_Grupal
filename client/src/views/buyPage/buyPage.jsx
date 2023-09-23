@@ -108,6 +108,7 @@ const BuyPage = () => {
               variant="primary"
               onClick={handlePayment}
               style={{ width: "30%" }}
+              className="float-end"
             >                            
               Pagar
             </Button>

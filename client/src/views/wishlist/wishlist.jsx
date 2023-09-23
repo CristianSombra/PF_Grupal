@@ -31,6 +31,7 @@ function Wishlist() {
   };
 
   return (
+    <div>
     <Container
       md={8}
       className="mx-auto"
@@ -86,7 +87,7 @@ function Wishlist() {
                     </Col>
                   </Row>
                 </Card>
-                {/* {index < wishlist.length - 1 && <hr className="wishlist-separator" />} */}
+           {/* index < wishlist.length - 1 && <hr className="wishlist-separator" /> */}
               </div>
             ))
           )}
@@ -98,8 +99,7 @@ function Wishlist() {
           Volver a inicio
         </Button>
       </div>
-    </div>
-    
+      </div>
   );
 }
 
