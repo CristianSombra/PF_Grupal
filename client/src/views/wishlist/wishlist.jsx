@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Col, Container, Row } from "react-bootstrap";
 import "./wishlist.css";
@@ -92,6 +93,13 @@ function Wishlist() {
         </Col>
       </Row>
     </Container>
+    <div className="text-center mt-4">
+        <Button variant="dark" as={Link} to="/Home">
+          Volver a inicio
+        </Button>
+      </div>
+    </div>
+    
   );
 }
 

@@ -88,8 +88,9 @@ const getUserByEmail = async (email) => {
 const updateUsers = async (userId, newPassword) => {
 
   try {
+    const newPasswordEncrypt = await encryptPassword(newPassword)
     const userUpdate = await User.update(
-      { user_password: newPassword },
+      { user_password: newPasswordEncrypt },
       { where: { id: userId } }
     );
     return userUpdate;
