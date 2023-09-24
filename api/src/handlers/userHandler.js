@@ -43,9 +43,9 @@ getUserById: async (req, res) => {
 
 updateUsers: async (req, res) => {
   const id = req.params.id;
-  const { user_password } = req.body;
+  const { user_password, role } = req.body;
   try {
-    const updateUser = await userController.updateUsers(id, user_password );
+    const updateUser = await userController.updateUsers(id, user_password, role );
     res.status(200).json(updateUser);
   } catch (error) {
     res.status(500).json({ error: error.message });

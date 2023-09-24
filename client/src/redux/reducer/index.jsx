@@ -25,7 +25,9 @@ import {
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PASSWORD_FAILURE,
   ADD_TO_WISHLIST,
-  REMOVE_FROM_WISHLIST
+  REMOVE_FROM_WISHLIST,
+  GET_ORDERS, 
+  GET_USERS
 } from "../actions/index";
 
 const initialState = {
@@ -47,11 +49,16 @@ const initialState = {
   loading: false,
   success: false,
   wishlist: [],
-
+  users: [],
+  orders: []
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case GET_USERS:
+      return { ...state, users: action.payload };
+    case GET_ORDERS:
+      return { ...state, orders: action.payload };
     case LOGIN:
       return {
         ...state,

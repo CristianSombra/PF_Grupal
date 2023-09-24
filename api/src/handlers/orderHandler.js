@@ -19,10 +19,10 @@ getOrderById: async (req, res, next) => {
   }
 },
 createOrder: (req, res) => {
-  cartController.createpayment(req, res);
+  orderController.createOrder(req, res);
 },
 
 modifyOrder: (req, res) => {
-  cartController.modifyOrder(req, res);
+  orderController.modifyOrder(req, res);
 }
 };

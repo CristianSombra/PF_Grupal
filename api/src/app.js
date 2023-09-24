@@ -8,7 +8,7 @@ const mainRouter = require("./routes");
 const app = express();
 const corsOptions = {
   origin: '*',
-  methods: 'GET, POST, PUT',
+  methods: 'GET, POST, PUT, DELETE',
   optionsSuccessStatus: 204,
 };
 

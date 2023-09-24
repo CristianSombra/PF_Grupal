@@ -19,6 +19,7 @@ const Navbar1 = () => {
   const isLoggedIn = useSelector(state => (state.isLoggedIn))
   const cartProd = useSelector(state => (state.cartItems))
   const user = useSelector(state => (state.user))
+  const role = user?.user.role
   return (
     <Navbar bg="dark" data-bs-theme="dark" className="navbar-expand-sm d-flex justify-content-between rounded align-items-center fixed-top custom-navbar">
     <div className="d-flex align-items-center">
@@ -39,6 +40,7 @@ const Navbar1 = () => {
           <Dropdown.Menu>
             <Dropdown.Item>
               <WelcomeMessage />
+              {role==="Administrador"?(<><Dropdown.Item as={Link} to="/dashboard">Dashboard</Dropdown.Item></>):(<></>)}
               <Dropdown.Item as={Link} to="/account">Mi Perfil</Dropdown.Item>
               <Dropdown.Item as={Link} to="/purchases">Mis Compras</Dropdown.Item>
               <Dropdown.Item as={Link} to="/wishlist">Lista de Deseos</Dropdown.Item>
