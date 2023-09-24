@@ -6,6 +6,7 @@ const BrandModel = require("./models/Brand")
 const UserModel = require("./models/User")
 const UseratingModel = require("./models/UserRating");
 const PaymentModel = require('./models/Payment');
+const OrderModel = require('./models/Order');
 require("dotenv").config();
 
 const { DB_USER, DB_PASSWORD, DB_HOST } = process.env;
@@ -23,7 +24,7 @@ BrandModel(sequelize);
 UserModel(sequelize);
 UseratingModel(sequelize);
 PaymentModel(sequelize);
-
+OrderModel(sequelize);
 
 const { Product,  Cart, Category, Brand, User, UserRating } = sequelize.models;
 
