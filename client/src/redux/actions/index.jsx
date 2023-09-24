@@ -29,7 +29,25 @@ export const UPDATE_PASSWORD_SUCCESS = 'UPDATE_PASSWORD_SUCCESS';
 export const UPDATE_PASSWORD_FAILURE = 'UPDATE_PASSWORD_FAILURE';
 export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
 export const REMOVE_FROM_WISHLIST = "REMOVE_FROM_WISHLIST";
+export const GET_USERS = "GET_USERS";
+export const GET_ORDERS = "GET_ORDERS";
 
+
+export const getUsers = () => {
+  return async (dispatch) => {
+    const apiData = await axios.get("http://localhost:3001/user");
+    const users = apiData.data;
+    dispatch({ type: GET_USERS, payload: users });
+  };
+};
+
+export const getOrders = () => {
+  return async (dispatch) => {
+    const apiData = await axios.get("http://localhost:3001/order");
+    const orders = apiData.data;
+    dispatch({ type: GET_ORDERS, payload: orders });
+  };
+};
 
 export const removeFromWishlist = (product) => {
   return {

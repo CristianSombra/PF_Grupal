@@ -21,7 +21,7 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       order_status: {
-        type: DataTypes.ENUM("success", "failed", "in process"),
+        type: DataTypes.ENUM("Completa", "Fallida", "En Proceso", "Pendiente de Pago", "Por Facturar"),
         allowNull: false,
       },
     },

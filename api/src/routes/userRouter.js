@@ -8,9 +8,9 @@ routerUsers.post('/', createUser);
 routerUsers.post('/google', loginGoogle);
 routerUsers.get('/', getAllUsers);
 routerUsers.get('/id/:id', getUserById);
-routerUsers.put('/id/:id', verifyUserToken , updateUsers);
+routerUsers.put('/id/:id', updateUsers);
 
 routerUsers.post('/login', loginUsers);
-routerUsers.delete('/id/:email', verifyAdminToken, deleteUsers);
+routerUsers.delete('/id/:email', deleteUsers);
 
 module.exports = routerUsers;

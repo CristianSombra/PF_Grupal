@@ -15,6 +15,7 @@ import NotFound from "./views/404/notfound";
 import PrivateRoute from './PrivateRoute';
 import PrivateRouteAdmin from './PrivateRouteAdmin';
 import BuyPage from './views/buyPage/buyPage';
+import AdminDashboard from './views/AdminDashboard/AdminDashboard';
 import './App.css';
 import './components/css/index.css';
 import { useDispatch } from 'react-redux';
@@ -60,6 +61,7 @@ function App() {
         </Route>
         <Route element={<PrivateRouteAdmin />}>
         <Route path="/createProduct" element={<ProductForm/>} />
+        <Route path="/dashboard" element={<AdminDashboard/>} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

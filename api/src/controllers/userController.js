@@ -57,15 +57,19 @@ const createUser = async (user_name, first_name, last_name, gender, email, deliv
 };
 
 const getAllUsers = async (req, res) => {
-
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      attributes: {
+        exclude: ['user_password', 'delivery_address', 'country', 'CustomElementRegistry', 'user_status', 'deletedAt', 'purchase_history']
+      }
+    });
+
     return users;
   } catch (error) {
     throw new Error('Server error, could not get the users');
   }
-
 };
+
 
 const getUserById = async (id) => {
   const userId = await User.findByPk(id);
@@ -85,15 +89,23 @@ const getUserByEmail = async (email) => {
   }
 };
 
-const updateUsers = async (userId, newPassword) => {
-
+const updateUsers = async (userId, newPassword, roleChange) => {
   try {
+    if (newPassword){
     const newPasswordEncrypt = await encryptPassword(newPassword)
     const userUpdate = await User.update(
-      { user_password: newPasswordEncrypt },
+      { user_password: newPasswordEncrypt},
       { where: { id: userId } }
     );
     return userUpdate;
+    }
+    if (roleChange){
+    const userUpdate = await User.update(
+      { role: roleChange},
+      { where: { id: userId } }
+    );
+    return userUpdate;
+    }
   }
   catch (error) {
     throw new Error('Error updating users: ' + error.message);
