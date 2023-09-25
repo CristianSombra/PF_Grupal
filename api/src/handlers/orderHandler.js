@@ -18,4 +18,11 @@ getOrderById: async (req, res, next) => {
     res.status(404).json(error.message);
   }
 },
+createOrder: (req, res) => {
+  orderController.createOrder(req, res);
+},
+
+modifyOrder: (req, res) => {
+  orderController.modifyOrder(req, res);
+}
 };

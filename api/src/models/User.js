@@ -41,7 +41,7 @@ module.exports = (sequelize) => {
       country: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: 'PAIS INDEFENIDA'
+        defaultValue: 'PAIS INDEFENIDO'
       },
       CustomElementRegistry: {
         type: DataTypes.STRING,
@@ -50,6 +50,7 @@ module.exports = (sequelize) => {
       },
       mobile: {
         type: DataTypes.STRING,
+        defaultValue: 'Mobile Indefinido'
       },
       role: {
         type: DataTypes.ENUM("Administrador", "Cliente"),
@@ -67,7 +68,7 @@ module.exports = (sequelize) => {
       user_password: {
         type: DataTypes.STRING,
         allowNull: true,
-        defaultValue: 'Contraseña'
+        defaultValue: '$2a$08$1Ql3RGw6BFKjozapIrUyc.kHcEhAbXJ5yArcWK7ZGCJIidhXvC.oS'
       },
     },
     {

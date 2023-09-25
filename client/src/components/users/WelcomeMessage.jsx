@@ -3,14 +3,15 @@ import { connect, useSelector } from 'react-redux';
 
 
 const WelcomeMessage = () => {
-const user = useSelector(state => (state.user));
+  const isLoggedIn = useSelector(state => (state.isLoggedIn))
+  const user = useSelector(state => (state.user))
 
   // Verifica si el usuario está autenticado
-  if (user) {
+  if (isLoggedIn) {
     return (
       <div>
         {/* Aplica el estilo al texto */}
-        <p className="text-white bg-dark text-center mb-0" >Bienvenido, {user.user.first_name}!</p>
+        <p className="text-white bg-dark text-center mb-0" >Bienvenido, {user?.user.first_name}!</p>
       </div>
     );
   } else {

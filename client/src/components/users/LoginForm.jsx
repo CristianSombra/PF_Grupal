@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
-import { createUser, login } from '../../redux/actions/index';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { loginGoogle, login } from '../../redux/actions/index';
 import { Link } from 'react-router-dom';
 import { Button, Card, Form } from 'react-bootstrap';
 import '../css/index.css';
@@ -9,6 +9,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 const LoginForm = ({ login, user, error }) => {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector(state => (state.isLoggedIn))
   const SignInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
    
@@ -26,7 +27,7 @@ const LoginForm = ({ login, user, error }) => {
           email: user.email
         }
         console.log(newUser);        
-        dispatch(createUser(newUser));
+        dispatch(loginGoogle(newUser));
       }).catch((error) => {
         console.log(error)
       });
@@ -44,16 +45,14 @@ const LoginForm = ({ login, user, error }) => {
   };
 
   const handleSubmit = async (e) => {
-    
     e.preventDefault();
-    // Llamar a la acción de inicio de sesión
     await login(formData);
   };
 
   return (
 
     <div className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 100px)', marginTop: '70px', marginBottom: '30px' }}>
-      {user ? (
+      {isLoggedIn ? (
         <div>
           <p>Inicio de sesión exitoso.</p>
           <Button as={Link} to="/home" variant="dark" size="sm">
