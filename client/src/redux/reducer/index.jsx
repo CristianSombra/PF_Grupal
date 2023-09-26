@@ -27,10 +27,12 @@ import {
   ADD_TO_WISHLIST,
   REMOVE_FROM_WISHLIST,
   GET_ORDERS, 
-  GET_USERS
+  GET_USERS,
+  UPDATE_PRODUCT,
 } from "../actions/index";
 
 const initialState = {
+  product: null,
   products: [], // Mantén el estado original para todos los productos
   productDetails: {},
   error: "",
@@ -55,6 +57,23 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case UPDATE_PRODUCT:
+  // Busca el índice del producto en el array de products
+  const productIndex = state.products.findIndex(product => product.sku === action.payload.sku);
+
+  if (productIndex !== -1) {
+    // Clona el array de products y actualiza el producto en la posición correcta
+    const updatedProducts = [...state.products];
+    updatedProducts[productIndex] = { ...updatedProducts[productIndex], ...action.payload };
+
+    return {
+      ...state,
+      products: updatedProducts,
+    };
+  }
+
+  // Si el producto no se encontró en la lista, no se realiza ninguna actualización
+  return state;
     case GET_USERS:
       return { ...state, users: action.payload };
     case GET_ORDERS:

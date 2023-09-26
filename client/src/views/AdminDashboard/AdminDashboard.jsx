@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getOrders, getUsers } from '../../redux/actions';
+import { useDispatch, useSelector  } from 'react-redux';
+import { getOrders, getUsers, getAllProducts, updateProduct  } from '../../redux/actions';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -10,8 +10,11 @@ import { useNavigate } from 'react-router-dom';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
+
 export default function AdminDashboard() {
   const dispatch = useDispatch();
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const products = useSelector((state) => state.products); 
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [newOrderStatus, setNewOrderStatus] = useState('');
@@ -23,7 +26,15 @@ export default function AdminDashboard() {
   useEffect(() => {
     dispatch(getUsers());
     dispatch(getOrders());
-  }, [dispatch, selectedUser, selectedOrder]);
+    dispatch(getAllProducts());
+  }, [dispatch, selectedUser, selectedOrder,selectedProduct]);
+
+
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+
+  };
+    
 
   const handleUserClick = (user) => {
     setSelectedUser(user);
@@ -132,8 +143,139 @@ export default function AdminDashboard() {
       console.error("Error al actualizar el estado de la orden", error);
     }
   };
+
+  const handleChangeDisponibility = async (product) => {
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: 'Cambiar Disponibilidad',
+      input: 'text',
+      inputValue: product.disponibility.toString(), // Mostrar el valor actual
+      showCancelButton: true,
+      confirmButtonText: 'Guardar',
+      cancelButtonText: 'Cancelar',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'Debes ingresar una disponibilidad';
+        }
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const productId = product.sku;
+          const updatedFields = { disponibility: result.value }; // Cambia 'result' a 'result.value'
+          dispatch(updateProduct(productId, updatedFields));
+          dispatch(getAllProducts())
+        } catch (error) {
+          console.error("Error al actualizar la disponibilidad del producto", error);
+        }
+      }
+    });
+  };
+
+  const handleChangePrice = async (product) => {
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: 'Cambiar Precio',
+      input: 'text',
+      inputValue: product.price.toString(), // Mostrar el valor actual
+      showCancelButton: true,
+      confirmButtonText: 'Guardar',
+      cancelButtonText: 'Cancelar',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'Debes ingresar un precio';
+        }
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const productId = product.sku;
+          const updatedFields = { price: result.value }; // Cambia 'result' a 'result.value'
+          dispatch(updateProduct(productId, updatedFields));
+        } catch (error) {
+          console.error("Error al actualizar la disponibilidad del producto", error);
+        }
+      }
+    });
+  };
+
+  const handleChangeTitulo = async (product) => {
+    const MySwal = withReactContent(Swal);
+    MySwal.fire({
+      title: 'Cambiar Titulo',
+      input: 'text',
+      inputValue: product.titulo.toString(), // Mostrar el valor actual
+      showCancelButton: true,
+      confirmButtonText: 'Guardar',
+      cancelButtonText: 'Cancelar',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'Debes ingresar un titulo';
+        }
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const productId = product.sku;
+          const updatedFields = { titulo: result.value }; // Cambia 'result' a 'result.value'
+          dispatch(updateProduct(productId, updatedFields));
+        } catch (error) {
+          console.error("Error al actualizar la disponibilidad del producto", error);
+        }
+      }
+    });
+  };
   
-  
+
+  const productColumns = [
+    { field: 'sku', headerName: 'SKU', width: 150 },
+    { field: 'number_part', headerName: 'Número de Parte', width: 200 },
+    { 
+      field: 'titulo', 
+      headerName: 'Título', 
+      width: 750,
+      renderCell: (params) => {
+        return (
+          <div>
+            <Button onClick={() => handleChangeTitulo(params.row)}>Actualizar</Button>
+            &nbsp;
+            {params.row.titulo}
+           
+          </div>
+        );
+      },
+    },
+    {
+      field: 'price',
+      headerName: 'Precio',
+      width: 250,
+      renderCell: (params) => {
+        return (
+          <div>
+            <Button onClick={() => handleChangePrice(params.row)}>Actualizar</Button>
+            &nbsp;
+            {params.row.price}
+           
+          </div>
+        );
+      },
+    },
+    {
+      field: 'disponibility',
+      headerName: 'Disponibilidad',
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <div>
+             <Button onClick={() => handleChangeDisponibility(params.row)}>Actualizar</Button>
+            &nbsp; 
+            {params.row.disponibility}
+           
+          </div>
+        );
+      },
+    }
+  ];
 
   const orderColumns = [
     { field: 'id', headerName: 'ID', width: 200 },
@@ -205,6 +347,19 @@ export default function AdminDashboard() {
       <div style={{ height: 400, width: '100%' }}>
         <DataGrid rows={orders} columns={orderColumns} pageSize={5} components={{ Toolbar: GridToolbar }} />
       </div>
+      <div>
+      <hr />
+  <h2>Inventario:</h2>
+  <div style={{ height: 400, width: '100%' }}>
+    <DataGrid
+      rows={products}
+      columns={productColumns}
+      pageSize={5}
+      components={{ Toolbar: GridToolbar }}
+      getRowId={(row) => row.sku}
+    />
+  </div>
+</div>
     </div>
   );
 }
