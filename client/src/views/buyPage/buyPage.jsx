@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import "../../components/css/index.css";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
+// import SuccessPurchase from "../Payment/SuccesPayment";
 
 
 const apiUrl = "TEST-77c820a7-513b-44a4-8b2d-01ea41494588";
@@ -28,23 +29,24 @@ const BuyPage = () => {
         total += item.quantity * product.price;
       }
     }
-   
-
     return total;
- 
   };
+
+  const userId = localStorage.getItem('id');
   const referenceUUID = uuidv4();
   const handlePayment = async () => {
     const total = calculateTotal(); // Obtener el total de los productos
-    const response = await axios.post(POST_PAYMENT, {
-      orderId: referenceUUID,
-      cart: cartItems,
-      total: total, // Pasar el total calculado
+    const response = await axios.post(POST_NEW_ORDER, {
+      userId: userId,
+      products: cartItems,
+      totalprice: total, // Pasar el total calculado
     });
-  
-    console.log(response.data.init_point);
+    console.log(response );
+  localStorage.setItem('orderId', response.data.order.id)
+    // console.log(response.data.init_point);
   
     window.location.href = response.data.init_point;
+    
   };
   
 
@@ -120,6 +122,7 @@ const BuyPage = () => {
           Volver al carrito
         </Button>
       </div>
+{/* <SuccessPurchase purchaseId={referenceUUID} purchaseDetails={cartItems} /> */}
     </div>
   );
 };

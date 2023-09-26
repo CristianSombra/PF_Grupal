@@ -6,45 +6,29 @@ module.exports = (sequelize) => {
   sequelize.define(
     "Payment",
     {
-      order_date: {
-        type: DataTypes.DATEONLY,
-        allowNull: false,
-      },
-      total_order: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
       order_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      status: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      payment_status: {
-        type: DataTypes.ENUM("approved", "failed"),
-        allowNull: true,
-      },
-      date_approved: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      },
-      id_payment: {
+      payment_id: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      authorization_code: {
-        type: DataTypes.BIGINT,
+      collection_id: {
+        type: DataTypes.STRING,
         allowNull: true,
       },
-      mp_id_order: {
-        type: DataTypes.BIGINT,
+      merchant_order_id: {
+        type: DataTypes.STRING,
         allowNull: true,
       },
-      fee_mp: {
-        type: DataTypes.DECIMAL,
+      payment_type: {
+        type: DataTypes.STRING,
         allowNull: true,
-      },
-      active: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
       },
     },
     {

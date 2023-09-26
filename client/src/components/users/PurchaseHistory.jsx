@@ -1,73 +1,89 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { loadUserById } from '../../redux/actions/index';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import React, { useEffect, useState } from "react";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { Box, Typography } from "@mui/material";
+import axios from 'axios';
+const PurchaseHistory = () => {
+  const orderColumns = [
+    { field: "id", headerName: "ID", width: 200 },
+    { field: "user_id", headerName: "ID de Usuario", width: 250 },
+    { field: "totalprice", headerName: "Total Orden", width: 250 },
+    {
+      field: "order_status",
+      headerName: "Estado",
+      width: 250,
 
-const PurchageHistori = ({ user, loadedUser, error, loadUserById }) => {
+    },
+    {
+      field: 'products',
+      headerName: 'Products',
+      width: 200,
+      renderCell: (params) => (
+        <Box>
+          {params.row.products.map((product) => (
+            <Box key={product.sku} display="flex" alignItems="center">
+              <img
+                src={product.image}
+                alt={product.name}
+                style={{ width: 50, height: 50 }}
+/>
+                <Typography variant="p">
+                  {product.quantity} {product.name}
+                </Typography>
+            </Box>
+          ))}
+        </Box>
+      ),
+    },
+  ];
+
+  const [orders, setOrders] = useState([]);
   useEffect(() => {
-    // Carga los datos del usuario cuando el componente se monta
-    if (user && user.id) {
-      loadUserById(user.id);
-    }
-  }, [user, loadUserById]);
-
-  // Manejo de errores
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  // Renderizar el perfil del usuario si está cargado
-  if (loadedUser.purchase_history) {
-    const purchaseHistory = loadedUser.purchase_history;
-
-    if (purchaseHistory.length === 0) {
-      return (
-        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 100px)', marginTop: '70px', marginBottom: '30px' }}>
-          <Row>
-            <Col>
-              <div>
-                <p>No hay compras registradas.</p>
-              </div>
+    const fetchData = async () => {
+      const userId = localStorage.getItem("id");
+      if (userId) {
+        try {
+          const response = await axios.get(
+            `http://localhost:3001/order/user/${userId}`,
             
-            </Col>
-          </Row>
-        </Container>
-      );
-    }
+          );
 
-    return (
-      <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: 'calc(100vh - 100px)', marginTop: '70px', marginBottom: '30px' }}>
-        <Row>
-          <Col>
-            <div>
-              <h3>Historial De compras</h3>
-              <ul>
-                {purchaseHistory.map((purchase, index) => (
-                  <li key={index}>Compra {index + 1}: {purchase}</li>
-                ))}
-              </ul>
-            </div>
-           
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
+          if (response.data) {
+            setOrders(response.data);
+            console.log(response.data);
+            // Procesa la respuesta si es necesario
+          } else {
+            console.error("Error al enviar la solicitud GET");
+          }
+        } catch (error) {
+          console.error("Error al realizar la solicitud GET:", error);
+        }
+      }
+    };
 
-  // El usuario todavía se está cargando, puedes mostrar un indicador de carga
-  return <div className="mt-4">Cargando...</div>;
+    fetchData();
+  }, []);
+  return (
+    
+    <div
+    style={{
+        margin: "150px",
+        border:  "gray solid 1px",
+        borderRadius: "10px",
+        padding: "20px",
+        boxShadow: "0px 0px 5px 2px rgba(0, 0, 0, 0.5)",
+        marginBottom: "50px",
+      }}
+    >
+      <h2>Mis Compras</h2>
+      <div style={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={orders}
+          columns={orderColumns}
+          pageSize={5}
+          components={{ Toolbar: GridToolbar }}
+        />
+      </div>
+    </div>
+  );
 };
-
-const mapStateToProps = (state) => ({
-  user: state.user, // Obtén el objeto de usuario del estado global
-  loadedUser: state.loadedUser,
-  error: state.error,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  loadUserById: (userId) => dispatch(loadUserById(userId)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(PurchageHistori);
+export default PurchaseHistory;

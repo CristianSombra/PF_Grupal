@@ -21,6 +21,14 @@ getOrderById: async (req, res, next) => {
 createOrder: (req, res) => {
   orderController.createOrder(req, res);
 },
+getOrderByUserId: async (req, res) => {
+  try {
+    const orders = await orderController.getOrderByUserId(req, res);
+    res.status(200).json(orders);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+},
 
 modifyOrder: (req, res) => {
   orderController.modifyOrder(req, res);

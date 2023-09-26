@@ -9,6 +9,7 @@ import Button from "react-bootstrap/esm/Button";
 import { useNavigate } from 'react-router-dom';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import { Box, Typography } from "@mui/material";
 
 
 export default function AdminDashboard() {
@@ -74,6 +75,9 @@ export default function AdminDashboard() {
     });
   };
 
+
+
+  
   const handleOrderClick = (order) => {
     setSelectedOrder(order);
     
@@ -292,6 +296,27 @@ export default function AdminDashboard() {
           </Button>
         );
       },
+    },
+    {
+      field: 'products',
+      headerName: 'Products',
+      width: 200,
+      renderCell: (params) => (
+        <Box>
+          {params.row.products.map((product) => (
+            <Box key={product.sku} display="flex" alignItems="center">
+              <img
+                src={product.image}
+                alt={product.name}
+                style={{ width: 50, height: 50 }}
+/>
+                <Typography variant="p">
+                  {product.quantity} {product.name}
+                </Typography>
+            </Box>
+          ))}
+        </Box>
+      ),
     },
   ];
 
