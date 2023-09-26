@@ -31,7 +31,24 @@ export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
 export const REMOVE_FROM_WISHLIST = "REMOVE_FROM_WISHLIST";
 export const GET_USERS = "GET_USERS";
 export const GET_ORDERS = "GET_ORDERS";
+export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 
+export const updateProduct = (productId, updatedFields) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(`http://localhost:3001/products/${productId}`, {
+        updatedFields: updatedFields, // Envía el objeto anidado como updatedFields
+      });
+
+      dispatch({
+        type: UPDATE_PRODUCT,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.error('Error al actualizar el producto', error);
+    }
+  };
+};
 
 export const getUsers = () => {
   return async (dispatch) => {
@@ -106,18 +123,29 @@ export const getAllProducts = () => {
 };
 
 export const getProductDetail = (sku) => {
-  return async function (dispatch) {
+  return async function (dispatch, getState) {
+    const { products } = getState(); // Obtener la lista de productos del estado
     let errorMessage = "";
 
+    // Verificar si el producto ya está en la lista
+    if (!products[sku]) {
+      // Si el producto no está en la lista, obtener todos los productos primero
+      const errorMessage = await dispatch(getAllProducts());
+      if (errorMessage) {
+        // Manejar el error si falla la obtención de la lista de productos
+        return errorMessage;
+      }
+    }
+
+    // Ahora puedes buscar los detalles del producto
     try {
-      const response = await axios.get(
-        `http://localhost:3001/products/sku/${sku}`
-      );
+      const response = await axios.get(`http://localhost:3001/products/sku/${sku}`);
       dispatch({ type: GET_PRODUCT_DETAIL, payload: response.data });
     } catch (error) {
-      errorMessage = "Producto no encontrado";
-      dispatch({ type: ERROR, payload: errorMessage });
+      error = "Producto no encontrado";
+      dispatch({ type: ERROR, payload: error });
     }
+
     return errorMessage;
   };
 };

@@ -122,7 +122,17 @@ const productsFilter = async (id_brand, id_category) => {
   }
 }
 
+const updateProduct= async (productId, updatedFields) => {
+  try {
+    const updatedProduct = await Product.update(updatedFields, {
+      where: { sku: productId }, // Esto puede variar según la clave primaria de tu modelo
+      returning: true, // Esto devolverá el producto actualizado
+    });
+    return updatedProduct[1][0]; // Devuelve el producto actualizado
+  } catch (error) {
+    console.error('Error al actualizar el producto', error);
+    throw new Error('Error interno: ' + error.message);
+  }
+}
 
-
-
-module.exports = { getAllProducts, getBrands, getCategories, getProductBySKU, getProductsByBrand, getProductsByCategory, createProduct, productsFilter };
+module.exports = { getAllProducts, getBrands, getCategories, getProductBySKU, getProductsByBrand, getProductsByCategory, createProduct, productsFilter, updateProduct };
