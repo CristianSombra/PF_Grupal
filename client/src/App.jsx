@@ -10,7 +10,6 @@ import LoginForm from "./components/users/LoginForm";
 import RegistrationForm from "./components/users/RegistrationForm";
 import MiCuenta from "./components/users/MiCuenta";
 import UpdateAccount from "./components/users/UpdateAccount";
-import PurchageHistori from "./components/users/PurchaseHistory";
 import NotFound from "./views/404/notfound";
 import PrivateRoute from './PrivateRoute';
 import PrivateRouteAdmin from './PrivateRouteAdmin';
@@ -20,8 +19,9 @@ import './App.css';
 import './components/css/index.css';
 import { useDispatch } from 'react-redux';
 import { loadUserById } from './redux/actions';
-/* import { Payment } from './views/Payment/Payment'; */
 import Wishlist from './views/wishlist/wishlist';
+import SuccessPurchase from './views/Payment/SuccesPayment';
+import PurchageHistory from "./components/users/PurchaseHistory";
 
 
 function App() {
@@ -53,11 +53,12 @@ function App() {
         <Route element={<PrivateRoute />}>
         <Route path="/account" element={<MiCuenta/>} />
         <Route path="/updateaccount" element={<UpdateAccount/>} />
-        <Route path="/purchases" element={<PurchageHistori/>} />
         <Route path="/cart" element={<Cart/>} />
         <Route path="/buyPage" element={<BuyPage />} />
         <Route path="/wishlist" element={<Wishlist />} />
-        {/* <Route path="/payments" element= {<Payment />} />  */}
+        <Route path="/success" element={<SuccessPurchase/>} />
+      
+        <Route path="/purchases" element= {<PurchageHistory/>} />
         </Route>
         <Route element={<PrivateRouteAdmin />}>
         <Route path="/createProduct" element={<ProductForm/>} />

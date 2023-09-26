@@ -5,9 +5,9 @@ import ProductForm from './productForm/productForm';
 import Cart from './cart/cart';
 import BuyPage from './buyPage/buyPage';
 import NotFound from './404/notfound';
-import Payment from './Payment/Payment'
 import Wishlist from './wishlist/wishlist';
-
+import SuccessPurchase from './Payment/SuccesPayment';
+import PurchaseHistory from '../components/users/PurchaseHistory';
 
 export {
     Home,
@@ -17,6 +17,7 @@ export {
     Cart,
     BuyPage,
     NotFound,
-    Payment,
-    Wishlist
+    Wishlist,
+    SuccessPurchase,
+    PurchaseHistory
 }

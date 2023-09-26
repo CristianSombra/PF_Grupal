@@ -24,6 +24,11 @@ module.exports = (sequelize) => {
         type: DataTypes.ENUM("Completa", "Fallida", "En Proceso", "Pendiente de Pago", "Por Facturar"),
         allowNull: false,
       },
+      products: {
+        type: DataTypes.JSONB,
+        allowNull: false,
+        defaultValue: [],
+      }
     },
     {
       timestamps: true,
