@@ -329,6 +329,7 @@ export default function AdminDashboard() {
             onClick={(event) => {
               event.stopPropagation();
               handleOrderClick(params.row, event);
+              
             }}
           >
             {params.row.order_status}
