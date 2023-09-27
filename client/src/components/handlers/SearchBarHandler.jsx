@@ -53,6 +53,7 @@ const SearchBarHandler = () => {
         setActiveSuggestionIndex((prevIndex) =>
           prevIndex > 0 ? prevIndex - 1 : prevIndex
         );
+        setSearchQuery(suggestions[activeSuggestionIndex]);
         break;
 
       case "ArrowDown":
@@ -60,12 +61,14 @@ const SearchBarHandler = () => {
         setActiveSuggestionIndex((prevIndex) =>
           prevIndex < suggestions.length - 1 ? prevIndex + 1 : prevIndex
         );
+        setSearchQuery(suggestions[activeSuggestionIndex]);
         break;
 
       case "Enter":
         if (activeSuggestionIndex >= 0) {
-          setSearchQuery(suggestions[activeSuggestionIndex]);
           setShowSuggestions(false);
+          dispatch(updateSearchResults(searchQuery));
+          setSearchQuery("");
         }
         break;
 
@@ -75,11 +78,11 @@ const SearchBarHandler = () => {
   };
 
   // Manejador de clic en una sugerencia
- // Manejador de clic en una sugerencia
-const handleSuggestionClick = (suggestion) => {
-  setSearchQuery(suggestion); // Establece la sugerencia como consulta de búsqueda
-  setShowSuggestions(false); // Oculta las sugerencias al hacer clic en una
-};
+  // Manejador de clic en una sugerencia
+  const handleSuggestionClick = (suggestion) => {
+    setSearchQuery(suggestion); // Establece la sugerencia como consulta de búsqueda
+    setShowSuggestions(false); // Oculta las sugerencias al hacer clic en una
+  };
 
 
   // Manejador de desplazamiento del mouse sobre una sugerencia
