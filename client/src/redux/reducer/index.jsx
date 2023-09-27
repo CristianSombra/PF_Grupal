@@ -43,7 +43,7 @@ const initialState = {
   items: [],
   user: null,
   loadedUser: null,
-  cartItems: [],
+  cartItems: localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [],
   ratings: [],
   isLoggedIn: localStorage.getItem("token") ? true : false,
   showResults : false, 
@@ -164,6 +164,7 @@ const rootReducer = (state = initialState, action) => {
         user: null,
         loadedUser: null,
         isLoggedIn: false, // Establece 'user' en null al cerrar sesión
+        cartItems: [],
       };
 
     case ADD_TO_CART:
