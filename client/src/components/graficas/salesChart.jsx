@@ -3,15 +3,16 @@ import { Bar } from 'react-chartjs-2';
 import axios from 'axios';
 import "chart.js/auto";
 import { blue } from '@mui/material/colors';
+import { baseURL } from '../../redux/actions';
 
 
 const SalesChart = () => {
   const [salesData, setSalesData] = useState([]);
-
+  
   useEffect(() => {
     // Supongamos que los datos se obtienen de una API en formato JSON.
     // Aquí realizamos una solicitud a la API utilizando Axios.
-    axios.get('http://localhost:3001/metrics/sales')
+    axios.get(baseURL +'/metrics/sales')
       .then((response) => {
         const data = response.data;
         console.log(data)

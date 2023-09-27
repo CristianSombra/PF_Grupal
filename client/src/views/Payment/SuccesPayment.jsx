@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
+import { baseURL } from "../../redux/actions";
 
 const SuccessPurchase = () => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const SuccessPurchase = () => {
         merchant_order_id
       ) {
         try {
-          const response = await fetch("http://localhost:3001/payments/generate", {
+          const response = await fetch(baseURL +"/payments/generate", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import "chart.js/auto";
+import { baseURL } from '../../redux/actions';
 
 const TopTen = () => {
   const [data, setData] = useState([]);
@@ -9,7 +10,7 @@ const TopTen = () => {
 
   useEffect(() => {
     // Hacer la solicitud a la ruta utilizando Axios
-    axios.get('http://localhost:3001/metrics/ten')
+    axios.get(baseURL +'/metrics/ten')
       .then(response => {
         // Extraer los datos que necesitas de la respuesta
         const products = response.data;
@@ -46,7 +47,7 @@ const TopTen = () => {
             ticks: {
                 callback: function(value) {
                     if (value.length > 10) {
-                        return value.substr(0, 10) + '...';
+                        return value.substr(0, 1) + '...';
                     } else {
                         return value;
                     }

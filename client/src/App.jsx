@@ -18,7 +18,7 @@ import AdminDashboard from './views/AdminDashboard/AdminDashboard';
 import './App.css';
 import './components/css/index.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadUserById } from './redux/actions';
+import { getCart, getFavorites, loadUserById, pushCart, pushFavorites } from './redux/actions';
 import Wishlist from './views/wishlist/wishlist';
 import SuccessPurchase from './views/Payment/SuccesPayment';
 import PurchageHistory from "./components/users/PurchaseHistory";
@@ -38,14 +38,29 @@ function App() {
     const id = localStorage.getItem("id")
     if (token && id) {
       dispatch(loadUserById(id));
+      dispatch(getFavorites(id));
+      dispatch(getCart(id));
     }
   }, [dispatch]);
 
   const cartProducts = useSelector(state => (state.cartItems))
+  const favoriteProducts = useSelector(state =>(state.wishlist))
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cartProducts));
+    const token = localStorage.getItem("token");
+    const id = localStorage.getItem("id")
+    if (token && id) {
+      dispatch(pushCart(id, cartProducts))
+    }
   }, [cartProducts]);
+
+  useEffect(() => {
+    const id = localStorage.getItem("id")
+    if(id){
+    dispatch(pushFavorites(id, favoriteProducts))
+    }
+  }, [favoriteProducts]);
 
 
   return (

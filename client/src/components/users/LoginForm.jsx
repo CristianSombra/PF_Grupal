@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { loginGoogle, login } from '../../redux/actions/index';
+import { loginGoogle, login, getFavorites, getCart } from '../../redux/actions/index';
 import { Link } from 'react-router-dom';
 import { Button, Card, Form } from 'react-bootstrap';
 import '../css/index.css';
@@ -12,22 +12,25 @@ const LoginForm = ({ login, user, error }) => {
   const isLoggedIn = useSelector(state => (state.isLoggedIn))
   const SignInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
-   
+
     const auth = getAuth();
     signInWithPopup(auth, provider)
       .then((result) => {
         GoogleAuthProvider.credentialFromResult(result);
         const user = result.user;
         // console.log(user)
-        const spliceName=user.displayName.split(' ')        
-        const newUser={
+        const spliceName = user.displayName.split(' ')
+        const newUser = {
           user_name: user.displayName,
           first_name: spliceName[0],
           last_name: spliceName[1],
           email: user.email
         }
-        console.log(newUser);        
+        console.log(newUser);
         dispatch(loginGoogle(newUser));
+        const userId = localStorage.getItem('id')
+        dispatch(getFavorites(userId));
+        dispatch(getCart(userId));
       }).catch((error) => {
         console.log(error)
       });
@@ -47,6 +50,9 @@ const LoginForm = ({ login, user, error }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await login(formData);
+    const userId = localStorage.getItem('id')
+    dispatch(getFavorites(userId))
+    dispatch(getCart(userId));
   };
 
   return (
@@ -100,8 +106,8 @@ const LoginForm = ({ login, user, error }) => {
                 <Button type="submit" variant="dark" size="sm" >
                   Iniciar Sesión
                 </Button>
-                <br/>
-                <Button  className="mt-2" variant="dark" size="sm" onClick={SignInWithGoogle}>
+                <br />
+                <Button className="mt-2" variant="dark" size="sm" onClick={SignInWithGoogle}>
                   Iniciar Sesión con Google
                 </Button>
 
