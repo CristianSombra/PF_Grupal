@@ -32,11 +32,15 @@ export const REMOVE_FROM_WISHLIST = "REMOVE_FROM_WISHLIST";
 export const GET_USERS = "GET_USERS";
 export const GET_ORDERS = "GET_ORDERS";
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+export const UPDATE_FAVORITES = "UPDATE_FAVORITES";
+export const UPDATE_CART = "UPDATE_CART";
+
+export const baseURL = "http://localhost:3001"
 
 export const updateProduct = (productId, updatedFields) => {
   return async (dispatch) => {
     try {
-      const response = await axios.put(`http://localhost:3001/products/${productId}`, {
+      const response = await axios.put(baseURL + `/products/${productId}`, {
         updatedFields: updatedFields, // Envía el objeto anidado como updatedFields
       });
 
@@ -52,7 +56,7 @@ export const updateProduct = (productId, updatedFields) => {
 
 export const getUsers = () => {
   return async (dispatch) => {
-    const apiData = await axios.get("http://localhost:3001/user");
+    const apiData = await axios.get(baseURL +"/user");
     const users = apiData.data;
     dispatch({ type: GET_USERS, payload: users });
   };
@@ -60,9 +64,54 @@ export const getUsers = () => {
 
 export const getOrders = () => {
   return async (dispatch) => {
-    const apiData = await axios.get("http://localhost:3001/order");
+    const apiData = await axios.get(baseURL +"/order");
     const orders = apiData.data;
     dispatch({ type: GET_ORDERS, payload: orders });
+  };
+};
+
+
+export const getCart = (id) => {
+  return async (dispatch) => {
+    try{
+    const apiData = await axios.get(baseURL +`/cart/${id}`);
+    const cart = apiData.data;
+    dispatch({ type: UPDATE_CART, payload: cart });
+    } catch(error){
+      console.log(error)
+    }
+  };
+};
+
+export const pushCart = (id, products) => {
+  return async (dispatch) => {
+    try{
+    await axios.post(baseURL +`/cart`, {userId: id, products: products});
+    } catch(error){
+      console.log(error)
+    }
+  };
+};
+
+export const getFavorites = (id) => {
+  return async (dispatch) => {
+    try{
+    const apiData = await axios.get(baseURL +`/favorite/${id}`);
+    const favorites = apiData.data;
+    dispatch({ type: UPDATE_FAVORITES, payload: favorites });
+    } catch(error){
+      console.log(error)
+    }
+  };
+};
+
+export const pushFavorites = (id, products) => {
+  return async (dispatch) => {
+    try{
+    await axios.post(baseURL +`/favorite`, {userId: id, products: products});
+    } catch(error){
+      console.log(error)
+    }
   };
 };
 
@@ -113,7 +162,7 @@ export const getAllProducts = () => {
     let errorMessage = "";
 
     try {
-      const response = await axios.get("http://localhost:3001/products");
+      const response = await axios.get(baseURL +"/products");
       dispatch({ type: GET_PODUCT_SUCCESS, payload: response.data });
     } catch (error) {
       errorMessage = "Producto no encontrado";
@@ -140,7 +189,7 @@ export const getProductDetail = (sku) => {
 
     // Ahora puedes buscar los detalles del producto
     try {
-      const response = await axios.get(`http://localhost:3001/products/sku/${sku}`);
+      const response = await axios.get(baseURL +`/products/sku/${sku}`);
       dispatch({ type: GET_PRODUCT_DETAIL, payload: response.data });
     } catch (error) {
       error = "Producto no encontrado";
@@ -154,7 +203,7 @@ export const getProductDetail = (sku) => {
 export const createProduct = (payload) => {
   return async (dispatch) => {
     try {
-      await axios.post("http://localhost:3001/products", payload);
+      await axios.post(baseURL +"/products", payload);
       dispatch({ type: CREATE_PRODUCT });
     } catch (error) {
       const errorMessage = "Error al crear el producto";
@@ -174,7 +223,7 @@ export const filterByBrand = (brandId) => {
   return async function (dispatch) {
     try {
       const response = await axios.get(
-        `http://localhost:3001/products/brands/${brandId}`
+        baseURL +`/products/brands/${brandId}`
       );
       dispatch({ type: GET_PODUCT_SUCCESS, payload: response.data });
     } catch (error) {
@@ -187,7 +236,7 @@ export const filterByCategory = (categoryId) => {
   return async function (dispatch) {
     try {
       const response = await axios.get(
-        `http://localhost:3001/products/categories/${categoryId}`
+        baseURL +`/products/categories/${categoryId}`
       );
       dispatch({ type: GET_PODUCT_SUCCESS, payload: response.data });
     } catch (error) {
@@ -200,7 +249,7 @@ export const getCategories = () => {
   return async function (dispatch) {
     try {
       const response = await axios.get(
-        `http://localhost:3001/products/categories/`
+        baseURL +`/products/categories/`
       );
       console.log(response);
       return response.data;
@@ -214,7 +263,7 @@ export const getBrands = () => {
   return async function (dispatch) {
     try {
       const response = await axios.get(
-        `http://localhost:3001/products/brands/`
+        baseURL +`/products/brands/`
       );
       console.log(response);
       return response.data;
@@ -227,7 +276,7 @@ export const getProductFilter = (id_brand, id_category) => {
   return async function (dispatch) {
     try {
       const response = await axios.post(
-        `http://localhost:3001/products/filter/`,
+        baseURL +`/products/filter/`,
         { id_brand: id_brand, id_category: id_category }
       );
       console.log(response);
@@ -267,7 +316,7 @@ export const updateSearchResults = (results) => {
 
 export const login = (formData) => async (dispatch) => {
   try{
-    const res = await axios.post("http://localhost:3001/user/login", formData);
+    const res = await axios.post(baseURL +"/user/login", formData);
     const token = res.data.token
     const user = res.data.user
     localStorage.setItem("token", token)
@@ -282,7 +331,7 @@ export const login = (formData) => async (dispatch) => {
 
 export const loginGoogle = (formData) => {
   return async (dispatch)=>{
-    const res = await axios.post("http://localhost:3001/user/google", formData);
+    const res = await axios.post(baseURL +"/user/google", formData);
     const token = res.data.token
     const user = res.data.user
     localStorage.setItem("token", token)
@@ -306,7 +355,7 @@ export const logout = () => {
 
 export const createUser = (formData) => async (dispatch) => {
   try {
-    const res = await axios.post("http://localhost:3001/user", formData);
+    const res = await axios.post(baseURL +"/user", formData);
     // Disparar una acción de éxito con los datos del nuevo usuario
     dispatch({ type: CREATE_USER_SUCCESS, payload: res.data });
     return "Success"
@@ -322,7 +371,7 @@ export const createUser = (formData) => async (dispatch) => {
 
 export const loadUserById = (userId) => async (dispatch) => {
   try {
-    const res = await axios.get(`http://localhost:3001/user/id/${userId}`);
+    const res = await axios.get(baseURL +`/user/id/${userId}`);
     dispatch({ type: LOAD_USER_SUCCESS, payload:{ user:res.data } });
   } catch (error) {
     dispatch({ type: LOAD_USER_FAIL, payload: error.message });
@@ -351,7 +400,7 @@ export const updatePassword = (userId, user_password) => {
       };
 
       // Realizar la solicitud PUT al backend con la contraseña en el cuerpo de la solicitud
-      const response = await axios.put(`http://localhost:3001/user/id/${userId}`, {
+      const response = await axios.put(baseURL +`/user/id/${userId}`, {
         user_password: user_password,
       }, config);
 
@@ -369,7 +418,7 @@ export const createRating = (userId,product_id, rate, review) => async (dispatch
   try {
 
 
-    const response = await axios.post('http://localhost:3001/rating', {
+    const response = await axios.post(baseURL +'/rating', {
       userId,
       product_id,
       rate,
@@ -388,7 +437,7 @@ export const createRating = (userId,product_id, rate, review) => async (dispatch
 // Acción para obtener todas las calificaciones
 export const getRatings = () => async (dispatch) => {
   try {
-    const response = await axios.get("http://localhost:3001/rating");
+    const response = await axios.get(baseURL +"/rating");
     dispatch({
       type: GET_RATINGS,
       payload: response.data,
@@ -400,7 +449,7 @@ export const getRatings = () => async (dispatch) => {
 
 export const getUserRating = (userId) => async (dispatch) => {
   try {
-    const response = await axios.get(`http://localhost:3001/rating/id/${userId}`);
+    const response = await axios.get(baseURL +`/rating/id/${userId}`);
     dispatch({
       type: FETCH_USER_RATING_SUCCESS,
       payload: response.data,

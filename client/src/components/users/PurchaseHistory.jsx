@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Dialog, DialogTitle, DialogContent, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
 import axios from 'axios';
+import { baseURL } from "../../redux/actions";
 const PurchaseHistory = () => {
     const orderColumns = [
     { field: "id", headerName: "ID", width: 100 },
@@ -29,7 +30,7 @@ const PurchaseHistory = () => {
       if (userId) {
         try {
           const response = await axios.get(
-            `http://localhost:3001/order/user/${userId}`,
+            baseURL +`/order/user/${userId}`,
             
           );
 

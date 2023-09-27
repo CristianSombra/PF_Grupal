@@ -6,11 +6,12 @@ import { v4 as uuidv4 } from "uuid";
 import "../../components/css/index.css";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
+import { baseURL } from "../../redux/actions";
 
 
 const apiUrl = "TEST-77c820a7-513b-44a4-8b2d-01ea41494588";
-const POST_NEW_ORDER = "http://localhost:3001/order/create";
-const POST_PAYMENT = "http://localhost:3001/payments/generate";
+const POST_NEW_ORDER = baseURL +"/order/create";
+const POST_PAYMENT = baseURL + "/payments/generate";
 
 initMercadoPago(apiUrl);
 

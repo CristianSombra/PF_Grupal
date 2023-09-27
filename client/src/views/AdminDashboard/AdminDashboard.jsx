@@ -5,6 +5,7 @@ import {
   getUsers,
   getAllProducts,
   updateProduct,
+  baseURL,
 } from "../../redux/actions";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import TopTen from "../../components/graficas/toptenChart";
@@ -68,12 +69,12 @@ export default function AdminDashboard() {
           const role = user.role;
 
           if (role === "Cliente") {
-            await axios.put(`http://localhost:3001/user/id/${userId}`, {
+            await axios.put(baseURL +`/user/id/${userId}`, {
               role: "Administrador",
             });
           }
           if (role === "Administrador") {
-            await axios.put(`http://localhost:3001/user/id/${userId}`, {
+            await axios.put(baseURL +`/user/id/${userId}`, {
               role: "Cliente",
             });
           }
@@ -83,7 +84,7 @@ export default function AdminDashboard() {
         }
       } else if (result.isDenied) {
         const email = user.email;
-        await axios.delete(`http://localhost:3001/user/id/${email}`);
+        await axios.delete(baseURL +`/user/id/${email}`);
         setSelectedUser(null);
       }
     });
@@ -153,7 +154,7 @@ export default function AdminDashboard() {
 
   const handleChangeOrderStatus = async (orderId, newStatus) => {
     try {
-      await axios.put(`http://localhost:3001/order/update/${orderId}`, {
+      await axios.put(baseURL +`/order/update/${orderId}`, {
         order_status: newStatus,
       });
       dispatch(getOrders());
