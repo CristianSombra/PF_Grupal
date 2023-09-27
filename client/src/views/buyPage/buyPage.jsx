@@ -97,7 +97,7 @@ const BuyPage = () => {
                 })}
               </div>
             </div>
-            <h3
+            <h3 
               className="d-flex justify-content-end mt-4"
               style={{ margin: "30px" }}
             >
