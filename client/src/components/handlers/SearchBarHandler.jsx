@@ -61,17 +61,18 @@ const SearchBarHandler = () => {
         setActiveSuggestionIndex((prevIndex) =>
           prevIndex < suggestions.length - 1 ? prevIndex + 1 : prevIndex
         );
-        setSearchQuery(suggestions[activeSuggestionIndex]);
+        setSearchQuery(suggestions[activeSuggestionIndex===-1? 0 : activeSuggestionIndex ]);
         break;
 
       case "Enter":
+        dispatch(updateSearchResults(searchQuery));
+        setSearchQuery("");
         if (activeSuggestionIndex >= 0) {
           setShowSuggestions(false);
-          dispatch(updateSearchResults(searchQuery));
           setSearchQuery("");
         }
         break;
-
+        
       default:
         break;
     }
