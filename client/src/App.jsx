@@ -18,7 +18,7 @@ import AdminDashboard from './views/AdminDashboard/AdminDashboard';
 import './App.css';
 import './components/css/index.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCart, getFavorites, loadUserById, pushCart, pushFavorites } from './redux/actions';
+import { getCart, getFavorites, loadUserById, pushCart, pushFavorites, resetFilters } from './redux/actions';
 import Wishlist from './views/wishlist/wishlist';
 import SuccessPurchase from './views/Payment/SuccesPayment';
 import PurchageHistory from "./components/users/PurchaseHistory";
@@ -62,6 +62,11 @@ function App() {
     }
   }, [favoriteProducts]);
 
+ useEffect(()=>{
+  if(location.pathname === "/home"){
+  dispatch(resetFilters())
+  }
+ },[location.pathname])
 
   return (
     <div className="APP">
