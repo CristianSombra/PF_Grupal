@@ -12,6 +12,7 @@ Inicia el servidor de desarrollo con el siguiente comando:
 
 3. Datos .env:
 
-VITE_MERCADO_PAGO_PUBLIC_KEY="TEST-77c820a7-513b-44a4-8b2d-01ea41494588"
-VITE_POST_PAYMENT="http://localhost:3010/payments/generate"
-VITE_POST_NEW_ORDER=http://localhost:3010/orders/create
+#MERCADO PAGO
+REACT_APP_MERCADO_PAGO_PUBLIC_KEY=TEST-77c820a7-513b-44a4-8b2d-01ea41494588
+REACT_APP_PAYMENT=http://localhost:3001/payments/generate
+REACT_APP_POST_NEW_ORDER=http://localhost:3001/orders/create

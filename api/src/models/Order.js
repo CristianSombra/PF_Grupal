@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       totalprice: {
-        type: DataTypes.DECIMAL(10, 2),
+        type: DataTypes.DECIMAL,
         allowNull: false,
       },
       order_status: {
@@ -32,8 +32,6 @@ module.exports = (sequelize) => {
     },
     {
       timestamps: true,
-      createdAt: false,
-      updatedAt: false,
       paranoid: true,
     }
   );

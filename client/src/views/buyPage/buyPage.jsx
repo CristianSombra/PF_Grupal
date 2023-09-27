@@ -17,23 +17,21 @@ initMercadoPago(apiUrl);
 
 const BuyPage = () => {
   const cartItems = useSelector((state) => state.cartItems);
-  const products = useSelector((state) => state.products);
+  console.log(cartItems)
 
   const calculateTotal = () => {
     let total = 0;
 
     // Recorre los elementos en el carrito y suma el precio de cada producto
     for (const item of cartItems) {
-      const product = products.find((p) => p.sku === item.sku);
-      if (product) {
-        total += item.quantity * product.price;
-      }
+      
+        total += item.quantity * item.price;
     }
     return total;
   };
 
   const userId = localStorage.getItem('id');
-  const referenceUUID = uuidv4();
+
   const handlePayment = async () => {
     const total = calculateTotal(); // Obtener el total de los productos
     const response = await axios.post(POST_NEW_ORDER, {
@@ -72,24 +70,26 @@ const BuyPage = () => {
             <div>
               <div className="card-body">
                 {cartItems.map((item) => {
-                  const product = products.find((p) => p.sku === item.sku);
                   return (
                     <Card key={item.sku} className="mb-3">
                       <Row className="no-gutters">
                         <Col md={4}>
                           <img
-                            src={product.image}
-                            alt={product.title}
+                            src={item?.image ? item.image : "https://media.istockphoto.com/id/1396814518/es/vector/imagen-pr%C3%B3ximamente-sin-foto-sin-imagen-en-miniatura-disponible-ilustraci%C3%B3n-vectorial.jpg?s=612x612&w=0&k=20&c=aA0kj2K7ir8xAey-SaPc44r5f-MATKGN0X0ybu_A774="}
+                            alt={item?.title}
                             className="img-detail img-fluid"
                           />
                         </Col>
                         <Col md={8}>
                           <div className="card-body">
                             <h5 className="card-title">
-                              Nombre: {product.titulo}
+                              Nombre: {item?.name}
                             </h5>
                             <p className="card-text">
-                              Precio: ${product.price}
+                              Precio: ${item?.price}
+                            </p>
+                            <p className="card-text">
+                            Cantidad: {item?.quantity}
                             </p>
                           </div>
                         </Col>

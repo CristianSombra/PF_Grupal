@@ -17,7 +17,7 @@ import BuyPage from './views/buyPage/buyPage';
 import AdminDashboard from './views/AdminDashboard/AdminDashboard';
 import './App.css';
 import './components/css/index.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { loadUserById } from './redux/actions';
 import Wishlist from './views/wishlist/wishlist';
 import SuccessPurchase from './views/Payment/SuccesPayment';
@@ -40,6 +40,13 @@ function App() {
       dispatch(loadUserById(id));
     }
   }, [dispatch]);
+
+  const cartProducts = useSelector(state => (state.cartItems))
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartProducts));
+  }, [cartProducts]);
+
 
   return (
     <div className="APP">

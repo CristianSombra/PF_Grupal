@@ -78,8 +78,8 @@ const createOrder = async (req, res, next) => {
         success: BACK_URL_SUCCESS,
         failed: BACK_URL_FAILED,
       },
-      // auto_return: "approved",
-      // binary_mode: true,
+      auto_return: "approved",
+      binary_mode: true,
       // notification_url:
       //   "https://",
 

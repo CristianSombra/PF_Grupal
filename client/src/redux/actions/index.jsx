@@ -95,6 +95,7 @@ export const decreaseQuantity = (sku) => {
 };
 
 export const addToCart = (product) => {
+  localStorage.setItem('cart', product)
   return {
     type: ADD_TO_CART,
     payload: product,
@@ -294,6 +295,7 @@ export const logout = () => {
   return (dispatch) => {
     localStorage.removeItem("token");
     localStorage.removeItem("id");
+    localStorage.removeItem("cart");
     dispatch({ type: LOGOUT });
     Swal.fire({
       icon: "success",

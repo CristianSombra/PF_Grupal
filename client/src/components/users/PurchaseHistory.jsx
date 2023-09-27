@@ -1,42 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { Box, Typography } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
 import axios from 'axios';
 const PurchaseHistory = () => {
-  const orderColumns = [
-    { field: "id", headerName: "ID", width: 200 },
+    const orderColumns = [
+    { field: "id", headerName: "ID", width: 100 },
     { field: "user_id", headerName: "ID de Usuario", width: 250 },
     { field: "totalprice", headerName: "Total Orden", width: 250 },
     {
       field: "order_status",
       headerName: "Estado",
-      width: 250,
-
-    },
-    {
-      field: 'products',
-      headerName: 'Products',
-      width: 200,
-      renderCell: (params) => (
-        <Box>
-          {params.row.products.map((product) => (
-            <Box key={product.sku} display="flex" alignItems="center">
-              <img
-                src={product.image}
-                alt={product.name}
-                style={{ width: 50, height: 50 }}
-/>
-                <Typography variant="p">
-                  {product.quantity} {product.name}
-                </Typography>
-            </Box>
-          ))}
-        </Box>
-      ),
-    },
-  ];
+      width: 250
+    }
+  ]
 
   const [orders, setOrders] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [currentOrder, setCurrentOrder] = useState(null);
+
+  const handleRowClick = (order) => {
+    setCurrentOrder(order);
+    setOpen(true);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const userId = localStorage.getItem("id");
@@ -74,16 +60,52 @@ const PurchaseHistory = () => {
         marginBottom: "50px",
       }}
     >
-      <h2>Mis Compras</h2>
+ <h2>Mis Compras</h2>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           rows={orders}
           columns={orderColumns}
           pageSize={5}
           components={{ Toolbar: GridToolbar }}
+          onRowClick={(params) => handleRowClick(params.row)}
         />
       </div>
+      <Dialog open={open} onClose={() => setOpen(false)}>
+  <DialogTitle>Detalles de la Orden</DialogTitle>
+  <DialogContent>
+    {currentOrder && (
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>SKU</TableCell>
+            <TableCell>Imagen</TableCell>
+            <TableCell>Nombre</TableCell>
+            <TableCell>Cantidad</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {currentOrder.products.map((product) => (
+            <TableRow key={product.sku}>
+              <TableCell>{product.sku}</TableCell>
+              <TableCell>
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  style={{ width: 50, height: 50 }}
+                />
+              </TableCell>
+              <TableCell>{product.name}</TableCell>
+              <TableCell>{product.quantity}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    )}
+  </DialogContent>
+</Dialog>
+
     </div>
   );
 };
+
 export default PurchaseHistory;

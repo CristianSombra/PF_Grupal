@@ -2,14 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector  } from 'react-redux';
 import { getOrders, getUsers, getAllProducts, updateProduct  } from '../../redux/actions';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import TopTen from "../../components/graficas/toptenChart";
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import axios from 'axios';
 import Button from "react-bootstrap/esm/Button";
 import { useNavigate } from 'react-router-dom';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import { Box, Typography } from "@mui/material";
+import SalesChart from "../../components/graficas/salesChart";
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import Table from '@mui/material/Table';
+import TableHead from '@mui/material/TableHead';
+import TableBody from '@mui/material/TableBody';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
 
 
 export default function AdminDashboard() {
@@ -22,7 +29,9 @@ export default function AdminDashboard() {
   const users = useSelector((state) => state.users);
   const orders = useSelector((state) => (state.orders));
   const navigate = useNavigate();
-
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedOrderDetails, setSelectedOrderDetails] = useState(null);
 
   useEffect(() => {
     dispatch(getUsers());
@@ -30,13 +39,11 @@ export default function AdminDashboard() {
     dispatch(getAllProducts());
   }, [dispatch, selectedUser, selectedOrder,selectedProduct]);
 
-
   const handleProductClick = (product) => {
     setSelectedProduct(product);
 
   };
     
-
   const handleUserClick = (user) => {
     setSelectedUser(user);
     const role = user.role === "Administrador" ? "Cliente" : "Administrador";
@@ -297,27 +304,7 @@ export default function AdminDashboard() {
         );
       },
     },
-    {
-      field: 'products',
-      headerName: 'Products',
-      width: 200,
-      renderCell: (params) => (
-        <Box>
-          {params.row.products.map((product) => (
-            <Box key={product.sku} display="flex" alignItems="center">
-              <img
-                src={product.image}
-                alt={product.name}
-                style={{ width: 50, height: 50 }}
-/>
-                <Typography variant="p">
-                  {product.quantity} {product.name}
-                </Typography>
-            </Box>
-          ))}
-        </Box>
-      ),
-    },
+
   ];
 
   const columns = [
@@ -354,12 +341,10 @@ export default function AdminDashboard() {
       <hr />
       <div className="row">
         <div className="col-md-6">
-          <h2>Métrica 1</h2>
-          <img style={{ width: "80%", height: "70%" }} src="https://www.tibco.com/sites/tibco/files/media_entity/2022-01/doughnut-chart-example.svg" alt="Ejemplo 1" />
+          <SalesChart/>
         </div>
         <div className="col-md-6">
-          <h2>Métrica 2</h2>
-          <img style={{ width: "90%" }} src="https://lh5.googleusercontent.com/88VfYTfZWk5cmkJAhw1gEbo7aHkbI2QFXZWRwq0BxK5mOA9Z1-f-MOBhPUFMZVCccYuaCtnkGY8XP8Y-6Hip13KbVoefd-Fzn5lir94BjPO9gc7fC6Tgrnvl9HCL5fzO-Kozs0psGqZidKOTozlZPTMqziv1dSP44gh2X5Fw6VROcWEeaubof61TkehV" alt="Ejemplo 1" />
+          <TopTen/>
         </div>
       </div>
       <hr />
@@ -370,7 +355,10 @@ export default function AdminDashboard() {
       <hr />
       <h2>Órdenes</h2>
       <div style={{ height: 400, width: '100%' }}>
-        <DataGrid rows={orders} columns={orderColumns} pageSize={5} components={{ Toolbar: GridToolbar }} />
+        <DataGrid rows={orders} columns={orderColumns} pageSize={5} components={{ Toolbar: GridToolbar }} onRowClick={(params) => {
+          setSelectedOrderDetails(params.row);
+          setIsModalOpen(true);
+        }} />
       </div>
       <div>
       <hr />
@@ -384,7 +372,41 @@ export default function AdminDashboard() {
       getRowId={(row) => row.sku}
     />
   </div>
-</div>
     </div>
+    <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <DialogTitle>Detalles de la Orden</DialogTitle>
+      <DialogContent>
+        {selectedOrderDetails && (
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>SKU</TableCell>
+                <TableCell>Imagen</TableCell>
+                <TableCell>Nombre</TableCell>
+                <TableCell>Cantidad</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {selectedOrderDetails.products.map((product) => (
+                <TableRow key={product.sku}>
+                  <TableCell>{product.sku}</TableCell>
+                  <TableCell>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      style={{ width: 50, height: 50 }}
+                    />
+                  </TableCell>
+                  <TableCell>{product.name}</TableCell>
+                  <TableCell>{product.quantity}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </DialogContent>
+    </Dialog>
+  </div>
+
   );
 }
