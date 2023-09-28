@@ -62,7 +62,7 @@ const LoginForm = ({ login, user, error }) => {
         <div>
           <p>Inicio de sesión exitoso.</p>
           <Button as={Link} to="/home" variant="dark" size="sm">
-            Volver a Home
+            Volver a Inicio
           </Button>
         </div>
       ) : (

@@ -7,6 +7,7 @@ import { Button, Card, Form } from 'react-bootstrap';
 import '../css/index.css';
 import Swal from 'sweetalert2';
 
+
 const RegistrationForm = ({ user }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -88,15 +89,29 @@ const RegistrationForm = ({ user }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await dispatch(createUser(formData))
-    if(result==="Success"){
+  
+    // Check for missing fields
+    const requiredFields = ['user_name', 'first_name', 'last_name', 'gender', 'email', 'delivery_address', 'country', 'CustomElementRegistry', 'mobile', 'user_password'];
+  
+    const missingFields = requiredFields.filter((fieldName) => !formData[fieldName]);
+  
+    if (missingFields.length > 0) {
       Swal.fire({
-        icon: "success",
-        title: "Registered Successfully, Please Login",
-      })
-      navigate("/login")
+        icon: 'error',
+        title: 'Missing Fields',
+        text: `Please fill in the following fields: ${missingFields.join(', ')}`,
+      });
+    } else {
+      const result = await dispatch(createUser(formData));
+      if (result === 'Success') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Registered Successfully, Please Login',
+        });
+        navigate('/login');
+      }
     }
-  };
+  };  
 
   const formIsValid = !Object.values(formErrors).some((error) => error);
 
@@ -246,6 +261,7 @@ const RegistrationForm = ({ user }) => {
                   disabled={!formIsValid}
                   variant="dark"
                   size="sm"
+                  className='mt-4'
                 >
                   Registrarse
                 </Button>
