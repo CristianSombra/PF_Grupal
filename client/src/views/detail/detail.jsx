@@ -81,16 +81,18 @@ const Detail = () => {
   
 
   return (
+    <div>
     <div className="container-detail" style={{ marginTop: "140px" }}>
-      <h1 className="text-center" style={{ marginTop: "20px" }}>
+      <h1 className="text-center" style={{ marginTop: "20px", marginBottom:"25px" }}>
         Detalle del producto
       </h1>
+      <div 
+          className="card custom-shadow  mx-auto"
+          style={{ maxWidth: "1200px", marginTop: "10px", alignItems:"center"}}
+            >
       <div className="row">
-        <div className="col-md-5 mx-auto">
-          <div
-            className="card custom-shadow"
-            style={{ maxWidth: "600px", marginTop: "10px" }}
-          >
+        <div className="col-md-6 mx-auto">
+          <div>
             <div className="card-body">
               <p className="card-text">N/P: {productDetail.number_part}</p>
               <h5 className="card-title">Nombre: {productDetail.titulo}</h5>
@@ -107,7 +109,7 @@ const Detail = () => {
               </ul>
               <ProductRating sku={product_id} />
               <UserRatingInfo sku={product_id} />
-              <div className="mt-2 text-center d-flex justify-content-center">
+              <div className="text-center">
                 <Button
                   variant="success"
                   className="mt-2 btn me-3 hover-effect"
@@ -122,8 +124,8 @@ const Detail = () => {
                 >
                   <i className="bi bi-heart"></i>
                 </Button>
+              </div>
               </div>              
-            </div>
           </div>
         </div>
         <div className="col-md-5">
@@ -137,7 +139,9 @@ const Detail = () => {
           </div>
         </div>
       </div>
+      </div>
 
+      </div>
       <div className="text-center mt-4">
         <Button variant="dark" as={Link} to="/Home">
           Volver a inicio
