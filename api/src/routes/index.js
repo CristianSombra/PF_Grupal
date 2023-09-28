@@ -10,6 +10,8 @@ const ratingRouter = require("./ratingRouter");
 const paymentRouter = require("./paymentRouter");
 const brandRouter = require("./brandRouter");
 const categoryRouter = require("./categoryRouter");
+const metricsRouter = require("./metricsRouter");
+const favoriteRouter = require("./favoriteRouter")
 
 
 //DEFINICION DE USO DE LAS RUTAS
@@ -17,10 +19,12 @@ mainRouter.use("/products", productsRouter);
 mainRouter.use("/user", userRouter);
 mainRouter.use("/order", orderRouter);
 mainRouter.use("/cart", cartRouter);
+mainRouter.use("/favorite", favoriteRouter);
 mainRouter.use("/rating", ratingRouter);
 mainRouter.use("/payments", paymentRouter);
 mainRouter.use("/brand", brandRouter);
 mainRouter.use("/category", categoryRouter);
+mainRouter.use("/metrics", metricsRouter);
 
 
 module.exports = mainRouter;

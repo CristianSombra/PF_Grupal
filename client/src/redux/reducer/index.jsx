@@ -10,22 +10,31 @@ import {
   CREATE_USER_FAIL,
   LOAD_USER_SUCCESS,
   LOAD_USER_FAIL,
-  UPDATE_USER_INFO_SUCCESS,
-  UPDATE_USER_INFO_FAIL,
   ADD_TO_CART,
   REMOVE_FROM_CART,
   INCREASE_QUANTITY,
   DECREASE_QUANTITY,
-  CREATE_RATING, 
-  GET_RATINGS, 
+  CREATE_RATING,
+  GET_RATINGS,
   SET_SHOW_RESULTS,
   LOGOUT,
   LOGIN,
   FETCH_USER_RATING_SUCCESS,
   FETCH_USER_RATING_FAILURE,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAILURE,
+  ADD_TO_WISHLIST,
+  REMOVE_FROM_WISHLIST,
+  GET_ORDERS,
+  GET_USERS,
+  UPDATE_PRODUCT,
+  UPDATE_FAVORITES,
+  UPDATE_CART,
 } from "../actions/index";
 
 const initialState = {
+  product: null,
   products: [], // Mantén el estado original para todos los productos
   productDetails: {},
   error: "",
@@ -36,17 +45,45 @@ const initialState = {
   items: [],
   user: null,
   loadedUser: null,
-  updateUserInfoSuccess: false, // Para rastrear el éxito de la actualización
-  updateUserInfoError: null, // Para rastrear errores de actualización
-  cartItems: [],
+  cartItems: localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [],
   ratings: [],
   isLoggedIn: localStorage.getItem("token") ? true : false,
-  showResults : false, 
+  showResults: false,
   userDataRating: null,
+  loading: false,
+  success: false,
+  wishlist: [],
+  users: [],
+  orders: []
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case UPDATE_PRODUCT:
+      // Busca el índice del producto en el array de products
+      const productIndex = state.products.findIndex(product => product.sku === action.payload.sku);
+
+      if (productIndex !== -1) {
+        // Clona el array de products y actualiza el producto en la posición correcta
+        const updatedProducts = [...state.products];
+        updatedProducts[productIndex] = { ...updatedProducts[productIndex], ...action.payload };
+
+        return {
+          ...state,
+          products: updatedProducts,
+        };
+      }
+
+      // Si el producto no se encontró en la lista, no se realiza ninguna actualización
+      return state;
+    case UPDATE_FAVORITES:
+      return { ...state, wishlist: action.payload };
+    case UPDATE_CART:
+      return { ...state, cartItems: action.payload };
+    case GET_USERS:
+      return { ...state, users: action.payload };
+    case GET_ORDERS:
+      return { ...state, orders: action.payload };
     case LOGIN:
       return {
         ...state,
@@ -127,24 +164,14 @@ const rootReducer = (state = initialState, action) => {
         loadedUser: null,
         error: action.payload,
       };
-    case UPDATE_USER_INFO_SUCCESS:
-      return {
-        ...state,
-        updateUserInfoSuccess: true,
-        updateUserInfoError: null,
-      };
-    case UPDATE_USER_INFO_FAIL:
-      return {
-        ...state,
-        updateUserInfoSuccess: false,
-        updateUserInfoError: action.payload, // Almacena el error si la actualización falla
-      };
     case LOGOUT:
       return {
         ...state,
         user: null,
         loadedUser: null,
         isLoggedIn: false, // Establece 'user' en null al cerrar sesión
+        cartItems: [],
+        wishlist: [],
       };
 
     case ADD_TO_CART:
@@ -199,30 +226,70 @@ const rootReducer = (state = initialState, action) => {
         ),
       };
     case CREATE_RATING:
-        return {
-          ...state,
-          ratings: [ action.payload,...state.ratings],            
-             };
+      return {
+        ...state,
+        ratings: [action.payload, ...state.ratings],
+      };
     case GET_RATINGS:
-          return {
-          ...state,
-          ratings: action.payload,
-           };
+      return {
+        ...state,
+        ratings: action.payload,
+      };
     case SET_SHOW_RESULTS:
-           return { ...state, showResults: action.showResults };
+      return { ...state, showResults: action.showResults };
 
-           case FETCH_USER_RATING_SUCCESS:
-            return {
-             ...state,
-              userDataRating: action.payload,
-               error: null,
-              };
-          case FETCH_USER_RATING_FAILURE:
-            return {
-              ...state,
-              userDataRating: null,
-              error: action.error,
-            };
+    case FETCH_USER_RATING_SUCCESS:
+      return {
+        ...state,
+        userDataRating: action.payload,
+        error: null,
+      };
+    case FETCH_USER_RATING_FAILURE:
+      return {
+        ...state,
+        userDataRating: null,
+        error: action.error,
+      };
+    case UPDATE_PASSWORD_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        success: false,
+        error: null,
+      };
+    case UPDATE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        error: null,
+      };
+    case UPDATE_PASSWORD_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        success: false,
+        error: action.error,
+      };
+
+
+    case ADD_TO_WISHLIST:
+      const newItem = action.product;
+
+      return {
+        ...state,
+
+        wishlist: [...state.wishlist, newItem],
+      };
+
+    case REMOVE_FROM_WISHLIST:
+      const updatedWishlist = state.wishlist.filter(
+        (item) => item.sku !== action.product.sku
+      );
+      return {
+        ...state,
+        wishlist: updatedWishlist,
+      };
 
     default:
       return state;

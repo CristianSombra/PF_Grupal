@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { getAllProducts, getBrands, getProductBySKU, getProductsByBrand, getProductsByCategory, getCategories, createProduct, productsFilter } = require("../handlers/productsHandler");
+const { getAllProducts, getBrands, getProductBySKU, getProductsByBrand, getProductsByCategory, getCategories, createProduct, productsFilter, updateProduct} = require("../handlers/productsHandler");
 const {verifyAdminToken, verifyUserToken} = require('../controllers/verifyToken')
 const productsRouter = Router();
 
@@ -11,6 +11,7 @@ productsRouter.get('/brands', getBrands);
 productsRouter.get('/categories/:id_category', getProductsByCategory);
 productsRouter.get('/categories', getCategories); 
 productsRouter.post('/', createProduct);
+productsRouter.put('/:productId', updateProduct);
 // productsRouter.post('/', verifyAdminToken ,createProduct);
 
 module.exports = productsRouter; 

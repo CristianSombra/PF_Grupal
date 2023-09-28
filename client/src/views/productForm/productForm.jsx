@@ -1,23 +1,36 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createProduct } from "../../redux/actions/index";
+import CloudImage from "../../components/cloudimage/cloudimage";
 import "../../components/css/index.css";
 import Button from "react-bootstrap/Button";
+
 const ProductForm = () => {
   const dispatch = useDispatch();
   const [sku, setSku] = useState("");
+  const [skuError, setSkuError] = useState("");
   const [numberPart, setNumberPart] = useState("");
+  const [numberPartError, setNumberPartError] = useState(""); 
   const [titulo, setTitulo] = useState("");
   const [idBrand, setIdBrand] = useState(1);
   const [idCategory, setIdCategory] = useState(84);
   const [price, setPrice] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [priceError, setPriceError] = useState("");
   const [disponibility, setDisponibility] = useState("");
   const [ram, setRam] = useState("");
+  const [ramError, setRamError] = useState("");
   const [pantalla, setPantalla] = useState("");
+  const [pantallaError, setPantallaError] = useState("");
   const [procesador, setProcesador] = useState("");
+  const [procesadorError, setProcesadorError] = useState("");
   const [almacenamiento, setAlmacenamiento] = useState("");
+  const [almacenamientoError, setAlmacenamientoError] = useState("");
   const [isProductCreated, setIsProductCreated] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+
+  const handleImageUpload = (imageUrl) => {
+    setImageUrl(imageUrl); // Actualiza el estado de la URL de la imagen
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,6 +46,7 @@ const ProductForm = () => {
     if (isNaN(parsedSku) || isNaN(parsedIdBrand)) {
       return;
     }
+
 
     const productData = {
       sku: parsedSku,
@@ -84,10 +98,6 @@ const ProductForm = () => {
     }
   };
 
-  const handleImageChange = (e) => {
-    const selectedImage = e.target.files[0];
-    setImageUrl(URL.createObjectURL(selectedImage)); // Cambia imageUrl en lugar de setImage
-  };
 
   return (
     <div
@@ -106,48 +116,78 @@ const ProductForm = () => {
             <form onSubmit={handleSubmit}>
               <div className="row">
                 <div className="col-md-8">
+                <div className="mb-3">
+                      <label htmlFor="sku" className="form-label">
+                        <span>SKU:</span>
+                        <input
+                          type="text"
+                          id="sku"
+                          value={sku}
+                          onChange={(e) => {
+                            const newValue = e.target.value;
+                            setSku(newValue);
+
+                            if (newValue === "") {
+                              setSkuError("");
+                            } else if (!/^[0-9]{1,8}$/.test(newValue)) {
+                              setSkuError("Número de caracteres o formato no válido");
+                            } else {
+                              setSkuError(""); 
+                            }
+                          }}
+                          required
+                          className={`form-control ${skuError ? 'is-invalid' : ''}`}
+                        />
+                        {skuError && (
+                          <div className="invalid-feedback">{skuError}</div>
+                        )}
+                      </label>
+                    </div>
                   <div className="mb-3">
-                    <label htmlFor="sku" className="form-label">
-                      <span>SKU:</span>
-                      <input
-                        type="number"
-                        id="sku"
-                        value={sku}
-                        onChange={(e) => {
-                          const newValue = e.target.value.replace(/\D/g, "");
-                          setSku(newValue);
-                        }}
-                        required
-                        className="form-control"
-                      />
-                    </label>
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="numberPart" className="form-label">
-                      <span>Number Part:</span>
-                      <input
-                        type="text"
-                        id="numberPart"
-                        value={numberPart}
-                        onChange={(e) => setNumberPart(e.target.value)}
-                        required
-                        className="form-control"
-                      />
-                    </label>
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="titulo" className="form-label">
-                      <span>Título:</span>
-                      <input
-                        type="text"
-                        id="titulo"
-                        value={titulo}
-                        onChange={(e) => setTitulo(e.target.value)}
-                        required
-                        className="form-control"
-                      />
-                    </label>
-                  </div>
+                          <label htmlFor="numberPart" className="form-label">
+                            <span>Number Part:</span>
+                            <input
+                              type="text"
+                              id="numberPart"
+                              value={numberPart}
+                              onChange={(e) => {
+                                const newValue = e.target.value;
+                                setNumberPart(newValue);
+
+                                if (newValue === "") {
+                                  setNumberPartError(""); 
+                                } else if (!/^[a-zA-Z0-9]{1,10}$/.test(newValue)) {
+                                  setNumberPartError("Número de caracteres o formato no válido");
+                                } else {
+                                  setNumberPartError("");
+                                }
+                              }}
+                              required
+                              className={`form-control ${numberPartError ? "is-invalid" : ""}`}
+                            />
+                            {numberPartError && (
+                              <div className="invalid-feedback">{numberPartError}</div>
+                            )}
+                          </label>
+                        </div>
+                        <div className="mb-3">
+                          <label htmlFor="titulo" className="form-label">
+                            <span>Título:</span>
+                            <input
+                              type="text"
+                              id="titulo"
+                              value={titulo}
+                              onChange={(e) => {
+                                const inputValue = e.target.value;
+                                if (inputValue.length <= 25) {
+                                  setTitulo(inputValue);
+                                }
+                              }}
+                              required
+                              className="form-control"
+                            />
+                          </label>
+                        </div>
                   <div className="mb-3">
                     <label htmlFor="idBrand" className="form-label">
                       <span>Marca:</span>
@@ -183,106 +223,162 @@ const ProductForm = () => {
                     </label>
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="price" className="form-label">
-                      <span>Precio:</span>
-                      <input
-                        type="text"
-                        id="price"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                        required
-                        className="form-control"
-                      />
-                    </label>
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="stock" className="form-label">
-                      <span>Stock:</span>
-                      <input
-                        type="number"
-                        id="stock"
-                        value={disponibility}
-                        onChange={(e) =>
-                          setDisponibility(
-                            Math.max(1, parseInt(e.target.value))
-                          )
-                        }
-                        required
-                        className="form-control"
-                      />
-                    </label>
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="mb-3">
-                    <label htmlFor="ram" className="form-label">
-                      <span>Ram:</span>
-                      <input
-                        type="text"
-                        id="ram"
-                        value={ram}
-                        onChange={(e) => setRam(e.target.value)}
-                        className="form-control"
-                      />
-                    </label>
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="pantalla" className="form-label">
-                      <span>Pantalla:</span>
-                      <input
-                        type="text"
-                        id="pantalla"
-                        value={pantalla}
-                        onChange={(e) => setPantalla(e.target.value)}
-                        required
-                        className="form-control"
-                      />
-                    </label>
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="procesador" className="form-label">
-                      <span>Procesador:</span>
-                      <input
-                        type="text"
-                        id="procesador"
-                        value={procesador}
-                        onChange={(e) => setProcesador(e.target.value)}
-                        className="form-control"
-                      />
-                    </label>
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="almacenamiento" className="form-label">
-                      <span>Almacenamiento:</span>
-                      <input
-                        type="text"
-                        id="almacenamiento"
-                        value={almacenamiento}
-                        onChange={(e) => setAlmacenamiento(e.target.value)}
-                        className="form-control"
-                      />
-                    </label>
-                  </div>
+                        <label htmlFor="price" className="form-label">
+                          <span>Precio:</span>
+                          <input
+                            type="text"
+                            id="price"
+                            value={price}
+                            onChange={(e) => {
+                              const inputValue = e.target.value;
+                              if (inputValue.length > 30) {
+                                setPriceError("El precio no debe tener más de 30 caracteres.");
+                                return;
+                              } else {
+                                setPriceError("");
+                              }
+
+                              if (/^\d+(\.\d*)?$/.test(inputValue) || inputValue === "") {
+                                setPrice(inputValue);
+                              } else {
+                                setPriceError("Precio no válido. Use números y un punto decimal.");
+                              }
+                            }}
+                            required
+                            className={`form-control ${priceError ? "is-invalid" : ""}`}
+                          />
+                          {priceError && <div className="invalid-feedback">{priceError}</div>}
+                        </label>
+                      </div>
+                     <div className="mb-3">
+                          <label htmlFor="stock" className="form-label">
+                            <span>Stock:</span>
+                            <input
+                              type="number"
+                              id="stock"
+                              value={disponibility}
+                              onChange={(e) =>
+                                setDisponibility(
+                                  Math.max(1, parseInt(e.target.value))
+                                )
+                              }
+                              required
+                              className="form-control"
+                            />
+                          </label>
+                        </div>
+                      </div>
+                     <div className="col-md-4">
+                        <div className={`mb-3 ${ramError ? 'has-error' : ''}`}>
+                          <label htmlFor="ram" className="form-label">
+                            <span>Ram:</span>
+                            <input
+                              type="text"
+                              id="ram"
+                              value={ram}
+                              onChange={(e) => {
+                                const newValue = e.target.value;
+                                setRam(newValue);
+
+                                if (newValue === "") {
+                                  setRamError(""); 
+                                } else if (!/^[a-zA-Z0-9]{1,10}$/.test(newValue)) {
+                                  setRamError("Número de caracteres o formato no válido");
+                                } else {
+                                  setRamError("");
+                                }
+                              }}
+                              className={`form-control ${ramError ? 'is-invalid' : ''}`}
+                            />
+                            {ramError && (
+                              <div className="invalid-feedback">{ramError}</div>
+                            )}
+                          </label>
+                        </div>
+                       <div className="mb-3">
+                        <label htmlFor="pantalla" className="form-label">
+                          <span>Pantalla:</span>
+                          <input
+                            type="text"
+                            id="pantalla"
+                            value={pantalla}
+                            onChange={(e) => {
+                              const newValue = e.target.value;
+                              setPantalla(newValue); 
+
+                              if (newValue === "") {
+                                setPantallaError("");
+                              } else if (!/^[0-9]{1,5}$/.test(newValue)) {
+                                setPantallaError("Número de caracteres o formato no válido");
+                              } else {
+                                setPantallaError(""); 
+                              }
+                            }}
+                            required
+                            className={`form-control ${pantallaError ? 'is-invalid' : ''}`}
+                          />
+                          {pantallaError && (
+                            <div className="invalid-feedback">{pantallaError}</div>
+                          )}
+                        </label>
+                      </div>
+                      <div className="mb-3">
+                            <label htmlFor="procesador" className="form-label">
+                              <span>Procesador:</span>
+                              <input
+                                type="text"
+                                id="procesador"
+                                value={procesador}
+                                onChange={(e) => {
+                                  const newValue = e.target.value;
+                                  setProcesador(newValue);
+
+                                  if (newValue === "") {
+                                    setProcesadorError("");
+                                  } else if (!/^(?! )[a-zA-Z0-9][a-zA-Z0-9 -]*[a-zA-Z0-9]$/.test(newValue)) {
+                                    setProcesadorError("Número de caracteres o formato no válido");
+                                  } else {
+                                    setProcesadorError("");
+                                  }
+                                }}
+                                className={`form-control ${procesadorError ? 'is-invalid' : ''}`}
+                              />
+                              {procesadorError && (
+                                <div className="invalid-feedback">{procesadorError}</div>
+                              )}
+                            </label>
+                          </div>
+                    <div className="mb-3">
+                      <label htmlFor="almacenamiento" className="form-label">
+                        <span>Almacenamiento:</span>
+                        <input
+                          type="text"
+                          id="almacenamiento"
+                          value={almacenamiento}
+                          onChange={(e) => {
+                            const newValue = e.target.value;
+                            setAlmacenamiento(newValue); 
+
+                            if (newValue === "") {
+                              setAlmacenamientoError("");
+                            } else if (!/^[a-zA-Z0-9]{1,5}$/.test(newValue)) {
+                              setAlmacenamientoError("Número de caracteres o formato no válido");
+                            } else {
+                              setAlmacenamientoError("");
+                            }
+                          }}
+                          className={`form-control ${almacenamientoError ? 'is-invalid' : ''}`}
+                        />
+                        {almacenamientoError && (
+                          <div className="invalid-feedback">{almacenamientoError}</div>
+                        )}
+                      </label>
+                    </div>
                 </div>
               </div>
-              <div className="mb-3">
-                <label htmlFor="image" className="form-label">
-                  Tu Imagen:
-                </label>
-                <input
-                  type="file"
-                  id="image"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  required
-                  className="form-control"
-                />
-                {imageUrl && (
-                  <div className="mt-2">
-                    <img src={imageUrl} alt="Preview" className="img-fluid" />
-                  </div>
-                )}
-              </div>
+                <div className="card-body d-flex align-items-center justify-content-center">
+                  <CloudImage onImageUpload={handleImageUpload} />
+                </div>
               <div className="text-center mt-4">
                 <Button type="submit" variant="dark">
                   Crear Producto

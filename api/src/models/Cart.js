@@ -13,11 +13,10 @@ module.exports = (sequelize) => {
       products: {
         type: DataTypes.JSONB,
         allowNull: false,
-        defaultValue: [],
       }
     },
     {
-      timestamps: false,
+      timestamps: true,
     }
   );
 };

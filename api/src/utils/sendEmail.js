@@ -8,6 +8,11 @@ const enviarCorreo = async (destinatario, asunto, contenidoHtml) => {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD,
       },
+      secure:false,
+      tls: {
+        // This allows you to accept self-signed certificates
+        rejectUnauthorized: false,
+      },
     });
     await transporter.sendMail({
       from: 'Tech E-Commerce Henry <ecommercepfhenry@gmail.com>',

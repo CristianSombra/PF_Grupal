@@ -40,7 +40,8 @@ const verifyAdminToken = (req, res, next) => {
                         if (decoded.role === 'Administrador') {
                               next();
                         } else {
-                              return res.status(401).json({ error: 'You do not have these permissions ' })
+                              
+                              return res.status(401).json({ error: `You do not have these permissions` })
                         }
 
                   }

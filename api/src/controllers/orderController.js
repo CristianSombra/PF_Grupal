@@ -1,105 +1,125 @@
- 
-  const { Order, User, Detailorder, Product } = require("../db");
+const { Order, User, Detailorder, Product } = require("../db");
 
+require("dotenv").config();
+const {
+  ACCESS_TOKEN,
+  BACK_URL_SUCCESS,
+  BACK_URL_FAILED,
+  BACK_URL_PENDING,
+  PORT,
+} = process.env;
+
+const mercadopago = require("mercadopago");
+
+//  Agrega credenciales
+mercadopago.configure({
+  access_token: ACCESS_TOKEN,
+});
+
+const {
+  onlyNumbersCheck,
+  onlyLettersCheck,
+  onlyLettersOrNumbersCheck,
+} = require("../helpers/validation.js");
+const { enviarCorreo } = require("../utils/sendEmail");
+
+const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.findAll();
+
+    return orders;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const getOrderById = async (id) => {
+  try {
+    const order = await Order.findByPk(id);
+    if (order) {
+      return order;
+    } else {
+      throw new error({ message: "The searched order is not found" });
+    }
+  } catch (error) {
+    throw new error();
+  }
+};
+
+const getOrderByUserId = async (req, res) => {
   const {
-    onlyNumbersCheck,
-    onlyLettersCheck,
-    onlyLettersOrNumbersCheck,
-  } = require("../helpers/validation.js");
-  
-  const getAllOrders = async (req, res) => {
-    try {
-      const orders = await Order.findAll({
-        include: [{ model: Detailorder }, { model: User }],
-      });
-  
-      !orders
-        ? res.status(400).json("There are no Orders")
-        : res.status(200).json(orders);
-    } catch (error) {
-      res.status(400).json({ error: error.message });
+    userId
+  } = req.params
+  try {
+    const order = await Order.findAll({where:{user_id:userId}});
+    if (order) {
+        return order;
+    } else {
+      throw new error({ message: "The searched order is not found" });
     }
-  };
-  
-  const getOrderById = async (req, res, next) => {
-    const { id } = req.params;
-    let check = onlyNumbersCheck(id);
-    if (check !== true) return res.status(412).json({ message: "Invalid Input" });
-    try {
-      const order = await Order.findByPk(id);
-      order
-        ? res.status(200).json(order)
-        : res.status(404).json({ message: "The searched order is not found" });
-    } catch (error) {
-      res.status(404).json(error.message);
-    }
-  };
+  } catch (error) {
+    throw new error();
+  }
+};
 
-//para crear la orden hay que obtener el id de detaiOrders, sus precios y cantides. Para luego relacionar las DetailOrders con su respectiva order y obtener el totalPrice.
+
+
 const createOrder = async (req, res, next) => {
-  const { detailIds, userId } = req.body;
+  const { userId, totalprice, products } = req.body;
+  const preference = {
+    items: [
+      {
+        title: "Total Order",
+        unit_price: Number(totalprice),
+        quantity: 1,
+      },
+    ],
+      back_urls: {
+        success: BACK_URL_SUCCESS,
+        failed: BACK_URL_FAILED,
+      },
+      auto_return: "approved",
+      binary_mode: true,
+      // notification_url:
+      //   "https://",
+
+    };
+
+    // Crear el objeto de pago en Mercado Pago
+    const response = await mercadopago.preferences.create(preference);
+    //console.log("este es el payment :", response);
+    const { id, init_point } = response.body;
+
 
   try {
-    // Verificar si ya existe una orden para los detalles proporcionados y el usuario
-    const existingOrder = await Order.findOne({
-      where: {
-        userId: userId, // Filtrar por el ID del usuario
-      },
-      include: [
-        {
-          model: Detailorder,
-          where: {
-            detail_id: detailIds, // Filtrar por los IDs de los detalles
-          },
-        },
-      ],
-    });
-
-    if (existingOrder) {
-      return res.status(409).json({
-        message: "There is an order created for all the details_id given",
-      });
-    }
-    // Obtener las Detailorders correspondientes a los IDs indicados
-    const detailorders = await Detailorder.findAll({
-      where: {
-        detail_id: detailIds, // Filtrar por los IDs indicados
-        userId: userId, // Filtrar por el ID del usuario
-      },
-      include: [Product], // Incluir el modelo Product si es necesario
-    });
-
-    if (detailorders.length === 0) {
-      return res.status(404).json({
-        message: "IDs and User requested are not found",
-      });
-    }
-
-    // Calcular el precio total de la orden sumando las multiplicaciones de cantidad y precio de las Detailorders
-    let totalOrderPrice = 0;
-    detailorders.forEach((detailorder) => {
-      const totalPricePerItem = detailorder.price * detailorder.quantity;
-      totalOrderPrice += totalPricePerItem;
-    });
-
-    // Crear la nueva orden
-    const newOrder = await Order.create({
-      totalprice: totalOrderPrice,
-      order_status: "in process",
-      userId: userId,
-      // Asignar el ID del usuario a la orden
-    });
-    // Asignar el ID del usuario a la orden
-    await newOrder.setUser(userId);
-    await Promise.all(
-      detailorders.map((detailorder) => detailorder.setOrder(newOrder))
-    );
-    // Agregar el ID de la orden al usuario
     const user = await User.findByPk(userId);
-    if (user) {
-      await user.addOrder(newOrder);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
-    return res.status(200).json({ message: "Order created", order: newOrder });
+    const newOrder = await Order.create({
+      totalprice: totalprice,
+      order_status: "En Proceso",
+      user_id: userId, // Asignar el ID del usuario a la orden
+      products: products,
+    });
+    const userEmail = user.email;
+    const plantillaEmailCreate = `<!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <title>Orden Creada Con Exito</title>
+      </head>
+      <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+        <div style="background-color: #ffffff; padding: 20px; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+        <div style="width:50%;">
+        <img src='https://dimaws-abogados.com.mx/wp-content/uploads/2021/09/Registro_Exitoso-removebg-preview.png' alt="Logo" style="width:50%;"/>
+        </div>
+        <h1 style="color: #333;">¡Muchas Gracias Por Tu Compra!</h1>
+          <p style="color: #666;">En el transcurso del día estaras recibiendo mas detalles de tu envio.</p>
+          </div>
+      </body>
+      </html>`;
+    enviarCorreo(userEmail, "¡Orden Creada!", plantillaEmailCreate);
+    return res.status(200).json({ message: "Order created", order: newOrder, init_point });
   } catch (error) {
     console.error("Order was not created", error);
     return res.status(500).json({ message: "Order was not created" });
@@ -108,7 +128,7 @@ const createOrder = async (req, res, next) => {
 
 const modifyOrder = async (req, res) => {
   try {
-    const { status } = req.body;
+    const { order_status } = req.body;
     const { id } = req.params;
 
     if (!id) return res.status(400).json({ error: "Id is needed" });
@@ -117,26 +137,13 @@ const modifyOrder = async (req, res) => {
 
     if (!order) return res.status(400).json({ error: "Non-existent Order" });
 
-    let modifications = {};
+    order.order_status = order_status; // Actualiza el estado de la orden
+    await order.save(); // Guarda la orden actualizada en la base de datos
 
-    if (status) {
-      modifications = {
-        ...modifications,
-        order_status: status,
-      };
-    }
-
-    let modifiedOrder = await order.update(modifications);
-
-    res.status(201).json(modifiedOrder);
+    res.status(201).json(order);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-
-
-
-
-
-module.exports = { createOrder, getAllOrders, getOrderById, modifyOrder};
+module.exports = { createOrder, getAllOrders, getOrderById, modifyOrder, getOrderByUserId };
