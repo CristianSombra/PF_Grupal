@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { baseURL } from "../../redux/actions";
+import "../../components/css/index.css";
 
 const SuccessPurchase = () => {
   const navigate = useNavigate();
@@ -66,6 +67,8 @@ const SuccessPurchase = () => {
   }, [collection_id, payment_id, status, payment_type, merchant_order_id]);
 
   return (
+    <div>
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "70vh" }}>
     <div
       style={{
         margin: "150px",
@@ -80,6 +83,7 @@ const SuccessPurchase = () => {
         <h2 className="text-center" style={{ fontWeight: 700 }}>
           ¡Compra realizada correctamente!
         </h2>
+        <div className="text-center">
         <p>
           Tu compra con ID <strong>{merchant_order_id}</strong> se ha realizado
           correctamente.
@@ -97,9 +101,14 @@ const SuccessPurchase = () => {
           Metodo de pago <strong>{payment_type}</strong>.
         </p>
       </div>
-      <Button variant="primary" onClick={() => navigate("/purchases")}>
+      </div>
+      </div>
+    </div>
+     <div className="text-center" >
+      <Button variant="primary" onClick={() => navigate("/purchases")} className="hover-effect">
         Ir a mis compras
       </Button>
+      </div>
     </div>
   );
 };
