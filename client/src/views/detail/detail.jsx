@@ -81,7 +81,7 @@ const Detail = () => {
   
 
   return (
-    <div>
+    <div style={{marginBottom:"20px"}}>
     <div className="container-detail" style={{ marginTop: "140px" }}>
       <h1 className="text-center" style={{ marginTop: "20px", marginBottom:"25px" }}>
         Detalle del producto
