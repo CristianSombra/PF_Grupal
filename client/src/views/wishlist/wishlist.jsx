@@ -44,7 +44,7 @@ function Wishlist() {
         marginBottom: "20px",
       }}
     >
-      <div className="d-flex justify-content-center wishlist-container ">
+      <div className="d-flex justify-content-center wishlist-container">
         <h1>Favoritos</h1>
       </div>
       <Row className="mt-5 g-0">

@@ -26,6 +26,7 @@ const SalesChart = () => {
           return { month: formattedDate, total_sales: parseFloat(entry.total_sales) };
         });
         setSalesData(formattedData);
+        console.log(formattedData)
       })
       .catch((error) => {
         console.error('Error fetching sales data:', error);

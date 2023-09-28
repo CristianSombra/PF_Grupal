@@ -110,14 +110,14 @@ const Detail = () => {
               <div className="mt-2 text-center d-flex justify-content-center">
                 <Button
                   variant="success"
-                  className="mt-2 btn me-3"
+                  className="mt-2 btn me-3 hover-effect"
                   onClick={() => handleAddToCart(productDetail)}
                 >
                   <i className="bi bi-cart-plus"></i>
                 </Button>
                 <Button
                   variant="danger"
-                  className="mt-2 btn"
+                  className="mt-2 btn me-3 hover-effect"
                   onClick={() => handleAddToWishlist(productDetail)}
                 >
                   <i className="bi bi-heart"></i>

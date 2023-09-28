@@ -1,28 +1,33 @@
-.wishlist-container {
+.buy-container {
     margin-top: 10px;
     margin-bottom: 10px;
     text-align: center;
   }
-  .wishlist-card {
+  
+  .buy-card {
     width: 90%;
     transition: transform 0.3s ease-in-out;
   }
-
-  .wishlist-card:hover {
+  
+  .buy-card:hover {
     transform: scale(1.05);
-    z-index: 1; 
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); 
+    z-index: 1;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   }
   
-  .wishlist-img {
+  .buy-img {
     max-width: 1000px;
-  }  
-  .wishlist-card .card-img-top {
+    margin-top: 25px;
+    margin-bottom: 25px;
+  }
+  
+  .buy-card .card-img-top {
     max-height: 150px;
     object-fit: contain;
   }
   
-  .wishlist-card .card-text {
+  .buy-card .card-text {
     font-weight: bold;
-    text-align: right;
+    text-align: left;
   }
+  
