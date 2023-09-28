@@ -10,7 +10,6 @@ import {
   getRatings,
   addToWishlist,
 } from "../../redux/actions";
-import AddRating from "../../components/rating/AddRating";
 import ProductRating from "../../components/rating/ProductRating";
 import ProductComment from "../../components/rating/ProductComment";
 import UserRatingInfo from "../../components/rating/UserRatingInfo";
@@ -123,10 +122,7 @@ const Detail = () => {
                 >
                   <i className="bi bi-heart"></i>
                 </Button>
-              </div>
-              <div style={{ marginTop: "20px" }}>
-                <AddRating product_id={product_id} />
-              </div>
+              </div>              
             </div>
           </div>
         </div>

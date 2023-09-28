@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createRating, getRatings, getUserRating } from '../../redux/actions/index';
+import { createRating, getUserRating } from '../../redux/actions/index';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
@@ -56,12 +56,8 @@ const AddRating = ({ product_id }) => {
     const updatedReview = `${userName}: ${review}`;
 
     dispatch(createRating(user, product_id, rate, updatedReview));
-    dispatch(getRatings());
-    dispatch(getUserRating(user));
     setRate(0);
     setReview('');
-    dispatch(getRatings());
-    dispatch(getUserRating(user));
     handleClose();
   };
 
@@ -77,7 +73,7 @@ const AddRating = ({ product_id }) => {
         </Button>
       )}
 
-      <Modal show={showModal} onHide={handleClose} centered>
+      <Modal show={showModal} onHide={handleClose} centered style={{ zIndex: 9999 }}>
         <Modal.Header closeButton>
           <Modal.Title>Agregar Calificación</Modal.Title>
         </Modal.Header>
