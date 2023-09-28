@@ -1,12 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Button, Card, Col, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 import "../../components/css/index.css";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
 import { baseURL } from "../../redux/actions";
+import "./buypage.css";
 
 
 const apiUrl = "TEST-77c820a7-513b-44a4-8b2d-01ea41494588";
@@ -49,54 +50,54 @@ const BuyPage = () => {
 
   return (
     <div>
-      <Row className="mt-3">
-        <Col
-          md={8}
-          className="mx-auto"
-          style={{
-            margin: "150px",
-            border: "gray solid 1px",
-            borderRadius: "10px",
-            padding: "20px",
-            boxShadow: "0px 0px 5px 2px rgba(0, 0, 0, 0.5)",
-            marginBottom: "50px",
-          }}
-        >
-          <div>
-            <h2 className="text-center" style={{ fontWeight: 700 }}>
-              Resumen de Compra
-            </h2>
+      <Container 
+        md={8}
+        className="mx-auto"
+        style={{
+          margin: "150px",
+          border: "gray solid 1px",
+          borderRadius: "10px",
+          padding: "20px",
+          boxShadow: "0px 0px 5px 2px rgba(0, 0, 0, 0.5)",
+          marginBottom: "20px",
+        }}
+      >
+        <div className="d-flex justify-content-center buy-container">
+          <h1>Resumen de Compra</h1>
+        </div>
+        <Row className="mt-5 g-0">
+          <Col md={12}>
             <div>
-              <div className="card-body">
-                {cartItems.map((item) => {
-                  return (
-                    <Card key={item.sku} className="mb-3">
-                      <Row className="no-gutters">
-                        <Col md={4}>
-                          <img
-                            src={item?.image ? item.image : "https://media.istockphoto.com/id/1396814518/es/vector/imagen-pr%C3%B3ximamente-sin-foto-sin-imagen-en-miniatura-disponible-ilustraci%C3%B3n-vectorial.jpg?s=612x612&w=0&k=20&c=aA0kj2K7ir8xAey-SaPc44r5f-MATKGN0X0ybu_A774="}
-                            alt={item?.title}
-                            className="img-detail img-fluid"
-                          />
-                        </Col>
-                        <Col md={8}>
-                          <div className="card-body">
-                            <h5 className="card-title">
-                              Nombre: {item?.name}
-                            </h5>
-                            <p className="card-text">
-                              Precio: ${item?.price}
-                            </p>
-                            <p className="card-text">
+              {cartItems.map((item) => {
+                return (
+                  <div key={item.sku}>
+                  <Card className="mb-3 h-100 buy-card mx-auto">
+                    <Row className="align-items-center">
+                      <Col md={4}>
+                        <Card.Img
+                          src={item?.image ? item.image : "https://media.istockphoto.com/id/1396814518/es/vector/imagen-pr%C3%B3ximamente-sin-foto-sin-imagen-en-miniatura-disponible-ilustraci%C3%B3n-vectorial.jpg?s=612x612&w=0&k=20&c=aA0kj2K7ir8xAey-SaPc44r5f-MATKGN0X0ybu_A774="}
+                          alt={item?.title}
+                          className="card-img-top buy-img"
+                        />
+                      </Col>
+                      <Col md={8}>
+                        <div className="card-body">
+                          <h5 className="card-title">
+                            Nombre: {item?.name}
+                          </h5>
+                          <p className="card-text">
+                            Precio: ${item?.price}
+                          </p>
+                          <p className="card-text">
                             Cantidad: {item?.quantity}
-                            </p>
-                          </div>
-                        </Col>
-                      </Row>
-                    </Card>
-                  );
-                })}
-              </div>
+                          </p>
+                        </div>
+                      </Col>
+                    </Row>
+                  </Card>
+                  </div>
+                );
+              })}
             </div>
             <h3 
               className="d-flex justify-content-end mt-4"
@@ -104,7 +105,6 @@ const BuyPage = () => {
             >
               Total: ${calculateTotal()}
             </h3>
-
             <Button
               variant="primary"
               onClick={handlePayment}
@@ -113,9 +113,9 @@ const BuyPage = () => {
             >                            
               Pagar
             </Button>
-          </div>
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      </Container>
       <div className="text-center m-4">
         <Button variant="dark" as={Link} to="/cart">
           Volver al carrito
@@ -123,6 +123,7 @@ const BuyPage = () => {
       </div>
     </div>
   );
+  
 };
 
-export default BuyPage;
+export default BuyPage;

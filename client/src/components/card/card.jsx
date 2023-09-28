@@ -7,7 +7,9 @@ import { useSelector } from 'react-redux';
 import "./card.css";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/actions";
+import "../css/index.css";
 import Swal from "sweetalert2";
+
 
 const Cards = (props) => {
   const { sku, name, image, titulo, price } = props;
@@ -73,30 +75,34 @@ const Cards = (props) => {
           }).format(price)}
         </Card.Title>
         <div className="mt-3 text-center d-flex justify-content-between">
+          <div>
           <Button
             variant="dark"
             as={Link}
             to={`/detail/${sku}`}
-            className="mt-2 btn me-2"
+            className="mt-2 btn me-2 hover-effect"
           >
             <i className="bi bi-eye-fill"></i>
           </Button>
-
+          </div>
+          <div>
           <Button
             variant="success"
-            className="mt-2 btn me-2"
+            className="mt-2 btn me-2 hover-effect"
             onClick={() => handleAddToCart(props)}
           >
             <i className="bi bi-cart-plus"></i>
           </Button>
-
+          </div>
+          <div>
           <Button
             variant="danger"
-            className="mt-2 btn me-2"
+            className="mt-2 btn me-2 hover-effect"
             onClick={() => handleAddToWishlist(props)}
           >
             <i className="bi bi-heart"></i>
           </Button>
+          </div>
         </div>
       </Card.Body>
     </Card>
