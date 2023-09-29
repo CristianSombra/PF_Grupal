@@ -65,11 +65,11 @@ export default function Home() {
           <CardsContainer />
         </div>
       </div>
-      <footer class="mt-5" style={{ backgroundColor: "rgb(33,37,41)", color: "white", width:"auto" }}>
+      <footer className="mt-5" style={{ backgroundColor: "rgb(33,37,41)", color: "white", width:"auto" }}>
         <div className="container">
           <div className="row">
             <div className="col-md-12">
-              <p class="text-center">Copyright &copy; 2023 Sr. PC - Think Unlimited</p>
+              <p className="text-center">Copyright &copy; 2023 Sr. PC - Think Unlimited</p>
               <img src="https://imgmp.mlstatic.com/org-img/banners/ar/medios/468X60.jpg" 
               title="Mercado Pago - Medios de pago" 
               alt="Mercado Pago - Medios de pago" 
