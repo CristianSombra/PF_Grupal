@@ -17,7 +17,7 @@ export default function Home() {
       behavior: "smooth",
     });
   };
-  
+
   useEffect(() => {
     const fetchData = async () => {
       const categories = await dispatch(getCategories());
@@ -31,10 +31,10 @@ export default function Home() {
     };
     fetchData();
   }, [dispatch]);
- 
-    useEffect(() => {
+
+  useEffect(() => {
     const scrollToTopBtn = document.getElementById("scrollToTopBtn");
-  
+
     const handleScroll = () => {
       if (window.pageYOffset > 100) {
         scrollToTopBtn.style.display = "block";
@@ -42,21 +42,20 @@ export default function Home() {
         scrollToTopBtn.style.display = "none";
       }
     };
-  
+
     window.addEventListener("scroll", handleScroll);
-  
+
     // Limpia el event listener cuando el componente se desmonta
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
-
   return (
     <div className="container">
       <Carrusel />
       <div className="row">
-      <div className="col-md-3 mb-6"> 
+        <div className="col-md-3 mb-6">
           <Filter listCategories={listCategories} listBrands={listBrands} />
         </div>
         <div className="col-md-9">
@@ -66,6 +65,20 @@ export default function Home() {
           <CardsContainer />
         </div>
       </div>
+      <footer class="mt-5" style={{ backgroundColor: "rgb(33,37,41)", color: "white", width:"auto" }}>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <p class="text-center">Copyright &copy; 2023 Sr. PC - Think Unlimited</p>
+              <img src="https://imgmp.mlstatic.com/org-img/banners/ar/medios/468X60.jpg" 
+              title="Mercado Pago - Medios de pago" 
+              alt="Mercado Pago - Medios de pago" 
+              width="468" height="60" 
+              style={{ display: "block", marginLeft: "auto", marginRight: "auto" }} />
+            </div>
+          </div>
+        </div>
+      </footer>
       <button
         onClick={handleScrollToTop}
         className="btn btn-primary btn-lg rounded-circle"
@@ -78,8 +91,9 @@ export default function Home() {
           height: "50px",
         }}
         id="scrollToTopBtn"
+        
       >
-        &#9650; 
+        &#9650;
       </button>
     </div>
   );

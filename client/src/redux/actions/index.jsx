@@ -34,6 +34,7 @@ export const GET_ORDERS = "GET_ORDERS";
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 export const UPDATE_FAVORITES = "UPDATE_FAVORITES";
 export const UPDATE_CART = "UPDATE_CART";
+export const DELETE_CART = "DELETE_CART";
 
 export const baseURL = "http://localhost:3001"
 
@@ -121,7 +122,14 @@ export const removeFromWishlist = (product) => {
     product,
   };
 };
-
+export const deleteCart = () => {
+  return async (dispatch)=> {
+    dispatch({ type: DELETE_CART});
+  //  localStorage.removeItem('cart')
+  //  const id = localStorage.getItem('id')
+  //  await axios.post(baseURL + '/cart', {userId: id, products:[]})
+  };
+};
 export const addToWishlist = (product) => {
   return {
     type: ADD_TO_WISHLIST,
@@ -337,6 +345,7 @@ export const loginGoogle = (formData) => {
     localStorage.setItem("token", token)
     localStorage.setItem("id", user.id);
     dispatch({ type: LOGIN, payload:{user: user} });
+    // window.location.reload();
   }
 };
 

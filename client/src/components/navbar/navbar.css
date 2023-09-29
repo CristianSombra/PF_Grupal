@@ -24,3 +24,7 @@
     border-radius: 50%;
     z-index: 1;
   }
+
+  .custom-cart:hover{
+    height: 40px;
+  }

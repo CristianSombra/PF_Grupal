@@ -3,9 +3,9 @@ const { sequelize } = require("./src/db"); // Importar la instancia de Sequelize
 const { loadProductsInDB } = require("./src/utils/loadData");
 
 // Iniciar el servidor y sincronizar la base de datos
-app.listen(3001, () => {
+app.listen(process.env.PORT, () => {
     sequelize.sync({ force: true }); // Sincronizar la base de datos y aplicar alteraciones si es necesario
 
     setTimeout(loadProductsInDB,3000)
-    console.log("Listening on port 3001");
+    console.log(`Listening on port ${process.env.PORT}`);
 });

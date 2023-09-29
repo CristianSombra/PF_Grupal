@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
-import { baseURL } from "../../redux/actions";
+import { baseURL, deleteCart } from "../../redux/actions";
 import "../../components/css/index.css";
 
 const SuccessPurchase = () => {
@@ -57,6 +57,7 @@ const SuccessPurchase = () => {
           } else {
             console.error("Error al enviar la solicitud POST");
           }
+          
         } catch (error) {
           console.error("Error al realizar la solicitud POST:", error);
         }
