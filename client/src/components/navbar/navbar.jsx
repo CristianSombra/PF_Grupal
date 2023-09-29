@@ -23,18 +23,18 @@ const Navbar1 = () => {
   return (
     <Navbar bg="dark" data-bs-theme="dark" className="navbar-expand-sm d-flex justify-content-between rounded align-items-center fixed-top custom-navbar">
     <div className="d-flex align-items-center">
-      <img src={logo} alt="Logo" className="logo custom-logo" />
+      <img src={logo} alt="Logo" className="logo custom-logo" style={{width: '30%', marginRight: '10%', marginLeft:'3%'}} />
       <Button as={Link} to="/home" variant="dark" size="sm" style={{ fontSize: '1.2rem' }}>Inicio</Button>
       {user?.user.role==="Administrador" ? (<Button as={Link} to="/createProduct" variant="dark" size="sm" style={{ fontSize: '1.2rem' }}>Crear producto</Button>):(<></>)}
       
     </div>
     <SearchBar />
-      <Button as={Link} to="/cart" variant="dark" size="sm" className="me-3 mt-3 custom-button" style={{height:"100%", justifySelf:"center", alignSelf: "center"}}>
+      <Button as={Link} to="/cart" variant="dark" size="sm" className="me-3 mt-3 " style={{height:"95%", justifySelf:"center", alignSelf: "center"}}>
         <i className="bi bi-cart" style={{ fontSize: '2.3rem' }}> {cartProd.length > 0 && <span className="cartCount">{cartProd.length}</span>}</i>
       </Button>
       {isLoggedIn ? (
         <Dropdown>
-          <Dropdown.Toggle variant="dark" size="sm" className="me-3 custom-button">
+          <Dropdown.Toggle variant="dark" size="sm" className="me-1 custom-button">
             <FontAwesomeIcon icon={faUser} style={{ fontSize: '2rem' }}/>
           </Dropdown.Toggle>
           <Dropdown.Menu>

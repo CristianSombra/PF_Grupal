@@ -100,7 +100,7 @@ const SearchBarHandler = () => {
   return (
     <div className="position-relative">
       <div className="input-group">
-        <input
+        <input style={{width: '350px'}}
           ref={inputRef}
           className="form-control"
           type="text"

@@ -31,6 +31,7 @@ import {
   UPDATE_PRODUCT,
   UPDATE_FAVORITES,
   UPDATE_CART,
+  DELETE_CART,
 } from "../actions/index";
 
 const initialState = {
@@ -205,6 +206,14 @@ const rootReducer = (state = initialState, action) => {
           (product) => product.sku !== action.payload
         ),
       };
+
+      case DELETE_CART:
+        return {
+          ...state,
+          cartItems: []
+        };
+  
+
 
     case INCREASE_QUANTITY:
       const skuToIncrease = action.payload;

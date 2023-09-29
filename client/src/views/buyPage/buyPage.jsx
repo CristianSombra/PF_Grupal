@@ -6,8 +6,9 @@ import { v4 as uuidv4 } from "uuid";
 import "../../components/css/index.css";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
-import { baseURL } from "../../redux/actions";
+import { baseURL, deleteCart } from "../../redux/actions";
 import "./buypage.css";
+import { useDispatch } from "react-redux";
 
 
 const apiUrl = "TEST-77c820a7-513b-44a4-8b2d-01ea41494588";
@@ -17,6 +18,8 @@ const POST_PAYMENT = baseURL + "/payments/generate";
 initMercadoPago(apiUrl);
 
 const BuyPage = () => {
+  const dispatch = useDispatch(); 
+
   const cartItems = useSelector((state) => state.cartItems);
   console.log(cartItems)
 
@@ -42,7 +45,7 @@ const BuyPage = () => {
     });
     console.log(response );
   localStorage.setItem('orderId', response.data.order.id)
-  
+  dispatch(deleteCart());
     window.location.href = response.data.init_point;
     
   };
