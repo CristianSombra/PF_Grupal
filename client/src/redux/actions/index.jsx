@@ -259,7 +259,6 @@ export const getCategories = () => {
       const response = await axios.get(
         baseURL +`/products/categories/`
       );
-      console.log(response);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -273,7 +272,6 @@ export const getBrands = () => {
       const response = await axios.get(
         baseURL +`/products/brands/`
       );
-      console.log(response);
       return response.data;
     } catch (error) {
       console.log(error);
