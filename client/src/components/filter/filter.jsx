@@ -8,8 +8,8 @@ import SortDivs from "../../components/SortDivs/SortDivs";
 
 const Filter = ({ listCategories, listBrands }) => {
   const dispatch = useDispatch();
-  const brands = listBrands;
-  const categories = listCategories;
+  const brands = listBrands || []; // Maneja la posibilidad de que listBrands sea undefined
+  const categories = listCategories || []; // Maneja la posibilidad de que listCategories sea undefined
 
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");

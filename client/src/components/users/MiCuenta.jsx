@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -19,10 +20,10 @@ const MyAccount = () => {
         <Row>
           <Col>
             <div>
-              <h1 style={{fontWeight:700}}>Perfil de Usuario</h1>
+              <h1 style={{fontWeight:700}}>Perfil de usuario</h1>
               <p>Nombre: {user?.user.first_name} {user?.user.last_name}</p>
               <p>Correo electrónico: {user?.user.email}</p>
-              <p>Dirección de envíos: {user?.user.delivery_address}</p>
+              <p>Dirección: {user?.user.delivery_address}</p>
               <p>País: {user?.user.country}</p>
               <p>Teléfono de contacto: {user?.user.mobile}</p>
               <p>Actividad laboral: {user?.user.CustomElementRegistry}</p>
