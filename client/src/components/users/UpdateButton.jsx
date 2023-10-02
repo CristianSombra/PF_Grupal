@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap';
 const UpdateButton = () => {
   return (
     
-      <Button as={Link} to="/updateaccount" variant="dark" size="sm">Actualizar Perfil</Button>
+      <Button as={Link} to="/updateaccount" variant="dark" size="sm">Actualizar datos</Button>
      
   );
 };

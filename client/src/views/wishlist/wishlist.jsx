@@ -79,6 +79,7 @@ function Wishlist() {
                         <i className="bi bi-cart-plus"></i>
                       </Button>
                       <Button
+                      
                         variant="danger"
                         onClick={() => handleRemoveFromWishlist(product)}
                       >

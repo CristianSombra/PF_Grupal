@@ -13,7 +13,6 @@ const LoginButton = ({ user }) => {
     );
   }
 };
-
 const mapStateToProps = (state) => ({
   user: state.user, // Suponiendo que tienes un estado 'user' que contiene los datos del usuario o es null
 });

@@ -13,6 +13,7 @@ const LoginForm = ({ login, user, error }) => {
   const SignInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
 
+    
     const auth = getAuth();
     signInWithPopup(auth, provider)
       .then((result) => {
