@@ -14,6 +14,7 @@ const LogoutButton = () => {
     navigate("/")
   };
 
+  
   // Verifica si el usuario está autenticado antes de mostrar el botón
   if (isLoggedIn) {
     return (

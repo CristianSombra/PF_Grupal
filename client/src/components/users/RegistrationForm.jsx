@@ -8,6 +8,7 @@ import '../css/index.css';
 import Swal from 'sweetalert2';
 
 
+
 const RegistrationForm = ({ user }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()

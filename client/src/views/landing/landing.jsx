@@ -16,6 +16,7 @@ function Landing() {
     setActiveElements(fadeIns);
   }, []);
 
+  
   return (
     <div className="bg-dark text-white py-5">
       <div className="container-fluid">

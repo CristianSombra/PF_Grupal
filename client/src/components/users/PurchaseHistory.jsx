@@ -18,6 +18,7 @@ const PurchaseHistory = () => {
       width: 250
     }
   ]
+  
 
   const [orders, setOrders] = useState([]);
   const [open, setOpen] = useState(false);

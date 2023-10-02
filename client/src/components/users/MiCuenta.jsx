@@ -11,6 +11,7 @@ import Col from 'react-bootstrap/Col';
 const MyAccount = () => {
   const user = useSelector(state => (state.user))
 
+  
 
   // Renderizar el perfil del usuario si está cargado
   if (user?.user) {

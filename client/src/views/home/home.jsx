@@ -17,6 +17,7 @@ export default function Home() {
       behavior: "smooth",
     });
   };
+  
 
   useEffect(() => {
     const fetchData = async () => {
