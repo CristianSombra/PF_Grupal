@@ -106,15 +106,15 @@ const createOrder = async (req, res, next) => {
     const plantillaEmailCreate = `<!DOCTYPE html>
     <html lang="en">
       <head>
-        <title>Solicitud de pedido recibida</title>
+        <title>Orden Creada Con Exito</title>
       </head>
       <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
         <div style="background-color: #ffffff; padding: 20px; border-radius: 5px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
         <div style="width:50%;">
         <img src='https://dimaws-abogados.com.mx/wp-content/uploads/2021/09/Registro_Exitoso-removebg-preview.png' alt="Logo" style="width:50%;"/>
         </div>
-        <h1 style="color: #333;">¡Muchas Gracias Por Tu Solicitud!</h1>
-          <p style="color: #666;">En el transcurso del día estaras recibiendo mas detalles sobre tu orden de compra.</p>
+        <h1 style="color: #333;">¡Muchas Gracias Por Tu Compra!</h1>
+          <p style="color: #666;">En el transcurso del día estaras recibiendo mas detalles de tu envio.</p>
           </div>
       </body>
       </html>`;
