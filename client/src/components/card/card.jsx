@@ -2,22 +2,30 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { addToWishlist } from "../../redux/actions";
-import { useSelector } from 'react-redux';
+import { addToWishlist, addToCart } from "../../redux/actions";
+import { useSelector, useDispatch } from 'react-redux';
 import "./card.css";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../../redux/actions";
-import "../css/index.css";
 import Swal from "sweetalert2";
-
 
 const Cards = (props) => {
   const { sku, name, image, titulo, price } = props;
   const dispatch = useDispatch();
   const wishlist = useSelector(state => state.wishlist);
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
 
-  const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
+  const handleAddToCart = () => {
+    if (!isLoggedIn) {
+      Swal.fire({
+        icon: "warning",
+        title: "No has iniciado sesión",
+        text: "Debes iniciar sesión para agregar al carrito.",
+        showCancelButton: false,
+        showConfirmButton: false,
+        timer: 1200,
+      });
+      return;
+    }
+    dispatch(addToCart(props)); 
     Swal.fire({
       icon: "success",
       title: "Agregado al carrito",
@@ -30,12 +38,23 @@ const Cards = (props) => {
     });
   };
 
-  const handleAddToWishlist = (product) => {
-    // Comprobar si el producto ya está en la wishlist
-    const alreadyInWishlist = wishlist.some(item => item.sku === product.sku);
-  
+  const handleAddToWishlist = () => {
+    if (!isLoggedIn) {
+      Swal.fire({
+        icon: "warning",
+        title: "No has iniciado sesión",
+        text: "Inicia sesión para añadir a favoritos",
+        showCancelButton: false,
+        showConfirmButton: false,
+        timer: 1200,
+      });
+      return;
+    }
+
+    const alreadyInWishlist = wishlist.some((item) => item.sku === sku); 
+
     if (!alreadyInWishlist) {
-      dispatch(addToWishlist(product)); // enviar todo el producto
+      dispatch(addToWishlist(props)); 
       Swal.fire({
         icon: "success",
         title: "Agregado a favoritos",
@@ -47,7 +66,6 @@ const Cards = (props) => {
         timer: 1200,
       });
     } else {
-      // Mostrar un mensaje si el producto ya está en la wishlist
       Swal.fire({
         icon: "info",
         title: "Producto ya en favoritos",
@@ -58,7 +76,6 @@ const Cards = (props) => {
       });
     }
   };
-  
 
   return (
     <Card className="custom-shadow custom-card">
@@ -76,32 +93,32 @@ const Cards = (props) => {
         </Card.Title>
         <div className="mt-3 text-center d-flex justify-content-between">
           <div>
-          <Button
-            variant="dark"
-            as={Link}
-            to={`/detail/${sku}`}
-            className="mt-2 btn me-2 hover-effect"
-          >
-            <i className="bi bi-eye-fill"></i>
-          </Button>
+            <Button
+              variant="dark"
+              as={Link}
+              to={`/detail/${sku}`}
+              className="mt-2 btn me-2 hover-effect"
+            >
+              <i className="bi bi-eye-fill"></i>
+            </Button>
           </div>
           <div>
-          <Button
-            variant="success"
-            className="mt-2 btn me-2 hover-effect"
-            onClick={() => handleAddToCart(props)}
-          >
-            <i className="bi bi-cart-plus"></i>
-          </Button>
+            <Button
+              variant="success"
+              className="mt-2 btn me-2 hover-effect"
+              onClick={handleAddToCart}
+            >
+              <i className="bi bi-cart-plus"></i>
+            </Button>
           </div>
           <div>
-          <Button
-            variant="danger"
-            className="mt-2 btn me-2 hover-effect"
-            onClick={() => handleAddToWishlist(props)}
-          >
-            <i className="bi bi-heart"></i>
-          </Button>
+            <Button
+              variant="danger"
+              className="mt-2 btn me-2 hover-effect"
+              onClick={handleAddToWishlist}
+            >
+              <i className="bi bi-heart"></i>
+            </Button>
           </div>
         </div>
       </Card.Body>

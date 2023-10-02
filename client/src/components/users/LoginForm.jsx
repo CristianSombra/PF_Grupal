@@ -13,7 +13,6 @@ const LoginForm = ({ login, user, error }) => {
   const SignInWithGoogle = () => {
     const provider = new GoogleAuthProvider();
 
-    
     const auth = getAuth();
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -75,7 +74,7 @@ const LoginForm = ({ login, user, error }) => {
             {error && <div className="alert alert-danger">{error}</div>}
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
-                <Form.Label>Email address</Form.Label>
+                <Form.Label>Correo Electrónico</Form.Label>
                 <Form.Control
                   type="email"
                   name="email"
@@ -85,11 +84,11 @@ const LoginForm = ({ login, user, error }) => {
 
                 />
                 <Form.Text id="emailHelp" className="form-text">
-                  We'll never share your email with anyone else.
+                  Nunca compartas tu correo electrónico con nadie.
                 </Form.Text>
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Password</Form.Label>
+                <Form.Label>Contraseña</Form.Label>
                 <Form.Control
                   type="password"
                   name="user_password"
@@ -98,11 +97,14 @@ const LoginForm = ({ login, user, error }) => {
                   required
 
                 />
+                <Form.Text id="passwordHelp" className="form-text">
+                  Nunca te pedirán tu contraseña, no la compartas.
+                </Form.Text>
               </Form.Group>
               <Form.Group className="mb-3 form-check">
                 <Form.Check type="checkbox" id="exampleCheck1" />
                 <Form.Label className="form-check-label" htmlFor="exampleCheck1">
-                  Check me out
+                  Recordar mi usuario.
                 </Form.Label>
               </Form.Group>
               <div className="text-center"> {/* Agrega esta div y la clase text-center */}
