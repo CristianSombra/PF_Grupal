@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -15,8 +15,22 @@ const Cards = (props) => {
   const { sku, name, image, titulo, price } = props;
   const dispatch = useDispatch();
   const wishlist = useSelector(state => state.wishlist);
+  const isLoggedIn = useSelector((state) => state.isLoggedIn); 
+
 
   const handleAddToCart = (product) => {
+    if (!isLoggedIn){
+      Swal.fire({
+        icon: "warning",
+        title: "No has iniciado sesión",
+        text: "Debe iniciar sesión para agregar al carrito.",
+        showCancelButton: false,
+        showConfirmButton: false,
+        timer: 1200,
+      });
+      return
+      
+    }
     dispatch(addToCart(product));
     Swal.fire({
       icon: "success",
@@ -31,9 +45,21 @@ const Cards = (props) => {
   };
 
   const handleAddToWishlist = (product) => {
+    if (!isLoggedIn){
+      Swal.fire({
+        icon: "warning",
+        title: "No has iniciado sesión",
+        text: "Inicia sesión para añadir a favoritos",
+        showCancelButton: false,
+        showConfirmButton: false,
+        timer: 1200,
+      })
+      return;
+    }
     // Comprobar si el producto ya está en la wishlist
-    const alreadyInWishlist = wishlist.some(item => item.sku === product.sku);
-  
+    // const alreadyInWishlist = wishlist.some(item => item.sku === product.sku);
+    const alreadyInWishlist = wishlist.some((item) => item.sku === product.sku);
+
     if (!alreadyInWishlist) {
       dispatch(addToWishlist(product)); // enviar todo el producto
       Swal.fire({
@@ -96,12 +122,12 @@ const Cards = (props) => {
           </div>
           <div>
           <Button
-            variant="danger"
-            className="mt-2 btn me-2 hover-effect"
-            onClick={() => handleAddToWishlist(props)}
-          >
-            <i className="bi bi-heart"></i>
-          </Button>
+      variant="danger"
+      className="mt-2 btn me-2 hover-effect"
+      onClick={handleAddToWishlist}
+    >
+      <i className="bi bi-heart"></i>
+    </Button>
           </div>
         </div>
       </Card.Body>

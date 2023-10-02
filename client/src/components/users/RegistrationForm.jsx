@@ -122,7 +122,7 @@ const RegistrationForm = ({ user }) => {
         <div>
           <p>Registro exitoso.</p>
           <Button as={Link} to="/home" variant="dark" size="sm">
-            Volver a Home
+            Volver a Inicio
           </Button>
         </div>
       ) : (
@@ -131,7 +131,7 @@ const RegistrationForm = ({ user }) => {
             <h2>Registro de Usuario</h2>
             <Form onSubmit={handleSubmit}>
               <Form.Group>
-                <Form.Label>Nombre de Usuario:</Form.Label>
+                <Form.Label>Nombre de usuario:</Form.Label>
                 <Form.Control
                   type="text"
                   name="user_name"
@@ -167,7 +167,7 @@ const RegistrationForm = ({ user }) => {
                 )}
               </Form.Group>
               <Form.Group>
-                <Form.Label>Genero:</Form.Label>
+                <Form.Label>Género:</Form.Label>
                 <Form.Control
                   as="select"
                   name="gender"
@@ -176,15 +176,16 @@ const RegistrationForm = ({ user }) => {
                   required
                 >
                   <option value="">Seleccione su género</option>
-                  <option value="M">M</option>
-                  <option value="F">F</option>
+                  <option value="M">Masculino</option>
+                  <option value="F">Femenino</option>
+                  <option value="I">Prefiero no responder</option>
                 </Form.Control>
                 {formErrors.gender && (
                   <Form.Text className="text-danger">{formErrors.gender}</Form.Text>
                 )}
               </Form.Group>
               <Form.Group>
-                <Form.Label>Email:</Form.Label>
+                <Form.Label>Correo electrónico:</Form.Label>
                 <Form.Control
                   type="text"
                   name="email"
@@ -197,7 +198,7 @@ const RegistrationForm = ({ user }) => {
                 )}
               </Form.Group>
               <Form.Group>
-                <Form.Label>Direccion de envio:</Form.Label>
+                <Form.Label>Dirección:</Form.Label>
                 <Form.Control
                   type="text"
                   name="delivery_address"
@@ -207,7 +208,7 @@ const RegistrationForm = ({ user }) => {
                 />
               </Form.Group>
               <Form.Group>
-                <Form.Label>Pais:</Form.Label>
+                <Form.Label>País:</Form.Label>
                 <Form.Control
                   type="text"
                   name="country"
@@ -227,7 +228,7 @@ const RegistrationForm = ({ user }) => {
                 />
               </Form.Group>
               <Form.Group>
-                <Form.Label>Numero de contacto:</Form.Label>
+                <Form.Label>Número de contacto:</Form.Label>
                 <Form.Control
                   type="text"
                   name="mobile"
@@ -237,18 +238,9 @@ const RegistrationForm = ({ user }) => {
                 />
               </Form.Group>
               <Form.Group>
-                <Form.Label>Rol:</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="role"
-                  value={role}
-                  readOnly // Esto evita que el usuario modifique el campo "Rol"
-                />
-              </Form.Group>
-              <Form.Group>
                 <Form.Label>Contraseña:</Form.Label>
                 <Form.Control
-                  type="text"
+                  type="password"
                   name="user_password"
                   value={user_password}
                   onChange={handleChange}
