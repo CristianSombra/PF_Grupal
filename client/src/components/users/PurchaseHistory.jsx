@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Dialog, DialogTitle, DialogContent, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
@@ -104,6 +103,13 @@ const PurchaseHistory = () => {
               <TableCell>{product.name}</TableCell>
               <TableCell>{product.quantity}</TableCell>
               <AddRating product_id={product.sku}></AddRating>
+              <Button
+                 variant="dark"
+                 as={Link}
+                 to={`/detail/${product.sku}`}
+                 className="mt-2 btn me-2"          >
+                <i className="bi bi-eye-fill"></i>
+              </Button>
             </TableRow>
           ))}
         </TableBody>  
