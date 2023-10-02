@@ -9,7 +9,6 @@ const RegisterButton = ({ user }) => {
     return (
       
         <Button as={Link} to="/registration" variant="dark" size="sm">Registrarse</Button>
-        
     );
   } else {
     return null; // Si el usuario está autenticado, no muestra nada
