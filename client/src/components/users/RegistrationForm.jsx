@@ -11,6 +11,8 @@ import Swal from 'sweetalert2';
 const RegistrationForm = ({ user }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [showPassword, setShowPassword] = useState(false);
+  const [formValidations, setFormValidations] = useState(false);
   const [formData, setFormData] = useState({
     user_name: "",
     first_name: "",
@@ -21,7 +23,6 @@ const RegistrationForm = ({ user }) => {
     country: "",
     CustomElementRegistry: "",
     mobile: "",
-    role: "Cliente",
     user_password: "",
   });
 
@@ -31,6 +32,7 @@ const RegistrationForm = ({ user }) => {
     first_name: "",
     last_name: "",
     email: "",
+    delivery_address: ""
   });
 
   const {
@@ -43,7 +45,6 @@ const RegistrationForm = ({ user }) => {
     country,
     CustomElementRegistry,
     mobile,
-    role,
     user_password,
   } = formData;
 
@@ -53,6 +54,31 @@ const RegistrationForm = ({ user }) => {
     // Validar campos en tiempo real
     validateField(e.target.name, e.target.value);
   };
+
+  const validateUsername = (username) => {
+    if (username.length > 20) {
+      return "Tu nombre de usuario no puede tener más de 20 caracteres";
+    }
+  
+    if (!/^[a-zA-Z0-9]+$/.test(username)) {
+      return "Tu nombre de usuario solo puede contener letras y números";
+    }
+  
+    if (/\s/.test(username)) {
+      return "Tu nombre de usuario no puede contener espacios";
+    }
+  
+    return "";
+  };
+
+  const handleUsernameChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  
+    const usernameError = validateUsername(value);
+    setFormErrors({ ...formErrors, [name]: usernameError });
+  };
+  
 
   const validateField = (fieldName, value) => {
     switch (fieldName) {
@@ -87,6 +113,106 @@ const RegistrationForm = ({ user }) => {
     }
   };
 
+
+  const handleChangeAddress = (e) => {
+    const { name, value } = e.target;
+  
+    // Validar espacios, caracteres especiales y longitud máxima de 20 caracteres
+    if (/^\s/.test(value)) {
+      setFormErrors({ ...formErrors, [name]: "No puedes utilizar espacio al principio." });
+    } else if (/[^a-zA-Z0-9\s]/.test(value)) {
+      setFormErrors({ ...formErrors, [name]: "No puedes utilizar caracteres especiales." });
+    } else if (value.length > 20) {
+      setFormErrors({ ...formErrors, [name]: "No puede tener más de 20 caracteres." });
+    } else {
+      setFormErrors({ ...formErrors, [name]: "" });
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  const handleChangeCountry = (e) => {
+    const { name, value } = e.target;
+  
+    // Validar espacios, caracteres especiales y longitud máxima de 20 caracteres
+    if (/^\s/.test(value)) {
+      setFormErrors({ ...formErrors, [name]: "No puedes utilizar espacio al principio." });
+    } else if (/[^a-zA-Z\s]/.test(value)) {
+      setFormErrors({ ...formErrors, [name]: "No puedes utilizar números o caracteres especiales." });
+    } else if (value.length > 20) {
+      setFormErrors({ ...formErrors, [name]: "No puede tener más de 20 caracteres." });
+    } else {
+      setFormErrors({ ...formErrors, [name]: "" });
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  const handleChangeActivity = (e) => {
+    const { name, value } = e.target;
+  
+    // Validar espacios, caracteres especiales y longitud máxima de 20 caracteres
+    if (/^\s/.test(value)) {
+      setFormErrors({ ...formErrors, [name]: "No puedes utilizar espacio al principio." });
+    } else if (/[^a-zA-Z\s]/.test(value)) {
+      setFormErrors({ ...formErrors, [name]: "No puedes utilizar números o caracteres especiales." });
+    } else if (value.length > 20) {
+      setFormErrors({ ...formErrors, [name]: "No puede tener más de 20 caracteres." });
+    } else {
+      setFormErrors({ ...formErrors, [name]: "" });
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  const handleChangeNumber = (e) => {
+    const { name, value } = e.target;
+  
+    // Validar números, espacios y caracteres especiales y longitud máxima de 20 caracteres
+    if (/^\s/.test(value)) {
+      setFormErrors({ ...formErrors, [name]: "No puedes utilizar espacio al principio." });
+    } else if (/[^0-9]/.test(value)) {
+      setFormErrors({ ...formErrors, [name]: "Solo puedes ingresar números." });
+    } else if (value.length > 20) {
+      setFormErrors({ ...formErrors, [name]: "No puede tener más de 20 caracteres." });
+    } else {
+      setFormErrors({ ...formErrors, [name]: "" });
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+  
+  
+  const validatePassword = (password) => {
+    if (/\s/.test(password)) {
+      return "Tu contraseña no puede contener espacios";
+    }
+    
+    if (password.length > 10) {
+      return "Tu contraseña no puede contener más de 10 caracteres";
+    }
+  
+    if (!/^[a-zA-Z0-9]+$/.test(password)) {
+      return "Tu contraseña no puede contener caracteres especiales";
+    }
+  
+    return "";
+  };
+  
+
+  const handleChangePassword = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  
+    const passwordError = validatePassword(value);
+    setFormErrors({ ...formErrors, [name]: passwordError });
+  };
+  
+  
+  
+  
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
   
@@ -111,7 +237,7 @@ const RegistrationForm = ({ user }) => {
         navigate('/login');
       }
     }
-  };  
+  };
 
   const formIsValid = !Object.values(formErrors).some((error) => error);
 
@@ -130,16 +256,21 @@ const RegistrationForm = ({ user }) => {
           <Card.Body>
             <h2>Registro de Usuario</h2>
             <Form onSubmit={handleSubmit}>
-              <Form.Group>
-                <Form.Label>Nombre de usuario:</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="user_name"
-                  value={user_name}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
+            <Form.Group>
+                  <Form.Label>Nombre de usuario:</Form.Label>
+                  <div className="username-input-container">
+                    <Form.Control
+                      type="text"
+                      name="user_name"
+                      value={user_name}
+                      onChange={handleUsernameChange}
+                      required
+                    />
+                  </div>
+                  {formErrors.user_name && (
+                    <Form.Text className="text-danger">{formErrors.user_name}</Form.Text>
+                  )}
+                </Form.Group>
               <Form.Group>
                 <Form.Label>Nombre:</Form.Label>
                 <Form.Control
@@ -198,24 +329,30 @@ const RegistrationForm = ({ user }) => {
                 )}
               </Form.Group>
               <Form.Group>
-                <Form.Label>Dirección:</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="delivery_address"
-                  value={delivery_address}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
+                  <Form.Label>Dirección:</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="delivery_address"
+                    value={delivery_address}
+                    onChange={handleChangeAddress}
+                    required
+                  />
+                  {formErrors.delivery_address && (
+                    <Form.Text className="text-danger">{formErrors.delivery_address}</Form.Text>
+                  )}
+                </Form.Group>
               <Form.Group>
                 <Form.Label>País:</Form.Label>
                 <Form.Control
                   type="text"
                   name="country"
                   value={country}
-                  onChange={handleChange}
+                  onChange={handleChangeCountry}
                   required
                 />
+                {formErrors.country && (
+                   <Form.Text className="text-danger">{formErrors.country}</Form.Text>
+                  )}
               </Form.Group>
               <Form.Group>
                 <Form.Label>Actividad laboral:</Form.Label>
@@ -223,9 +360,12 @@ const RegistrationForm = ({ user }) => {
                   type="text"
                   name="CustomElementRegistry"
                   value={CustomElementRegistry}
-                  onChange={handleChange}
+                  onChange={handleChangeActivity}
                   required
                 />
+                  {formErrors.CustomElementRegistry && (
+                    <Form.Text className="text-danger">{formErrors.CustomElementRegistry}</Form.Text>
+                  )}
               </Form.Group>
               <Form.Group>
                 <Form.Label>Número de contacto:</Form.Label>
@@ -233,20 +373,34 @@ const RegistrationForm = ({ user }) => {
                   type="text"
                   name="mobile"
                   value={mobile}
-                  onChange={handleChange}
+                  onChange={handleChangeNumber}
                   required
                 />
+                  {formErrors.mobile && (
+                       <Form.Text className="text-danger">{formErrors.mobile}</Form.Text>
+                     )}
               </Form.Group>
               <Form.Group>
-                <Form.Label>Contraseña:</Form.Label>
-                <Form.Control
-                  type="password"
-                  name="user_password"
-                  value={user_password}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
+                  <Form.Label>Contraseña:</Form.Label>
+                  <div className="password-input-container">
+                    <Form.Control
+                      type={showPassword ? "text" : "password"}
+                      name="user_password"
+                      value={user_password}
+                      onChange={handleChangePassword}
+                      required
+                    />
+                    <i
+                      className={`password-toggle-icon bi ${
+                        showPassword ? "bi-eye-slash" : "bi-eye"
+                      } eye-icon`}
+                      onClick={togglePasswordVisibility}
+                    ></i>
+                  </div>
+                  {formErrors.user_password && (
+                    <p className="text-danger">{formErrors.user_password}</p>
+                  )}
+                </Form.Group>
               <div className="text-center">
                 <Button
                   type="submit"
