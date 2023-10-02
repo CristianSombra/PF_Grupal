@@ -1,89 +1,30 @@
+.custom-navbar {
+    padding: 0;
+    height: 100px;
+  }
 
+  .custom-logo {
+    max-width: 170px;
+    max-height: 170px;
+  }
 
-.custom-logo {
-  max-width: 240px;
-  max-height: 240px;
-}
+  .cartCount {
+    position: relative;
+    top: -50px;
+    right: -25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    z-index: 1;
+  }
 
-.cartCount {
-  position: relative;
-  top: -50px;
-  right: -25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  background-color: #ffffff;
-  color: #000000;
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 50%;
-  z-index: 1;
-}
-
-.custom-navbar .dropdown-menu .dropdown-item {
-  transition: background-color 0.2s ease-in-out;
-}
-
-.custom-navbar .dropdown-menu .dropdown-item:hover {
-  background-color: #7070707f;
-  color: #ffffff;
-}
-.custom-logo {
-  transition: transform 0.2s ease-in-out;
-}
-
-.custom-logo:hover {
-  transform: scale(1.2);
-  cursor: pointer;
-}
-
-
-
-
-
-.favoriteCount {
-  position: relative;
-  top: -50px;
-  right: -25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  background-color: #ffffff;
-  color: #000000;
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 50%;
-  z-index: 1;
-}
-
-.wishlist-button {
-  position: relative;
-}
-
-.wishlist-button:hover .favoriteCount {
-  display: block;
-}
-/* .custom-navbar .favoriteCount {
-  position: relative;
-  top: -50px;
-  right: -25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  background-color: #ffffff;
-  color: #000000;
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 50%;
-  z-index: 1;
-}
-
-.custom-navbar .wishlist-button:hover .favoriteCount {
-  display: block;
-} */
+  .custom-cart:hover{
+    height: 40px;
+  }
