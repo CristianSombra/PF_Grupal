@@ -5,6 +5,7 @@ import CardsContainer from "../../components/cardscontainer/cardscontainer";
 import Filter from "../../components/filter/filter";
 import SearchResultMessage from "../../components/SearchResultMessage/SearchResultMessage";
 import Carrusel from "../../components/banner/banner";
+import SearchBar from "../../components/searchbar/searchbar";
 
 export default function Home() {
   const [listCategories, setListCategories] = useState([]);
@@ -54,7 +55,10 @@ export default function Home() {
 
   return (
     <div className="container">
-      <Carrusel />
+      <Carrusel/>
+      <div className="d-flex justify-content-center mb-4">
+        <SearchBar />
+      </div>
       <div className="row">
         <div className="col-md-3 mb-6">
           <Filter listCategories={listCategories} listBrands={listBrands} />

@@ -2,7 +2,7 @@ import React from "react";
 import { connect, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, Dropdown } from "react-bootstrap";
-import SearchBar from "../searchbar/searchbar";
+// import SearchBar from "../searchbar/searchbar";
 import Navbar from "react-bootstrap/Navbar";
 import LoginButton from "../users/loginButton";
 import WelcomeMessage from "../../components/users/WelcomeMessage";
@@ -36,7 +36,7 @@ const Navbar1 = () => {
           />
         </Link>
       </div>
-      <SearchBar />
+      {/* <SearchBar /> */}
       <Button
         as={Link}
         to="/cart"
