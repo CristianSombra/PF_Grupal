@@ -2,7 +2,6 @@ import React from "react";
 import { connect, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, Dropdown } from "react-bootstrap";
-// import SearchBar from "../searchbar/searchbar";
 import Navbar from "react-bootstrap/Navbar";
 import LoginButton from "../users/loginButton";
 import WelcomeMessage from "../../components/users/WelcomeMessage";
@@ -36,7 +35,6 @@ const Navbar1 = () => {
           />
         </Link>
       </div>
-      {/* <SearchBar /> */}
       <Button
         as={Link}
         to="/cart"
@@ -86,10 +84,10 @@ const Navbar1 = () => {
                 <></>
               )}
               <Dropdown.Item as={Link} to="/account">
-                Mi Perfil
+                <Button variant="dark" size="sm">Mi Perfil</Button>
               </Dropdown.Item>
               <Dropdown.Item as={Link} to="/purchases">
-                Mis Compras
+                <Button variant="dark" size="sm">Mis Compras</Button>
               </Dropdown.Item>
             </Dropdown.Item>
             <Dropdown.Item>

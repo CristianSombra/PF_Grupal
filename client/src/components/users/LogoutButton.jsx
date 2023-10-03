@@ -18,7 +18,7 @@ const LogoutButton = () => {
   // Verifica si el usuario está autenticado antes de mostrar el botón
   if (isLoggedIn) {
     return (
-      <Button onClick={handleLogout} variant="dark" size="sm">Cerrar Sesión</Button>
+      <Button onClick={handleLogout} variant="dark" size="sm" >Cerrar Sesión</Button>
       
     );
   } else {
