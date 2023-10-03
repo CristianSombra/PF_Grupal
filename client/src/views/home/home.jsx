@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getCategories, getBrands } from "../../redux/actions";
+import { getCategories, getBrands, resetFilters } from "../../redux/actions";
 import CardsContainer from "../../components/cardscontainer/cardscontainer";
 import Filter from "../../components/filter/filter";
 import SearchResultMessage from "../../components/SearchResultMessage/SearchResultMessage";
 import Carrusel from "../../components/banner/banner";
+import SearchBar from "../../components/searchbar/searchbar";
 
 export default function Home() {
   const [listCategories, setListCategories] = useState([]);
@@ -18,6 +19,9 @@ export default function Home() {
     });
   };
   
+  const handleReloadProducts = () => {
+    dispatch(resetFilters());
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,7 +58,15 @@ export default function Home() {
 
   return (
     <div className="container">
-      <Carrusel />
+      <Carrusel/>
+      <div className="d-flex justify-content-center mb-4">
+        <SearchBar />
+      </div>
+      <div className="d-flex  justify-content-center mb-4">
+      <button className="btn btn-dark" onClick={handleReloadProducts}>
+        Recargar Productos
+      </button>
+      </div>
       <div className="row">
         <div className="col-md-3 mb-6">
           <Filter listCategories={listCategories} listBrands={listBrands} />
@@ -82,19 +94,19 @@ export default function Home() {
       </footer>
       <button
         onClick={handleScrollToTop}
-        className="btn btn-primary btn-lg rounded-circle"
+        className="btn btn-lg"
         style={{
           position: "fixed",
           bottom: "20px",
           right: "20px",
           display: "none",
-          width: "50px",
-          height: "50px",
+          // width: "50px",
+          // height: "50px",
         }}
         id="scrollToTopBtn"
         
       >
-        &#9650;
+        <i class="bi bi-arrow-up-square h1"></i>
       </button>
     </div>
   );

@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSearchResults } from "../../redux/actions/index";
 import searchIcon from '../../../node_modules/bootstrap-icons/icons/search.svg';
+import "../css/index.css";
 
 const SearchBarHandler = () => {
   // Definición de estados y referencias
@@ -13,13 +14,15 @@ const SearchBarHandler = () => {
   const [showSuggestions, setShowSuggestions] = useState(false); // Estado para mostrar/ocultar sugerencias
   const inputRef = useRef(null); // Referencia al elemento de entrada de búsqueda
 
+  
   // Función para obtener sugerencias de búsqueda
   const getSuggestions = (value) => {
     // Filtra productos basados en el título
     const filteredProducts = products.filter((product) =>
-      product.titulo.toLowerCase().includes(value.toLowerCase())
+    product.titulo.toLowerCase().includes(value.toLowerCase())
     );
-
+    
+  
     // Extrae los títulos de los productos filtrados
     const productTitles = filteredProducts.map((product) => product.titulo);
 
@@ -98,11 +101,13 @@ const SearchBarHandler = () => {
 
   // Renderiza el componente de búsqueda
   return (
-    <div className="position-relative">
-      <div className="input-group">
-        <input style={{width: '350px'}}
+    <div className="position-relative custom-searchbar">
+      <div className="input-group col-md-6">
+        <div className="input-group-prepend">
+        </div>
+        <input
           ref={inputRef}
-          className="form-control"
+          className="form-control rounded-start"
           type="text"
           placeholder="Buscar productos..."
           value={searchQuery}
@@ -112,7 +117,7 @@ const SearchBarHandler = () => {
         />
         <div className="input-group-append">
           <button
-            className="btn btn-dark"
+            className="btn btn-dark rounded-end"
             onClick={handleSearchSubmit}
             disabled={!searchQuery}
           >
@@ -122,6 +127,7 @@ const SearchBarHandler = () => {
               style={{ filter: 'invert(1)', fill: 'white', width: '1.6rem' }}
             />
           </button>
+
         </div>
       </div>
       {showSuggestions && (

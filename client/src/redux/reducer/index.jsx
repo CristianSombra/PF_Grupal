@@ -213,8 +213,6 @@ const rootReducer = (state = initialState, action) => {
           cartItems: []
         };
   
-
-
     case INCREASE_QUANTITY:
       const skuToIncrease = action.payload;
       return {
@@ -300,9 +298,9 @@ const rootReducer = (state = initialState, action) => {
         wishlist: updatedWishlist,
       };
 
-    default:
-      return state;
-  }
-};
+      default:
+        return state;
+    }
+  };
 
 export default rootReducer;

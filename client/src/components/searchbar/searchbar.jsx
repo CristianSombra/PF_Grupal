@@ -1,13 +1,10 @@
 import React from "react";
 import SearchBarHandler from "../handlers/SearchBarHandler";
 
+
 const SearchBar = () => {
-  return (
-    <div>
-            <SearchBarHandler />
-    </div>
-  );
+
+  return <SearchBarHandler/>;
 };
 
 export default SearchBar;
-
