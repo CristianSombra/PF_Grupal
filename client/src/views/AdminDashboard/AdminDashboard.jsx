@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   getOrders,
   getUsers,
   getAllProducts,
   updateProduct,
   baseURL,
+  updateUsers
 } from "../../redux/actions";
 import {
-  GearFill,
   People,
   Plus,
   CartFill,
   Box,
-  Grid,
   GraphUpArrow,
   BarChartLineFill,
 } from "react-bootstrap-icons";
@@ -24,7 +23,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
 import Button from "react-bootstrap/esm/Button";
-import SalesChart from "../../components/graficas/salesChart"; // Assuming SalesChart is a component
+import SalesChart from "../../components/graficas/salesChart"; 
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -69,6 +68,56 @@ export default function AdminDashboard() {
   const handleProductClick = (product) => {
     setSelectedProduct(product);
   };
+
+  // const handleUserClick = (user) => {
+  //   setSelectedUser(user);
+  //   const role = user.role === "Administrador" ? "Cliente" : "Administrador";
+  //   const adminEmail = user.email === "admin@ecommerce.com" ? false : true;
+  //   const MySwal = withReactContent(Swal);
+  //   MySwal.fire({
+  //     title: "Acciones de usuario",
+  //     showCancelButton: true,
+  //     confirmButtonText: `Cambiar Rol a ${role}`,
+  //     showDenyButton: adminEmail,
+  //     denyButtonText
+  //     // denyButtonText: user.blocked ? "Desbloquear Usuario" : "Bloquear Usuario",
+  //     cancelButtonText: "Cancelar",
+  //     focusDeny: true,
+  //     icon: "info",
+  //   }).then(async (result) => {
+  //     if (result.isConfirmed) {
+  //       try {
+  //         const userId = user.id;
+  //         const role = user.role;
+
+  //         if (role === "Cliente") {
+  //           await axios.put(baseURL + `/user/id/${userId}`, {
+  //             role: "Administrador",
+  //           });
+  //         }
+  //         if (role === "Administrador") {
+  //           await axios.put(baseURL + `/user/id/${userId}`, {
+  //             role: "Cliente",
+  //           });
+  //         }
+  //         setSelectedUser(null);
+  //       } catch (error) {
+  //         console.error("Error al actualizar el rol del usuario", error);
+  //       }
+  //     } else if (result.isDenied) {
+  //       const email = user.email;
+  //       // Cambia el estado de bloqueo del usuario en lugar de eliminarlo
+  //       const updatedUsers = users.map((u) => {
+  //         if (u.email === email) {
+  //           return { ...u, blocked: !u.blocked };
+  //         }
+  //         return u;
+  //       });
+  //       // Actualiza el estado a través de Redux
+  //       dispatch(updateUsers(updatedUsers));
+  //     }
+  //   });
+  // };
 
   const handleUserClick = (user) => {
     setSelectedUser(user);
@@ -278,17 +327,17 @@ export default function AdminDashboard() {
   };
 
   const productColumns = [
-    { field: "sku", headerName: "SKU", width: 150 },
-    { field: "number_part", headerName: "Número de Parte", width: 200 },
+    { field: "sku", headerName: "SKU", width: 100 },
+    { field: "number_part", headerName: "Número de Parte", width: 110 },
     {
       field: "titulo",
       headerName: "Título",
-      width: 750,
+      width: 680,
       renderCell: (params) => {
         return (
           <div>
             <Button onClick={() => handleChangeTitulo(params.row)}>
-              Actualizar
+              <i class="bi bi-pencil-square"></i>
             </Button>
             &nbsp;
             {params.row.titulo}
@@ -299,12 +348,12 @@ export default function AdminDashboard() {
     {
       field: "price",
       headerName: "Precio",
-      width: 250,
+      width: 150,
       renderCell: (params) => {
         return (
           <div>
             <Button onClick={() => handleChangePrice(params.row)}>
-              Actualizar
+              <i class="bi bi-pencil-square"></i>
             </Button>
             &nbsp;
             {params.row.price}
@@ -320,7 +369,7 @@ export default function AdminDashboard() {
         return (
           <div>
             <Button onClick={() => handleChangeDisponibility(params.row)}>
-              Actualizar
+              <i class="bi bi-pencil-square"></i>
             </Button>
             &nbsp;
             {params.row.disponibility}
@@ -368,6 +417,29 @@ export default function AdminDashboard() {
     { field: "last_name", headerName: "Apellido", width: 150 },
     { field: "email", headerName: "Email", width: 300 },
     { field: "role", headerName: "Rol", width: 150 },
+    // {
+    //   field: "blocked",
+    //   headerName: "Bloqueado",
+    //   width: 150,
+    //   renderCell: (params) => {
+    //     return (
+    //       <div>
+    //         {params.row.blocked ? (
+    //           <Button
+    //             onClick={() => handleUserClick(params.row)}
+    //             variant="success"
+    //           >
+    //             Desbloquear
+    //           </Button>
+    //         ) : (
+    //           <Button onClick={() => handleUserClick(params.row)} variant="danger">
+    //             Bloquear
+    //           </Button>
+    //         )}
+    //       </div>
+    //     );
+    //   },
+    // },
     {
       field: "action",
       headerName: "Acciones",
@@ -375,11 +447,14 @@ export default function AdminDashboard() {
       renderCell: (params) => {
         return (
           <div>
-            <Button onClick={() => handleUserClick(params.row)}>Editar</Button>
+            <Button onClick={() => handleUserClick(params.row)}>
+              <i class="bi bi-pencil-square"></i>
+            </Button>
           </div>
         );
       },
     },
+    
   ];
 
   const renderContent = () => {
@@ -546,14 +621,14 @@ export default function AdminDashboard() {
         {renderContent()}
       </div>
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <DialogTitle>Detalles de la Orden</DialogTitle>
+        <DialogTitle>Detalles de la Órden</DialogTitle>
         <DialogContent>
           {selectedOrderDetails && (
             <Table>
               <TableHead>
                 <TableRow>
                   <TableCell>SKU</TableCell>
-                  <TableCell>Imagen</TableCell>
+                  <TableCell>Imágen</TableCell>
                   <TableCell>Nombre</TableCell>
                   <TableCell>Cantidad</TableCell>
                 </TableRow>
