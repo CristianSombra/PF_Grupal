@@ -7,7 +7,7 @@ import {
   getAllProducts,
   updateProduct,
   baseURL,
-  updateUsers
+  updateUsers,
 } from "../../redux/actions";
 import {
   People,
@@ -23,7 +23,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
 import Button from "react-bootstrap/esm/Button";
-import SalesChart from "../../components/graficas/salesChart"; 
+import SalesChart from "../../components/graficas/salesChart";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -49,6 +49,8 @@ export default function AdminDashboard() {
   const [selectedOrderDetails, setSelectedOrderDetails] = useState(null);
   const [selectedTab, setSelectedTab] = useState("salesChart");
   const [showCreateProductForm, setShowCreateProductForm] = useState(false);
+  const [ratingMessage, setRatingMessage] = useState(""); // Estado para el mensaje de calificación
+  const [reloadPage, setReloadPage] = useState(false); // Estado para controlar la recarga de la página
 
   useEffect(() => {
     dispatch(getUsers());
@@ -256,6 +258,16 @@ export default function AdminDashboard() {
           const updatedFields = { disponibility: result.value };
           dispatch(updateProduct(productId, updatedFields));
           dispatch(getAllProducts());
+  
+          // Mostrar la alerta de Sweetalert
+          MySwal.fire({
+            title: "¡Éxito!",
+            text: "El producto se ha actualizado correctamente.",
+            icon: "success",
+          });
+  
+          setRatingMessage("Stock actualizado correctamente.");
+          setReloadPage(true);
         } catch (error) {
           console.error(
             "Error al actualizar la disponibilidad del producto",
@@ -265,13 +277,13 @@ export default function AdminDashboard() {
       }
     });
   };
-
+  
   const handleChangePrice = async (product) => {
     const MySwal = withReactContent(Swal);
     MySwal.fire({
       title: "Cambiar Precio",
       input: "text",
-      inputValue: product.price.toString(),
+      inputValue: "$" + product.price.toString(),
       showCancelButton: true,
       confirmButtonText: "Guardar",
       cancelButtonText: "Cancelar",
@@ -286,6 +298,16 @@ export default function AdminDashboard() {
           const productId = product.sku;
           const updatedFields = { price: result.value };
           dispatch(updateProduct(productId, updatedFields));
+  
+          // Mostrar la alerta de Sweetalert
+          MySwal.fire({
+            title: "¡Éxito!",
+            text: "El producto se ha actualizado correctamente.",
+            icon: "success",
+          });
+  
+          setRatingMessage("Precio actualizado correctamente.");
+          setReloadPage(true);
         } catch (error) {
           console.error(
             "Error al actualizar la disponibilidad del producto",
@@ -295,7 +317,7 @@ export default function AdminDashboard() {
       }
     });
   };
-
+  
   const handleChangeTitulo = async (product) => {
     const MySwal = withReactContent(Swal);
     MySwal.fire({
@@ -316,6 +338,16 @@ export default function AdminDashboard() {
           const productId = product.sku;
           const updatedFields = { titulo: result.value };
           dispatch(updateProduct(productId, updatedFields));
+  
+          // Mostrar la alerta de Sweetalert
+          MySwal.fire({
+            title: "¡Éxito!",
+            text: "El producto se ha actualizado correctamente.",
+            icon: "success",
+          });
+  
+          setRatingMessage("Nombre actualizado correctamente.");
+          setReloadPage(true);
         } catch (error) {
           console.error(
             "Error al actualizar la disponibilidad del producto",
@@ -325,6 +357,7 @@ export default function AdminDashboard() {
       }
     });
   };
+  
 
   const productColumns = [
     { field: "sku", headerName: "SKU", width: 100 },
@@ -349,14 +382,17 @@ export default function AdminDashboard() {
       field: "price",
       headerName: "Precio",
       width: 150,
+      
       renderCell: (params) => {
+        // Formatear el precio con el signo "$"
+        const formattedPrice = `$${params.row.price.toLocaleString()}`;
         return (
           <div>
             <Button onClick={() => handleChangePrice(params.row)}>
               <i class="bi bi-pencil-square"></i>
             </Button>
             &nbsp;
-            {params.row.price}
+            {formattedPrice}
           </div>
         );
       },
@@ -390,12 +426,26 @@ export default function AdminDashboard() {
       },
     },
     { field: "user_id", headerName: "ID de Usuario", width: 250 },
-    { field: "totalprice", headerName: "Total Orden", width: 250 },
+    { field: "totalprice", 
+    headerName: "Total Orden", 
+    width: 250,
+    renderCell: (params) => {
+      // Formatear el precio con el signo "$"
+      const formattedPrice = `$${params.row.totalprice.toLocaleString()}`;
+      return (
+        <h7>
+          {formattedPrice}
+        </h7>
+      );
+    },
+  },
+
     {
       field: "order_status",
       headerName: "Estado",
       width: 250,
       renderCell: (params) => {
+        
         return (
           <Button
             onClick={(event) => {
@@ -454,7 +504,6 @@ export default function AdminDashboard() {
         );
       },
     },
-    
   ];
 
   const renderContent = () => {
