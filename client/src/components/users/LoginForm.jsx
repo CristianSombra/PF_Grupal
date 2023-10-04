@@ -7,7 +7,7 @@ import { Button, Card, Form } from 'react-bootstrap';
 import '../css/index.css';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
-const LoginForm = ({ login, user, error }) => {
+const LoginForm = ({ login, error }) => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => (state.isLoggedIn))
   const SignInWithGoogle = () => {
@@ -18,7 +18,6 @@ const LoginForm = ({ login, user, error }) => {
       .then((result) => {
         GoogleAuthProvider.credentialFromResult(result);
         const user = result.user;
-        // console.log(user)
         const spliceName = user.displayName.split(' ')
         const newUser = {
           user_name: user.displayName,
