@@ -21,6 +21,8 @@ const Detail = () => {
   const product_id = productDetail ? productDetail.sku : null;
   const userId = localStorage.getItem("id");
   const wishlist = useSelector(state => state.wishlist);
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+
 
   useEffect(() => {
     dispatch(getUserRating(userId));
@@ -33,6 +35,17 @@ const Detail = () => {
   }
 
   const handleAddToCart = (product) => {
+    if (!isLoggedIn) {
+      Swal.fire({
+        icon: "warning",
+        title: "No has iniciado sesión",
+        text: "Debes iniciar sesión para agregar al carrito.",
+        showCancelButton: false,
+        showConfirmButton: false,
+        timer: 1200,
+      });
+      return;
+    }
     dispatch(addToCart(product));
     Swal.fire({
       icon: "success",
@@ -47,6 +60,17 @@ const Detail = () => {
   };
 
   const handleAddToWishlist = (product) => {
+    if (!isLoggedIn) {
+      Swal.fire({
+        icon: "warning",
+        title: "No has iniciado sesión",
+        text: "Inicia sesión para añadir a favoritos",
+        showCancelButton: false,
+        showConfirmButton: false,
+        timer: 1200,
+      });
+      return;
+    }
     // Comprobar si el producto ya está en la wishlist
     const alreadyInWishlist = wishlist.some(item => item.sku === product.sku);
   
@@ -78,6 +102,7 @@ const Detail = () => {
       });
     }
   };
+  
   
 
   return (
@@ -150,5 +175,6 @@ const Detail = () => {
     </div>
   );
 };
+
 
 export default Detail;

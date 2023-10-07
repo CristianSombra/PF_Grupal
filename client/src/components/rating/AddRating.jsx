@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createRating, getUserRating } from '../../redux/actions/index';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 
 const AddRating = ({ product_id }) => {
   const dispatch = useDispatch();
@@ -59,6 +62,14 @@ const AddRating = ({ product_id }) => {
     setRate(0);
     setReview('');
     handleClose();
+    const MySwal = withReactContent(Swal);
+  MySwal.fire({
+    title: "¡Éxito!",
+    
+   
+text: "Se calificó correctamente.",
+    icon: "success",
+  });
   };
 
   return (

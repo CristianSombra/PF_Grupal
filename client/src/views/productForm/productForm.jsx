@@ -4,6 +4,10 @@ import { createProduct } from "../../redux/actions/index";
 import CloudImage from "../../components/cloudimage/cloudimage";
 import "../../components/css/index.css";
 import Button from "react-bootstrap/Button";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 
 const ProductForm = () => {
@@ -78,6 +82,11 @@ const ProductForm = () => {
       // Enviar los datos del producto al servidor y esperar la respuesta
       await dispatch(createProduct(productData));
       // Marcar el producto como creado con éxito
+      MySwal.fire({
+        title: "¡Éxito!",
+        text: "Producto creado con éxito",
+        icon: "success",
+      });
       setIsProductCreated(true);
 
       // Limpia el formulario después de enviar
