@@ -74,7 +74,7 @@ const CardsContainer = () => {
     <div className="container">
       <div className="row">
         {cardsToShow.map((product) => (
-          <div key={product.sku} className="col-md-4">
+          <div key={product.sku} className="col-md-4 col-sm-10">
             <Card
               sku={product.sku}
               name={product.titulo}

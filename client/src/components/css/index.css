@@ -61,3 +61,16 @@
 .align-middle {
   vertical-align: middle;
 }
+
+/*Efecto del boton de home para subir*/
+@keyframes moveUp {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px); /* La distancia que quieres que se mueva hacia arriba */
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
