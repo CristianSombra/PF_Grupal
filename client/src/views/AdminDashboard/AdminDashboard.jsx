@@ -233,7 +233,7 @@ export default function AdminDashboard() {
       dispatch(getOrders());
       setNewOrderStatus(newStatus);
     } catch (error) {
-      console.error("Error al actualizar el estado de la orden", error);
+      // console.error("Error al actualizar el estado de la orden", error);
     }
   };
 
