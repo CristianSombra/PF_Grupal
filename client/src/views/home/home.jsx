@@ -75,7 +75,9 @@ export default function Home() {
           <div className="mb-4">
             <SearchResultMessage />
           </div>
+          <div>
           <CardsContainer />
+          </div>
         </div>
       </div>
       <footer className="mt-5" style={{ backgroundColor: "rgb(33,37,41)", color: "white", width:"auto" }}>
@@ -100,13 +102,14 @@ export default function Home() {
           bottom: "20px",
           right: "20px",
           display: "none",
-          // width: "50px",
-          // height: "50px",
+          border: "1px solid grey",
+          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)",
+          animation: "moveUp 1s ease-in-out 2"
         }}
         id="scrollToTopBtn"
         
       >
-        <i class="bi bi-arrow-up-square h1"></i>
+        <i class="bi bi-arrow-up"></i>
       </button>
     </div>
   );

@@ -25,22 +25,26 @@ const Navbar1 = () => {
       bg="dark"
       data-bs-theme="dark"
       className="navbar-expand-sm d-flex justify-content-between align-items-center fixed-top custom-navbar"
+      style={{padding:"0%"}}
     >
-      <div className="d-flex align-items-center">
-        <Link to="/home" className="logo custom-logo">
+      <div >
+        <Link to="/home">
           <img
             src={logo}
             alt="Logo"
-            style={{ width: "30%", marginRight: "10%", marginLeft: "30%" }}
+            size="sm"
+            className="custom-logo mx-2 mt-3"
+            style={{maxWidth:"80px", maxHeight:"80px"}}
           />
         </Link>
       </div>
+
       <Button
         as={Link}
         to="/cart"
         variant="dark"
         size="sm"
-        className="me-3 mt-3"
+        className="mx-2 mt-3"
       >
         <i className="bi bi-cart" style={{ fontSize: "2.3rem" }}>
           {" "}
@@ -54,7 +58,7 @@ const Navbar1 = () => {
         to="/wishlist"
         variant="dark"
         size="sm"
-        className="me-3 mt-3"
+        className="mx-2 mt-3"
       >
         <i className="bi bi-heart" style={{ fontSize: "2.3rem" }}>
           {" "}
